@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class TaskController extends Controller
     /**
      * @param Request $request
      */
-    public function __construct(protected Request $request)
+    public function __construct(protected TaskRequest $request)
     {
     }
 
@@ -193,6 +194,8 @@ class TaskController extends Controller
      */
     public function add(): JsonResponse
     {
+        $taskValidate = TaskRequest::class;
+
         $this->request['user_id'] = Auth::id();
         $task = Task::create($this->request->all());
 
