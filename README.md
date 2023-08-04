@@ -53,7 +53,7 @@ Fields for ordering:
   - SQL query `order by comlpeted_at desc`
 
 Example GET query:
-`http://my_tasks_manager.com/tasks/&api_token=**********&status=todo&createdSort=desc`
+`http://my_tasks_manager.com/tasks/&api_token=**********&status=todo&priority=2&createdSort=desc&prioritySort=asc&comlpeted_at=desc`
 
 
 ## About Laravel
