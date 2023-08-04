@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApiFormRequest extends FormRequest
+abstract class ApiFormRequest extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {
@@ -18,5 +18,9 @@ class ApiFormRequest extends FormRequest
             'errors' => $errors
         ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
     }
+
+    abstract function authorize();
+
+    abstract function rules();
 
 }

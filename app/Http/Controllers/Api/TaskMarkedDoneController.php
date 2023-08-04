@@ -13,9 +13,9 @@ class TaskMarkedDoneController extends Controller
 
     /**
      * @param int $id
-     * @return int
+     * @return int|null
      */
-    protected function hasTaskChildTodo(int $id): int
+    protected function hasTaskChildTodo(int $id): ?int
     {
         $sql = "
             WITH RECURSIVE t2 AS
