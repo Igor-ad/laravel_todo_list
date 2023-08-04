@@ -7,12 +7,16 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Laravel TODO List API
+## Laravel TODO List REST API
 
 Implemented:
 - Model "Task", 
 - Controller "\API\TaskController", 
+- Controller "\API\TaskIndexController", 
+- Controller "\API\TaskMarkedDoneController", 
 - Data validation rules "\Requests\Api\TaskRequest".
+- Data validation rules "\Requests\Api\TaskIndexRequest".
+- Class return json response for all errors of requests validation "\Requests\Api\ApiFormRequest".
 
 Migration creates:
 - table "tasks",
@@ -23,6 +27,34 @@ But in future the query must migrate to stored procedure.
 
 Do not implement:
 - Recursive delete tasks and children if parent task was deleted.
+
+### Task searching filters and ordering expressions.
+
+Fields for searching:
+- status     
+  - GET query `&status=todo`
+  - SQL query `status = 'todo'`
+- priority 
+  - GET query `&priority=2`
+  - SQL query `priority >= 2`
+- title     
+  - GET query `&title=Title_of_task`
+  - SQL query `(full text searching) MATCH (title) AGAINST ('Title_of_task')`
+
+Fields for ordering:
+- priority      
+  - GET query `&prioritySort=asc`
+  - SQL query `order by priority asc`
+- created_at    
+  - GET query `&createdSort=desc`
+  - SQL query `order by cteated_at desc`
+- completed_at  
+  - GET query `&completedSort=desc`
+  - SQL query `order by comlpeted_at desc`
+
+Example GET query:
+`http://my_tasks_manager.com/tasks/&api_token=**********&status=todo&createdSort=desc`
+
 
 ## About Laravel
 
