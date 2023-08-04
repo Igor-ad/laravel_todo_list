@@ -20,9 +20,10 @@ class TaskRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
+            'parent_id' => ['integer'],
             'user_id' => ['integer'],
             'status' => ['required', 'string', 'max:4', 'min:4', 'alpha_dash'],
-            'priority' => ['required', 'integer', 'digits_between: 1,5'],
+            'priority' => ['required', 'integer', 'min:1', 'max:5'],
             'title' => ['required', 'string', 'max:255', 'min:4'],
             'description' => ['required', 'string', 'max:2048', 'min:8'],
         ];
