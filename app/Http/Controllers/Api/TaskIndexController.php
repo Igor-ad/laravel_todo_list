@@ -81,7 +81,7 @@ class TaskIndexController extends Controller
             if ($this->request->has('title')) {
                 $value = $this->request->input('title');
                 $tasks = Task::where($this->filter())
-                    ->whereRaw("MATCH (`title`) AGAINST ($value)")
+                    ->whereRaw("MATCH (`title`) AGAINST ('$value')")
                     ->get();
             } else {
                 $tasks = Task::where($this->filter())
@@ -91,7 +91,7 @@ class TaskIndexController extends Controller
             if ($this->request->has('title')) {
                 $value = $this->request->has('title');
                 $tasks = Task::where($this->filter())
-                    ->whereRaw("MATCH (`title`) AGAINST ($value)")
+                    ->whereRaw("MATCH (`title`) AGAINST ('$value')")
                     ->orderByRaw(implode(' ,', $orderDirection))
                     ->get();
             } else {
