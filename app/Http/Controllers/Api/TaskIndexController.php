@@ -75,13 +75,10 @@ class TaskIndexController extends Controller
      */
     private function getTasks(): mixed
     {
-        $orderDirection = $this->orderDirection();
-
-        if (is_null($orderDirection)) {
+        if (is_null($this->orderDirection())) {
             if ($this->request->has('title')) {
-                $value = $this->request->input('title');
                 $tasks = Task::where($this->filter())
-                    ->whereRaw("MATCH (`title`) AGAINST ('$value')")
+                    ->whereRaw($this->matchAganstFilter())
                     ->get();
             } else {
                 $tasks = Task::where($this->filter())
@@ -89,18 +86,35 @@ class TaskIndexController extends Controller
             }
         } else {
             if ($this->request->has('title')) {
-                $value = $this->request->has('title');
                 $tasks = Task::where($this->filter())
-                    ->whereRaw("MATCH (`title`) AGAINST ('$value')")
-                    ->orderByRaw(implode(' ,', $orderDirection))
+                    ->whereRaw($this->matchAganstFilter())
+                    ->orderByRaw($this->orderExp())
                     ->get();
             } else {
                 $tasks = Task::where($this->filter())
-                    ->orderByRaw(implode(' ,', $orderDirection))
+                    ->orderByRaw($this->orderExp())
                     ->get();
             }
         }
         return $tasks;
+    }
+
+    /**
+     * @return string
+     */
+    protected function matchAganstFilter(): string
+    {
+        $value = $this->request->input('title');
+
+        return "MATCH (`title`) AGAINST ('$value')";
+    }
+
+    /**
+     * @return string
+     */
+    protected function orderExp()
+    {
+        return implode(' ,', $this->orderDirection());
     }
 
 }
