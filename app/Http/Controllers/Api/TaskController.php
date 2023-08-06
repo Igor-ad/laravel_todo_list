@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\Api\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -13,9 +13,11 @@ class TaskController extends Controller
 {
 
     /**
-     * @param TaskRequest $request
+     * @param TaskService $taskService
      */
-    public function __construct(protected TaskRequest $request)
+    public function __construct(
+        protected TaskService $taskService,
+    )
     {
     }
 
@@ -26,7 +28,7 @@ class TaskController extends Controller
     public function show(Task $task): JsonResponse
     {
         if ($task->user_id === Auth::id()) {
-            return response()->json($task, 200);
+            return response()->json($this->taskService->show($task), 200);
         } else {
             return response()->json('You don`t have enough permissions!', 200);
         }
@@ -37,12 +39,7 @@ class TaskController extends Controller
      */
     public function update(): JsonResponse
     {
-        $task = Task::where([
-            ['user_id', '=', Auth::id()],
-            ['id', '=', $this->request->all('id')],
-        ])
-            ->firstOrFail()
-            ->update($this->request->all());
+        $task = $this->taskService->update();
 
         return response()->json(
             'Task: ' . $task->title
@@ -55,8 +52,7 @@ class TaskController extends Controller
      */
     public function add(): JsonResponse
     {
-        $this->request['user_id'] = Auth::id();
-        $task = Task::create($this->request->all());
+        $task = $this->taskService->add();
 
         return response()->json(
             'Task: \'' . $task->title
@@ -70,19 +66,19 @@ class TaskController extends Controller
      */
     public function del(Task $task): JsonResponse
     {
-        Task::where([
-            ['id', '=', $task->id],
-            ['user_id', '=', Auth::id()],
-            ['status', '=', 'todo'],
-        ])
-            ->findOrFail($task->id)
-            ->delete();
-
-        return response()->json(
-            'Task ID: ' . $task->id
-            . ', title: \'' . $task->title
-            . '\' - was deleted successfully', 200
-        );
+        if (is_object($this->taskService->del($task))) {
+            return response()->json(
+                'Task ID: ' . $task->id
+                . ' status: ' . $task->status
+                . '. Please select another task.', 200
+            );
+        } else {
+            return response()->json(
+                'Task ID: ' . $task->id
+                . ', title: \'' . $task->title
+                . '\' - was deleted successfully', 200
+            );
+        }
     }
 
 }

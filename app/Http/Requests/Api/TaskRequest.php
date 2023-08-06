@@ -22,7 +22,7 @@ class TaskRequest extends ApiFormRequest
         return [
             'parent_id' => ['integer'],
             'user_id' => ['integer'],
-            'status' => ['required', 'string', 'max:4', 'min:4', 'alpha_dash'],
+            'status' => ['required', 'string', 'in:todo,done'],
             'priority' => ['required', 'integer', 'min:1', 'max:5'],
             'title' => ['required', 'string', 'max:255', 'min:4'],
             'description' => ['required', 'string', 'max:2048', 'min:8'],
