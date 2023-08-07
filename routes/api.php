@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+// Test
 Route::middleware(['auth:api'])->group(callback: function () {
     Route::get('/tasks', [TaskIndexController::class, 'index']);
     Route::get('/task/show/{task}', [TaskController::class, 'show']);
@@ -24,3 +24,12 @@ Route::middleware(['auth:api'])->group(callback: function () {
     Route::get('/task/update', [TaskController::class, 'update']);
     Route::get('/task/del/{task}', [TaskController::class, 'del']);
 });
+
+//Route::middleware(['auth:api'])->group(callback: function () {
+//    Route::get('/tasks', [TaskIndexController::class, 'index']);
+//    Route::get('/task/show/{task}', [TaskController::class, 'show']);
+//    Route::get('/task/done/{task}', [TaskMarkedDoneController::class, 'done']);
+//    Route::post('/task/add', [TaskController::class, 'add']);
+//    Route::put('/task/update', [TaskController::class, 'update']);
+//    Route::delete('/task/del/{task}', [TaskController::class, 'del']);
+//});

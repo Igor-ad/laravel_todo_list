@@ -17,7 +17,7 @@ class TaskRepository
      */
     public function __construct(
         protected TaskIndexRequest $request,
-        protected TaskRequest $addRequest,
+        protected TaskRequest      $addRequest,
     )
     {
     }

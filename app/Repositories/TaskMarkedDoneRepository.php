@@ -25,10 +25,10 @@ class TaskMarkedDoneRepository
     }
 
     /**
-     * @param array $id
+     * @param array $parentId
      * @return array
      */
-    public function getTaskChildStatus(array $id): array
+    public function getTaskChildStatus(array $parentId): array
     {
         $sql = "
             WITH RECURSIVE t2 AS
@@ -42,7 +42,7 @@ class TaskMarkedDoneRepository
             )
             SELECT * FROM t2 WHERE t2.id != ?;
         ";
-        return DB::select($sql, $id);
+        return DB::select($sql, $parentId);
     }
 
 }
