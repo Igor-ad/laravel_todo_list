@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\Api\TaskRequest;
 use App\Models\Task;
 use App\Http\Requests\Api\TaskIndexRequest;
 use Illuminate\Support\Facades\Auth;
@@ -9,11 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class TaskRepository
 {
 
+
     /**
      * @param TaskIndexRequest $request
+     * @param TaskRequest $addRequest
      */
     public function __construct(
         protected TaskIndexRequest $request,
+        protected TaskRequest $addRequest,
     )
     {
     }
@@ -57,8 +61,8 @@ class TaskRepository
      */
     public function storeTask(): mixed
     {
-        $this->request['user_id'] = Auth::id();
-        return Task::create($this->request->all());
+        $this->addRequest['user_id'] = Auth::id();
+        return Task::create($this->addRequest->all());
     }
 
     /**
