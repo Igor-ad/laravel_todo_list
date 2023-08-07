@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 
 class TaskController extends Controller
@@ -27,11 +26,7 @@ class TaskController extends Controller
      */
     public function show(Task $task): JsonResponse
     {
-        if ($task->user_id === Auth::id()) {
-            return response()->json($this->taskService->show($task), 200);
-        } else {
-            return response()->json('You don`t have enough permissions!', 200);
-        }
+        return response()->json($this->taskService->show($task), 200);
     }
 
     /**
@@ -42,8 +37,7 @@ class TaskController extends Controller
         $task = $this->taskService->update();
 
         return response()->json(
-            'Task: ' . $task->title
-            . ' was updated successfully', 200
+            sprintf('Task: %s was updated successfully', $task->title), 200
         );
     }
 
@@ -54,9 +48,9 @@ class TaskController extends Controller
     {
         $task = $this->taskService->add();
 
+
         return response()->json(
-            'Task: \'' . $task->title
-            . '\' was created successfully', 201
+            sprintf('Task: title: %s - was created successfully.', $task->title), 201
         );
     }
 
@@ -68,17 +62,14 @@ class TaskController extends Controller
     {
         if (is_object($this->taskService->del($task))) {
             return response()->json(
-                'Task ID: ' . $task->id
-                . ' status: ' . $task->status
-                . '. Please select another task.', 200
-            );
-        } else {
-            return response()->json(
-                'Task ID: ' . $task->id
-                . ', title: \'' . $task->title
-                . '\' - was deleted successfully', 200
+                sprintf('Task ID: %d status:
+                %s. Please select another task.', $task->id, $task->status), 200
             );
         }
+        return response()->json(
+            sprintf('Task ID: %d title:
+            %s - was deleted successfully.', $task->id, $task->title), 200
+        );
     }
 
 }

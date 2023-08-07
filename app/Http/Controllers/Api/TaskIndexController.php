@@ -25,7 +25,7 @@ class TaskIndexController extends Controller
     {
         $tasks = $this->taskService->getTasks();
         if ($tasks->isEmpty()) {
-            return response()->json('Your repo dot\'n have any tasks with this properties', 200);
+            return response()->json("Your repo dot'n have any tasks with this properties", 200);
         } else {
             return response()->json($tasks, 200);
         }
