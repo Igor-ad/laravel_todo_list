@@ -30,52 +30,21 @@ class TaskIndexService
 
         if ($this->request->hasAny(self::SORT_KEY)
             && (!$this->request->has('title'))) {
-            $tasks = $this->orderTasks();
+            $tasks = $this->taskRepo->getOrderUserTasks();
 
         } elseif (!$this->request->hasAny(self::SORT_KEY)
             && ($this->request->has('title'))) {
-            $tasks = $this->filterTasks();
+            $tasks = $this->taskRepo->getAllFilterUserTasks();
 
         } elseif ($this->request->hasAny(self::SORT_KEY)
             && ($this->request->has('title'))) {
-            $tasks = $this->orderFilterTasks();
+            $tasks = $this->taskRepo->getOrderAllFilterUserTasks();
 
         } else {
-            $tasks = $this->tasks();
+            $tasks = $this->taskRepo->getUserTasks();
         }
 
         return $tasks;
     }
 
-    /**
-     * @return Collection
-     */
-    private function tasks()
-    {
-        return $this->taskRepo->getUserTasks();
-    }
-
-    /**
-     * @return Collection
-     */
-    private function orderTasks()
-    {
-        return $this->taskRepo->getOrderUserTasks();
-    }
-
-    /**
-     * @return Collection
-     */
-    private function filterTasks()
-    {
-        return $this->taskRepo->getAllFilterUserTasks();
-    }
-
-    /**
-     * @return Collection
-     */
-    private function orderFilterTasks()
-    {
-        return $this->taskRepo->getOrderAllFilterUserTasks();
-    }
 }

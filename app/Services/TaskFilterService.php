@@ -11,11 +11,18 @@ class TaskFilterService
 
     /**
      * @param TaskIndexRequest $request
+     */
+    public function __construct(TaskIndexRequest $request)
+    {
+    }
+
+    /**
+     * @param TaskIndexRequest $request
      * @return array
      */
     public function getFilter(TaskIndexRequest $request): array
     {
-        $userId = (string) Auth::id();
+        $userId = Auth::id();
         $where['user_id'] = " $userId";
 
         if ($request->has('status')) {

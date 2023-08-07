@@ -22,17 +22,19 @@ class TaskMarkedDoneController extends Controller
         if ($this->markedDoneService->decisionChildTodo($task)) {
 
             return response()->json(
-                sprintf("One or more children of Task ID: %d title:
-                 '%s' was't change status to 'done'", $task->id, $task->title), 200
+                'One or more children of Task ID: ' . $task->id
+                . ' title: \'' . $task->title
+                . '\' was`t change status to \'done\'', 200
+            );
+        } else {
+            $this->markedDoneService->setTaskStatusDone($task);
+
+            return response()->json(
+                'Task ID: ' . $task->id
+                . ' title: \'' . $task->title
+                . '\' was marked done successfully', 200
             );
         }
-
-        $this->markedDoneService->setTaskStatusDone($task);
-
-        return response()->json(
-            sprintf("Task ID: %d title:
-                '%s' was marked 'done' successfully", $task->id, $task->title), 200
-        );
     }
 
 }

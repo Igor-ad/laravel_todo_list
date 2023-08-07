@@ -48,8 +48,9 @@ class TaskService
     {
         if ($this->repository->doneStatusTask($task)) {
             return $this->repository->doneStatusTask($task);
+        } else {
+            return $this->repository->eraseTask($task);
         }
-        return $this->repository->eraseTask($task);
     }
 
 }

@@ -10,11 +10,11 @@ class TaskMarkedDoneService
 
     /**
      * @param TaskMarkedDoneRepository $repository
-//     * @param Task $task
+     * @param Task $task
      */
     public function __construct(
         protected TaskMarkedDoneRepository $repository,
-//        protected Task                     $task,
+        protected Task                     $task,
     )
     {
     }
@@ -23,7 +23,7 @@ class TaskMarkedDoneService
      * @param Task $task
      * @return array
      */
-    protected function childStatus(Task $task): array
+    public function childStatus(Task $task): array
     {
         $id = $task->getOriginal('id');
         return $this->repository->getTaskChildStatus([$id, $id]);
