@@ -37,4 +37,16 @@ class TaskFilterService
         return "MATCH (`title`) AGAINST ('$value')";
     }
 
+    /**
+     * @param int $id
+     * @return array[]
+     */
+    public function getFilterParam(int $id): array
+    {
+        return [
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ];
+    }
+
 }

@@ -17,23 +17,23 @@ class TaskMarkedDoneService
     }
 
     /**
-     * @param object $data
+     * @param int $id
      * @return array
      */
-    protected function childStatus(object $data): array
+    protected function childStatus(int $id): array
     {
-        return $this->repository->getTaskChildStatus([$data->id, $data->id]);
+        return $this->repository->getTaskChildStatus([$id, $id]);
     }
 
     /**
-     * @param object $data
+     * @param int $id
      * @return bool
      */
-    public function decisionChildTodo(object $data): bool
+    public function decisionChildTodo(int $id): bool
     {
-        $status = empty($this->childStatus($data));
+        $status = empty($this->childStatus($id));
         if ($status) {
-            $this->setTaskStatusDone($data->id);
+            $this->setTaskStatusDone($id);
         }
         return $status;
     }

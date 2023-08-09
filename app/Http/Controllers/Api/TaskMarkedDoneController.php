@@ -14,16 +14,14 @@ class TaskMarkedDoneController extends TaskHelper
      */
     public function done(int $id): JsonResponse
     {
-        $this->data->id = $id;
-
         try {
-            $this->ans->data = $this->markedDoneService->decisionChildTodo($this->data);
+            $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
             $this->ans->status = 200;
 
             if ($this->ans->data) {
                 $this->ans->message = "Task ID: $id was marked 'done' successfully";
             } else {
-                $this->ans->message = "One or more children of Task ID: $id have status 'done'";
+                $this->ans->message = "One or more children of Task ID: $id has status 'done'";
             }
         } catch (Exception $e) {
             $this->ans->status = 500;

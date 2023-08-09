@@ -73,10 +73,7 @@ class TaskRepository
      */
     public function getTask(int $id): mixed
     {
-        return Task::where([
-            ['user_id', '=', Auth::id()],
-            ['id', '=', $id],
-        ])
+        return Task::where($this->filter->getFilterParam($id))
             ->first();
     }
 
@@ -86,10 +83,7 @@ class TaskRepository
      */
     public function updateTask(array $data): mixed
     {
-        return Task::where([
-            ['user_id', '=', Auth::id()],
-            ['id', '=', $data['id']],
-        ])
+        return Task::where($this->filter->getFilterParam($data['id']))
             ->firstOrFail()
             ->update($data);
     }
@@ -111,11 +105,8 @@ class TaskRepository
      */
     public function doneStatusTask(int $id): mixed
     {
-        return Task::where([
-            ['id', '=', $id],
-            ['user_id', '=', Auth::id()],
-            ['status', '=', 'done'],
-        ])
+        return Task::where($this->filter->getFilterParam($id))
+            ->where('status', '=', 'done')
             ->first();
     }
 
@@ -125,11 +116,8 @@ class TaskRepository
      */
     public function eraseTask(int $id): mixed
     {
-        return Task::where([
-            ['id', '=', $id],
-            ['user_id', '=', Auth::id()],
-            ['status', '=', 'todo'],
-        ])
+        return Task::where($this->filter->getFilterParam($id))
+            ->where('status', '=', 'todo')
             ->firstOrFail()
             ->delete();
     }
@@ -140,10 +128,7 @@ class TaskRepository
      */
     public function taskMarkedDone(int $id): mixed
     {
-        return Task::where([
-            ['user_id', '=', Auth::id()],
-            ['id', '=', $id],
-        ])
+        return Task::where($this->filter->getFilterParam($id))
             ->firstOrFail()
             ->update(
                 ['status' => 'done'],
