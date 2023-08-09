@@ -19,7 +19,7 @@ class TaskController extends TaskHelper
         try {
             $this->ans->data = $this->taskService->show($id);
             $this->ans->status = 200;
-            $this->ans->message = "Task ID: $id";
+            $this->ans->message = __('task.show', ['id' => $id]);
         } catch (Exception $e) {
             $this->ans->status = 500;
             $this->ans->error = $e->getMessage();
@@ -38,7 +38,7 @@ class TaskController extends TaskHelper
         try {
             $this->ans->data = $this->taskService->update($data);
             $this->ans->status = 200;
-            $this->ans->message = "Task was updated successfully.'";
+            $this->ans->message = __('task.update');
         } catch (Exception $e) {
             $this->ans->status = 500;
             $this->ans->error = $e->getMessage();
@@ -57,7 +57,7 @@ class TaskController extends TaskHelper
         try {
             $this->ans->data = $this->taskService->add($data);
             $this->ans->status = 201;
-            $this->ans->message = "Task was created successfully.'";
+            $this->ans->message = __('task.store');
         } catch (Exception $e) {
             $this->ans->status = 500;
             $this->ans->error = $e->getMessage();
@@ -75,9 +75,9 @@ class TaskController extends TaskHelper
             $this->ans->data = $this->taskService->del($id);
             $this->ans->status = 201;
             if (is_object($this->ans->data)) {
-                $this->ans->message = "Task ID: $id status: 'done'. Please select another task.";
+                $this->ans->message = __('task.delete_fail', ['id' => $id]);
             } else {
-                $this->ans->message = "Task ID: $id was deleted successfully.";
+                $this->ans->message = __('task.delete_success', ['id' => $id]);
             }
         } catch (Exception $e) {
             $this->ans->status = 500;

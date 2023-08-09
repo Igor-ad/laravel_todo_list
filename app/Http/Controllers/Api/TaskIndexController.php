@@ -24,9 +24,9 @@ class TaskIndexController extends TaskHelper
             $this->ans->data = $this->taskIndexService->getTasks($inputData, $filterData);
             $this->ans->status = 200;
             if ($this->ans->data->isEmpty()) {
-                $this->ans->message = ("Your repo do not have any tasks with this properties");
+                $this->ans->message = __('task.index_filter_fail');
             } else {
-                $this->ans->message = ("All tasks");
+                $this->ans->message = __('task.index');
             }
         } catch (Exception $e) {
             $this->ans->status = 500;

@@ -19,9 +19,9 @@ class TaskMarkedDoneController extends TaskHelper
             $this->ans->status = 200;
 
             if ($this->ans->data) {
-                $this->ans->message = "Task ID: $id was marked 'done' successfully";
+                $this->ans->message = __('task.market_done', ['id' => $id]);
             } else {
-                $this->ans->message = "One or more children of Task ID: $id has status 'done'";
+                $this->ans->message = __('task.market_done_fail', ['id' => $id]);
             }
         } catch (Exception $e) {
             $this->ans->status = 500;
