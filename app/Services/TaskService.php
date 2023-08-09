@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Task;
 use App\Repositories\TaskRepository;
 
 class TaskService
@@ -14,42 +13,46 @@ class TaskService
     }
 
     /**
-     * @param Task $task
+     * @param int $id
      * @return mixed
      */
-    public function show(Task $task): mixed
+    public function show(int $id): mixed
     {
-        return $this->repository->showTask($task);
+        return $this->repository->getTask($id);
     }
 
     /**
+     * @param array $data
      * @return mixed
      */
-    public function update(): mixed
+    public function update(array $data): mixed
     {
-        $this->repository->updateTask();
+        $this->repository->updateTask($data);
 
-        return $this->repository->getTask();
+        return $this->repository->getTask($data['id']);
     }
 
     /**
+     * @param array $data
      * @return mixed
      */
-    public function add(): mixed
+    public function add(array $data): mixed
     {
-        return $this->repository->storeTask();
+        return $this->repository->storeTask($data);
     }
 
     /**
-     * @param Task $task
+     * @param int $id
      * @return mixed
      */
-    public function del(Task $task): mixed
+    public function del(int $id): mixed
     {
-        if ($this->repository->doneStatusTask($task)) {
-            return $this->repository->doneStatusTask($task);
+        $status = $this->repository->doneStatusTask($id);
+
+        if ($status) {
+            return $status;
         }
-        return $this->repository->eraseTask($task);
+        return $this->repository->eraseTask($id);
     }
 
 }

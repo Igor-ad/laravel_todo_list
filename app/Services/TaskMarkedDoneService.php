@@ -2,44 +2,48 @@
 
 namespace App\Services;
 
-use App\Models\Task;
-use App\Repositories\TaskMarkedDoneRepository;
+use App\Repositories\TaskRepository;
 
 class TaskMarkedDoneService
 {
 
     /**
-     * @param TaskMarkedDoneRepository $repository
-//     * @param Task $task
+     * @param TaskRepository $repository
      */
     public function __construct(
-        protected TaskMarkedDoneRepository $repository,
-//        protected Task                     $task,
+        protected TaskRepository $repository,
     )
     {
     }
 
     /**
-     * @param Task $task
+     * @param object $data
      * @return array
      */
-    protected function childStatus(Task $task): array
+    protected function childStatus(object $data): array
     {
-        $id = $task->getOriginal('id');
-        return $this->repository->getTaskChildStatus([$id, $id]);
+        return $this->repository->getTaskChildStatus([$data->id, $data->id]);
     }
 
     /**
-     * @param Task $task
+     * @param object $data
      * @return bool
      */
-    public function decisionChildTodo(Task $task): bool
+    public function decisionChildTodo(object $data): bool
     {
-        return (!empty($this->childStatus($task)));
+        $status = empty($this->childStatus($data));
+        if ($status) {
+            $this->setTaskStatusDone($data->id);
+        }
+        return $status;
     }
 
-    public function setTaskStatusDone(Task $task)
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function setTaskStatusDone(int $id): mixed
     {
-        $this->repository->taskMarkedDone($task);
+        return $this->repository->taskMarkedDone($id);
     }
 }

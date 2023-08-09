@@ -2,74 +2,88 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Task;
-use App\Services\TaskService;
+use App\Http\Requests\Api\TaskRequest;
+use App\Http\Requests\Api\TaskUpdateRequest;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
-
-class TaskController extends Controller
+class TaskController extends TaskHelper
 {
 
     /**
-     * @param TaskService $taskService
-     */
-    public function __construct(
-        protected TaskService $taskService,
-    )
-    {
-    }
-
-    /**
-     * @param Task $task
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(Task $task): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        return response()->json($this->taskService->show($task), 200);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function update(): JsonResponse
-    {
-        $task = $this->taskService->update();
-
-        return response()->json(
-            sprintf('Task: %s was updated successfully', $task->title), 200
-        );
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function add(): JsonResponse
-    {
-        $task = $this->taskService->add();
-
-
-        return response()->json(
-            sprintf('Task: title: %s - was created successfully.', $task->title), 201
-        );
-    }
-
-    /**
-     * @param Task $task
-     * @return JsonResponse
-     */
-    public function del(Task $task): JsonResponse
-    {
-        if (is_object($this->taskService->del($task))) {
-            return response()->json(
-                sprintf('Task ID: %d status:
-                %s. Please select another task.', $task->id, $task->status), 200
-            );
+        try {
+            $this->ans->data = $this->taskService->show($id);
+            $this->ans->status = 200;
+            $this->ans->message = "Task ID: $id";
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
         }
-        return response()->json(
-            sprintf('Task ID: %d title:
-            %s - was deleted successfully.', $task->id, $task->title), 200
-        );
+        return response()->json($this->ans, $this->ans->status);
+    }
+
+    /**
+     * @param TaskUpdateRequest $request
+     * @return JsonResponse
+     */
+    public function update(TaskUpdateRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+
+        try {
+            $this->ans->data = $this->taskService->update($data);
+            $this->ans->status = 200;
+            $this->ans->message = "Task was updated successfully.'";
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
+        }
+        return response()->json($this->ans, $this->ans->status);
+    }
+
+    /**
+     * @param TaskRequest $request
+     * @return JsonResponse
+     */
+    public function add(TaskRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+
+        try {
+            $this->ans->data = $this->taskService->add($data);
+            $this->ans->status = 201;
+            $this->ans->message = "Task was created successfully.'";
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
+        }
+        return response()->json($this->ans, $this->ans->status);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function del(int $id): JsonResponse
+    {
+        try {
+            $this->ans->data = $this->taskService->del($id);
+            $this->ans->status = 201;
+            if (is_object($this->ans->data)) {
+                $this->ans->message = "Task ID: $id status: 'done'. Please select another task.";
+            } else {
+                $this->ans->message = "Task ID: $id was deleted successfully.";
+            }
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
+        }
+        return response()->json($this->ans, $this->ans->status);
     }
 
 }

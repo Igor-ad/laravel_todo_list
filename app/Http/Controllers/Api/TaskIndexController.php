@@ -2,33 +2,37 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Services\TaskIndexService;
+use App\Http\Requests\Api\TaskFilterRequest;
+use App\Http\Requests\Api\TaskIndexRequest;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskIndexController extends Controller
+class TaskIndexController extends TaskHelper
 {
 
     /**
-     * @param TaskIndexService $taskService
-     */
-    public function __construct(
-        protected TaskIndexService $taskService,
-    )
-    {
-    }
-
-    /**
+     * @param TaskIndexRequest $request
+     * @param TaskFilterRequest $filterRequest
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(TaskFilterRequest $filterRequest, TaskIndexRequest $request): JsonResponse
     {
-        $tasks = $this->taskService->getTasks();
-        if ($tasks->isEmpty()) {
-            return response()->json("Your repo dot'n have any tasks with this properties", 200);
-        } else {
-            return response()->json($tasks, 200);
+        $filterData = $filterRequest->validated();
+        $inputData = (object)$request->validated();
+
+        try {
+            $this->ans->data = $this->taskIndexService->getTasks($inputData, $filterData);
+            $this->ans->status = 200;
+            if ($this->ans->data->isEmpty()) {
+                $this->ans->message = ("Your repo do not have any tasks with this properties");
+            } else {
+                $this->ans->message = ("All tasks");
+            }
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
         }
+        return response()->json($this->ans->data, $this->ans->status);
     }
 
 }

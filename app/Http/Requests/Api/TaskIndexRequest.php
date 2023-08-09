@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class TaskIndexRequest extends ApiFormRequest
+class TaskIndexRequest extends TaskFilterRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,13 +19,16 @@ class TaskIndexRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
+
+
+        $subRules = [
             'status' => ['string', 'in:todo,done'],
             'priority' => ['integer', 'min:1', 'max:5'],
             'title' => ['string', 'max:255', 'min:4'],
-            'prioritySort' => ['string', 'in:asc,desc'],
-            'createdSort' => ['string', 'in:asc,desc'],
-            'completedSort' => ['string', 'in:asc,desc'],
+//            'prioritySort' => ['string', 'in:asc,desc'],
+//            'createdSort' => ['string', 'in:asc,desc'],
+//            'completedSort' => ['string', 'in:asc,desc'],
         ];
+        return array_merge(parent::rules(), $subRules);
     }
 }

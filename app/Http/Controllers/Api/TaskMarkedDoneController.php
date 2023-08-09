@@ -2,37 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Task;
-use App\Http\Controllers\Controller;
-use App\Services\TaskMarkedDoneService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskMarkedDoneController extends Controller
+class TaskMarkedDoneController extends TaskHelper
 {
-    public function __construct(protected TaskMarkedDoneService $markedDoneService)
-    {
-    }
 
     /**
-     * @param Task $task
+     * @param int $id
      * @return JsonResponse
      */
-    public function done(Task $task): JsonResponse
+    public function done(int $id): JsonResponse
     {
-        if ($this->markedDoneService->decisionChildTodo($task)) {
+        $this->data->id = $id;
 
-            return response()->json(
-                sprintf("One or more children of Task ID: %d title:
-                 '%s' was't change status to 'done'", $task->id, $task->title), 200
-            );
+        try {
+            $this->ans->data = $this->markedDoneService->decisionChildTodo($this->data);
+            $this->ans->status = 200;
+
+            if ($this->ans->data) {
+                $this->ans->message = "Task ID: $id was marked 'done' successfully";
+            } else {
+                $this->ans->message = "One or more children of Task ID: $id have status 'done'";
+            }
+        } catch (Exception $e) {
+            $this->ans->status = 500;
+            $this->ans->error = $e->getMessage();
         }
-
-        $this->markedDoneService->setTaskStatusDone($task);
-
-        return response()->json(
-            sprintf("Task ID: %d title:
-                '%s' was marked 'done' successfully", $task->id, $task->title), 200
-        );
+        return response()->json($this->ans, $this->ans->status);
     }
 
 }

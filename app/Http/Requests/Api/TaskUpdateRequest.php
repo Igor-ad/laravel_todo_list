@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class TaskRequest extends ApiFormRequest
+class TaskUpdateRequest extends TaskRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,12 +19,14 @@ class TaskRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'parent_id' => ['integer'],
-            'status' => ['required', 'string', 'in:todo,done'],
-            'priority' => ['required', 'integer', 'min:1', 'max:5'],
-            'title' => ['required', 'string', 'max:255', 'min:4'],
-            'description' => ['required', 'string', 'max:2048', 'min:8'],
+        $subRules = [
+            'id' => ['required', 'integer'],
+            'status' => ['string', 'in:todo,done'],
+            'priority' => ['integer', 'min:1', 'max:5'],
+            'title' => ['string', 'max:255', 'min:4'],
+            'description' => ['string', 'max:2048', 'min:8'],
         ];
+
+        return array_merge(parent::rules(), $subRules);
     }
 }

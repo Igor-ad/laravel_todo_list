@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
-class TaskRequest extends ApiFormRequest
+
+class TaskFilterRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,11 +21,9 @@ class TaskRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'parent_id' => ['integer'],
-            'status' => ['required', 'string', 'in:todo,done'],
-            'priority' => ['required', 'integer', 'min:1', 'max:5'],
-            'title' => ['required', 'string', 'max:255', 'min:4'],
-            'description' => ['required', 'string', 'max:2048', 'min:8'],
+            'prioritySort' => ['string', 'in:asc,desc'],
+            'createdSort' => ['string', 'in:asc,desc'],
+            'completedSort' => ['string', 'in:asc,desc'],
         ];
     }
 }

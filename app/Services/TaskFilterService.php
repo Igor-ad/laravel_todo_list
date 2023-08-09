@@ -3,37 +3,36 @@
 namespace App\Services;
 
 
-use App\Http\Requests\Api\TaskIndexRequest;
 use Illuminate\Support\Facades\Auth;
 
 class TaskFilterService
 {
 
     /**
-     * @param TaskIndexRequest $request
+     * @param object $data
      * @return array
      */
-    public function getFilter(TaskIndexRequest $request): array
+    public function getFilter(object $data): array
     {
-        $userId = (string) Auth::id();
+        $userId = (string)Auth::id();
         $where['user_id'] = " $userId";
 
-        if ($request->has('status')) {
-            $where['status'] = $request->input('status');
+        if (property_exists($data, 'status')) {
+            $where['status'] = $data->status;
         }
-        if ($request->has('priority')) {
-            $where[] = ['priority', '>=', $request->input('priority')];
+        if (property_exists($data, 'priority')) {
+            $where[] = ['priority', '>=', $data->priority];
         }
         return $where;
     }
 
     /**
-     * @param TaskIndexRequest $request
+     * @param object $data
      * @return string
      */
-    public function matchAgainstFilter(TaskIndexRequest $request): string
+    public function matchAgainstFilter(object $data): string
     {
-        $value = $request->input('title');
+        $value = $data->title;
 
         return "MATCH (`title`) AGAINST ('$value')";
     }

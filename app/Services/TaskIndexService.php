@@ -2,80 +2,48 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Api\TaskIndexRequest;
-use App\Repositories\TaskIndexRepository;
+use App\Repositories\TaskRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class TaskIndexService
 {
 
     public function __construct(
-        protected TaskIndexRequest    $request,
-        protected TaskIndexRepository $taskRepo,
+        protected TaskRepository $repository,
     )
     {
     }
 
-    const SORT_KEY = [
-        'createdSort',
-        'completedSort',
-        'prioritySort',
-    ];
-
     /**
+     * @param object $data
+     * @param array $filter
      * @return Collection
      */
-    public function getTasks(): Collection
+    public function getTasks(object $data, array $filter): Collection
     {
+        if (!empty($filter) && !$this->titleExist($data)) {
+            $tasks = $this->repository->getOrderUserTasks($data);
 
-        if ($this->request->hasAny(self::SORT_KEY)
-            && (!$this->request->has('title'))) {
-            $tasks = $this->orderTasks();
+        } elseif (empty($filter) && $this->titleExist($data)) {
+            $tasks = $this->repository->getAllFilterUserTasks($data);
 
-        } elseif (!$this->request->hasAny(self::SORT_KEY)
-            && ($this->request->has('title'))) {
-            $tasks = $this->filterTasks();
-
-        } elseif ($this->request->hasAny(self::SORT_KEY)
-            && ($this->request->has('title'))) {
-            $tasks = $this->orderFilterTasks();
+        } elseif (!empty($filter) && $this->titleExist($data)) {
+            $tasks = $this->repository->getOrderAllFilterUserTasks($data);
 
         } else {
-            $tasks = $this->tasks();
+            $tasks = $this->repository->getUserTasks($data);
         }
 
         return $tasks;
     }
 
     /**
-     * @return Collection
+     * @param object $data
+     * @return bool
      */
-    private function tasks()
+    private function titleExist(object $data): bool
     {
-        return $this->taskRepo->getUserTasks();
+        return property_exists($data, 'title');
     }
 
-    /**
-     * @return Collection
-     */
-    private function orderTasks()
-    {
-        return $this->taskRepo->getOrderUserTasks();
-    }
-
-    /**
-     * @return Collection
-     */
-    private function filterTasks()
-    {
-        return $this->taskRepo->getAllFilterUserTasks();
-    }
-
-    /**
-     * @return Collection
-     */
-    private function orderFilterTasks()
-    {
-        return $this->taskRepo->getOrderAllFilterUserTasks();
-    }
 }

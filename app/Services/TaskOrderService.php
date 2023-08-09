@@ -2,38 +2,36 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Api\TaskIndexRequest;
-
 class TaskOrderService
 {
 
     /**
-     * @param TaskIndexRequest $request
+     * @param object $data
      * @return array|null
      */
-    public function orderDirection(TaskIndexRequest $request): ?array
+    public function orderDirection(object $data): ?array
     {
         $orderDirection = null;
 
-        if ($request->has('prioritySort')) {
-            $orderDirection[] = 'priority ' . $request->input('prioritySort');
+        if (property_exists($data, 'prioritySort')) {
+            $orderDirection[] = 'priority ' . $data->prioritySort;
         }
-        if ($request->has('createdSort')) {
-            $orderDirection[] = 'created_at ' . $request->input('createdSort');
+        if (property_exists($data, 'createdSort')) {
+            $orderDirection[] = 'created_at ' . $data->createdSort;
         }
-        if ($request->has('completedSort')) {
-            $orderDirection[] = 'completed_at ' . $request->input('completedSort');
+        if (property_exists($data, 'completedSort')) {
+            $orderDirection[] = 'completed_at ' . $data->completedSort;
         }
         return $orderDirection;
     }
 
     /**
-     * @param TaskIndexRequest $request
+     * @param object $data
      * @return string
      */
-    public function orderExpression(TaskIndexRequest $request): string
+    public function orderExpression(object $data): string
     {
-        return implode(', ', $this->orderDirection($request));
+        return implode(', ', $this->orderDirection($data));
     }
 
 }
