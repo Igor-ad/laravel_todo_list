@@ -45,9 +45,10 @@ class TaskRepository
     }
 
     /**
+     * @param object $data
      * @return Collection
      */
-    public function getAllFilterUserTasks($data): Collection
+    public function getAllFilterUserTasks(object $data): Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
