@@ -17,11 +17,11 @@ class TaskIndexController extends TaskHelper
      */
     public function index(TaskFilterRequest $filterRequest, TaskIndexRequest $request): JsonResponse
     {
-        $filterData = $filterRequest->validated();
+        $filter = empty($filterRequest->validated());
         $inputData = (object)$request->validated();
 
         try {
-            $this->ans->data = $this->taskIndexService->getTasks($inputData, $filterData);
+            $this->ans->data = $this->taskIndexService->getTasks($inputData, $filter);
             $this->ans->status = 200;
             if ($this->ans->data->isEmpty()) {
                 $this->ans->message = __('task.index_filter_fail');

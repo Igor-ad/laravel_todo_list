@@ -17,10 +17,10 @@ class TaskFilterService
         $userId = (string)Auth::id();
         $where['user_id'] = " $userId";
 
-        if (property_exists($data, 'status')) {
+        if (isset($data->status)) {
             $where['status'] = $data->status;
         }
-        if (property_exists($data, 'priority')) {
+        if (isset($data->priority)) {
             $where[] = ['priority', '>=', $data->priority];
         }
         return $where;

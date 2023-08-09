@@ -130,9 +130,7 @@ class TaskRepository
     {
         return Task::where($this->filter->getFilterParam($id))
             ->firstOrFail()
-            ->update(
-                ['status' => 'done'],
-            );
+            ->update('status', 'done');
     }
 
     /**

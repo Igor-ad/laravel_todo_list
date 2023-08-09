@@ -16,18 +16,18 @@ class TaskIndexService
 
     /**
      * @param object $data
-     * @param array $filter
+     * @param bool $filter
      * @return Collection
      */
-    public function getTasks(object $data, array $filter): Collection
+    public function getTasks(object $data, bool $filter): Collection
     {
-        if (!empty($filter) && !$this->titleExist($data)) {
+        if (!$filter && !$this->titleExist($data)) {
             $tasks = $this->repository->getOrderUserTasks($data);
 
-        } elseif (empty($filter) && $this->titleExist($data)) {
+        } elseif ($filter && $this->titleExist($data)) {
             $tasks = $this->repository->getAllFilterUserTasks($data);
 
-        } elseif (!empty($filter) && $this->titleExist($data)) {
+        } elseif (!$filter && $this->titleExist($data)) {
             $tasks = $this->repository->getOrderAllFilterUserTasks($data);
 
         } else {
