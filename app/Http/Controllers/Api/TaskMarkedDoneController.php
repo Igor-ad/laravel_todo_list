@@ -15,8 +15,8 @@ class TaskMarkedDoneController extends TaskHelper
     public function done(int $id): JsonResponse
     {
         try {
-            $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
             $this->ans->status = 200;
+            $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
 
             if ($this->ans->data) {
                 $this->ans->message = __('task.market_done', ['id' => $id]);

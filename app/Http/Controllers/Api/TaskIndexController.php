@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\Api\TaskFilterRequest;
+use App\Http\Requests\Api\TaskOrderRequest;
 use App\Http\Requests\Api\TaskIndexRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,17 +12,17 @@ class TaskIndexController extends TaskHelper
 
     /**
      * @param TaskIndexRequest $request
-     * @param TaskFilterRequest $filterRequest
+     * @param TaskOrderRequest $orderRequest
      * @return JsonResponse
      */
-    public function index(TaskFilterRequest $filterRequest, TaskIndexRequest $request): JsonResponse
+    public function index(TaskOrderRequest $orderRequest, TaskIndexRequest $request): JsonResponse
     {
-        $filter = empty($filterRequest->validated());
+        $order = empty($orderRequest->validated());
         $inputData = (object)$request->validated();
 
         try {
-            $this->ans->data = $this->taskIndexService->getTasks($inputData, $filter);
             $this->ans->status = 200;
+            $this->ans->data = $this->taskIndexService->getTasks($inputData, $order);
             if ($this->ans->data->isEmpty()) {
                 $this->ans->message = __('task.index_filter_fail');
             } else {
@@ -32,7 +32,7 @@ class TaskIndexController extends TaskHelper
             $this->ans->status = 500;
             $this->ans->error = $e->getMessage();
         }
-        return response()->json($this->ans->data, $this->ans->status);
+        return response()->json($this->ans, $this->ans->status);
     }
 
 }
