@@ -43,7 +43,7 @@ class TaskIndexService
      */
     private function titleExist(object $data): bool
     {
-        return property_exists($data, 'title');
+        return isset($data->title);
     }
 
 }
