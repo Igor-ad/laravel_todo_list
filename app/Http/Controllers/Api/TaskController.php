@@ -17,8 +17,8 @@ class TaskController extends TaskHelper
     public function show(int $id): JsonResponse
     {
         try {
-            $this->ans->data = $this->taskService->show($id);
             $this->ans->status = 200;
+            $this->ans->data = $this->taskService->show($id);
             $this->ans->message = __('task.show', ['id' => $id]);
         } catch (Exception $e) {
             $this->ans->status = 500;
@@ -36,12 +36,12 @@ class TaskController extends TaskHelper
         $data = $request->validated();
 
         try {
-            $this->ans->data = $this->taskService->update($data);
             $this->ans->status = 200;
+            $this->ans->data = $this->taskService->update($data);
             $this->ans->message = __('task.update');
         } catch (Exception $e) {
             $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->ans->error = (__('task.update_transaction_fail', ['e' => $e->getMessage()]));
         }
         return response()->json($this->ans, $this->ans->status);
     }
@@ -55,8 +55,8 @@ class TaskController extends TaskHelper
         $data = $request->validated();
 
         try {
-            $this->ans->data = $this->taskService->add($data);
             $this->ans->status = 201;
+            $this->ans->data = $this->taskService->add($data);
             $this->ans->message = __('task.store');
         } catch (Exception $e) {
             $this->ans->status = 500;
@@ -72,8 +72,8 @@ class TaskController extends TaskHelper
     public function del(int $id): JsonResponse
     {
         try {
+            $this->ans->status = 200;
             $this->ans->data = $this->taskService->del($id);
-            $this->ans->status = 201;
             if (is_object($this->ans->data)) {
                 $this->ans->message = __('task.delete_fail', ['id' => $id]);
             } else {

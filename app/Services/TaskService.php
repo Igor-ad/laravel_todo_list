@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\TaskRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class TaskService
 {
@@ -24,12 +26,20 @@ class TaskService
     /**
      * @param array $data
      * @return mixed
+     * @throws Exception
      */
     public function update(array $data): mixed
     {
-        $this->repository->updateTask($data);
-
-        return $this->repository->getTask($data['id']);
+        DB::beginTransaction();
+        try {
+            $this->repository->updateTask($data);
+            $request = $this->repository->getTask($data['id']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+        return $request;
     }
 
     /**
@@ -44,15 +54,23 @@ class TaskService
     /**
      * @param int $id
      * @return mixed
+     * @throws Exception
      */
     public function del(int $id): mixed
     {
-        $status = $this->repository->doneStatusTask($id);
-
-        if ($status) {
-            return $status;
+        DB::beginTransaction();
+        try {
+            $status = $this->repository->doneStatusTask($id);
+            if ($status) {
+                return $status;
+            }
+            $status = $this->repository->eraseTask($id);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-        return $this->repository->eraseTask($id);
+        DB::commit();
+        return $status;
     }
 
 }

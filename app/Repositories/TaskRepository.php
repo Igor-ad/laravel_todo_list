@@ -124,7 +124,7 @@ class TaskRepository
 
     /**
      * @param int $id
-     * @return void
+     * @return mixed
      */
     public function taskMarkedDone(int $id): mixed
     {
