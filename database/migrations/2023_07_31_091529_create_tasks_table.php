@@ -20,9 +20,10 @@ return new class extends Migration {
             $table->longText('description');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
-            $table->index('parent_id');
+            $table->timestamp('completed_at');
             $table->index('user_id');
             $table->index('priority');
+            $table->index('parent_id');
             $table->fullText('title');
             $table->engine = 'InnoDB';
         });
