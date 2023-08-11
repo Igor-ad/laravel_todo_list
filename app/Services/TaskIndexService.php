@@ -16,34 +16,17 @@ class TaskIndexService
 
     /**
      * @param object $data
-     * @param bool $filter
+     * @param bool $order
      * @return Collection
      */
-    public function getTasks(object $data, bool $filter): Collection
+    public function getTasks(object $data, bool $order): Collection
     {
-        if (!$filter && !$this->titleExist($data)) {
-            $tasks = $this->repository->getOrderUserTasks($data);
-
-        } elseif ($filter && $this->titleExist($data)) {
-            $tasks = $this->repository->getAllFilterUserTasks($data);
-
-        } elseif (!$filter && $this->titleExist($data)) {
-            $tasks = $this->repository->getOrderAllFilterUserTasks($data);
-
-        } else {
-            $tasks = $this->repository->getUserTasks($data);
-        }
-
-        return $tasks;
-    }
-
-    /**
-     * @param object $data
-     * @return bool
-     */
-    private function titleExist(object $data): bool
-    {
-        return isset($data->title);
+        return match (true) {
+            !$order && !isset($data->title) => $this->repository->getOrderUserTasks($data),
+            $order && isset($data->title) => $this->repository->getAllFilterUserTasks($data),
+            !$order && isset($data->title) => $this->repository->getOrderAllFilterUserTasks($data),
+            default => $this->repository->getUserTasks($data),
+        };
     }
 
 }

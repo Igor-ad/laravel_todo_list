@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Services\TaskMarkedDoneService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskMarkedDoneController extends TaskHelper
+class TaskMarkedDoneController extends Controller
 {
+    use TaskHelper;
+
+    /**
+     * @param TaskMarkedDoneService $markedDoneService
+     * @param object $ans
+     */
+    public function __construct(
+        protected TaskMarkedDoneService $markedDoneService,
+        protected object                $ans = new \stdClass,
+    )
+    {
+    }
 
     /**
      * @param int $id
@@ -24,8 +38,7 @@ class TaskMarkedDoneController extends TaskHelper
                 $this->ans->message = __('task.market_done_fail', ['id' => $id]);
             }
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->getCatch($e);
         }
         return response()->json($this->ans, $this->ans->status);
     }

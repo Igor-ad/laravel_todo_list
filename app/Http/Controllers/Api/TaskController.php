@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
+use App\Services\TaskService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskController extends TaskHelper
+class TaskController extends Controller
 {
+    use TaskHelper;
+
+    /**
+     * @param TaskService $taskService
+     * @param object $ans
+     */
+    public function __construct(
+        protected TaskService $taskService,
+        protected object      $ans = new \stdClass,
+    )
+    {
+    }
 
     /**
      * @param int $id
@@ -21,8 +35,7 @@ class TaskController extends TaskHelper
             $this->ans->data = $this->taskService->show($id);
             $this->ans->message = __('task.show', ['id' => $id]);
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->getCatch($e);
         }
         return response()->json($this->ans, $this->ans->status);
     }
@@ -59,8 +72,7 @@ class TaskController extends TaskHelper
             $this->ans->data = $this->taskService->add($data);
             $this->ans->message = __('task.store');
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->getCatch($e);
         }
         return response()->json($this->ans, $this->ans->status);
     }
@@ -80,8 +92,7 @@ class TaskController extends TaskHelper
                 $this->ans->message = __('task.delete_success', ['id' => $id]);
             }
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->getCatch($e);
         }
         return response()->json($this->ans, $this->ans->status);
     }

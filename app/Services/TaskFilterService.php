@@ -8,20 +8,24 @@ use Illuminate\Support\Facades\Auth;
 class TaskFilterService
 {
 
+    const FILTER = [
+        'status' => '=',
+        'priority' => '>=',
+    ];
+
     /**
      * @param object $data
      * @return array
      */
     public function getFilter(object $data): array
     {
-        $userId = (string)Auth::id();
-        $where['user_id'] = " $userId";
+        $where[] = ['user_id', '=', (string)Auth::id()];
 
-        if (isset($data->status)) {
-            $where['status'] = $data->status;
-        }
-        if (isset($data->priority)) {
-            $where[] = ['priority', '>=', $data->priority];
+        foreach (self::FILTER as $field => $action) {
+            if (isset($data->{$field})) {
+                $value = $data->{$field};
+                $where[] = [$field, $action, $value];
+            }
         }
         return $where;
     }

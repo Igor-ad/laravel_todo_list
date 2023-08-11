@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskOrderRequest;
 use App\Http\Requests\Api\TaskIndexRequest;
+use App\Services\TaskIndexService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskIndexController extends TaskHelper
+class TaskIndexController extends Controller
 {
+    use TaskHelper;
+
+    /**
+     * @param TaskIndexService $taskIndexService
+     * @param object $ans
+     */
+    public function __construct(
+        protected TaskIndexService $taskIndexService,
+        protected object           $ans = new \stdClass,
+    )
+    {
+    }
 
     /**
      * @param TaskIndexRequest $request
@@ -29,8 +43,7 @@ class TaskIndexController extends TaskHelper
                 $this->ans->message = __('task.index');
             }
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->error = $e->getMessage();
+            $this->getCatch($e);
         }
         return response()->json($this->ans, $this->ans->status);
     }
