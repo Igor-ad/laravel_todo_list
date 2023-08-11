@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->longText('description');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
+            $table->timestamp('completed_at');
             $table->index('parent_id');
             $table->index('user_id');
             $table->index('priority');
