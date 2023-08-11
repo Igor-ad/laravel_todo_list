@@ -22,6 +22,7 @@ class Task extends Model
         'priority',
         'title',
         'description',
+        'completed_at',
     ];
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\TaskRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class TaskMarkedDoneService
 {
@@ -41,9 +43,18 @@ class TaskMarkedDoneService
     /**
      * @param int $id
      * @return mixed
+     * @throws Exception
      */
-    public function setTaskStatusDone(int $id): mixed
+    protected function setTaskStatusDone(int $id): mixed
     {
-        return $this->repository->taskMarkedDone($id);
+        DB::beginTransaction();
+        try {
+            $request = $this->repository->taskMarkedDone($id);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
+        return $request;
     }
 }
