@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 return response()->json(data: [
                     'status' => 404,
-                    'error' => __('exception.404', ['message' => $e->getMessage()]),
+                    'message' => __('exception.404', ['message' => $e->getMessage()]),
                     'code' => $e->getCode(),
                     'help' => __('exception.help_404'),
                 ], status: 404);
