@@ -11,5 +11,4 @@ return [
     'index' => "All tasks",
     'market_done' => "Task ID :id was marked 'done' successfully",
     'market_done_fail' => "One or more children of Task ID :id have status 'done'.",
-    'update_transaction_fail' => "Invalid task update Transaction. Error Message - :e.",
 ];

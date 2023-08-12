@@ -53,12 +53,11 @@ class TaskController extends Controller
         $data = $request->validated();
 
         try {
-            $this->ans->status = 200;
+            $this->ans->status = 201;
             $this->ans->data = $this->taskService->update($data);
             $this->ans->message = __('task.update');
         } catch (Exception $e) {
-            $this->ans->status = 500;
-            $this->ans->message = (__('task.update_transaction_fail', ['e' => $e->getMessage()]));
+            $this->getCatch($e);
         }
         return $this->getJsonResponse();
     }
