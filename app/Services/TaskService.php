@@ -33,13 +33,13 @@ class TaskService
         DB::beginTransaction();
         try {
             $this->repository->updateTask($data);
-            $request = $this->repository->getTask($data['id']);
+            $result = $this->repository->getTask($data['id']);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
         DB::commit();
-        return $request;
+        return $result;
     }
 
     /**

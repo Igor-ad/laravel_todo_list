@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    'admin_email' => env('APP_ADMIN_EMAIL', 'admin@my_tasks_manager.com'),
+
 ];

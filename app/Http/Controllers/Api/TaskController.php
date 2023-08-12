@@ -33,11 +33,15 @@ class TaskController extends Controller
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->taskService->show($id);
-            $this->ans->message = __('task.show', ['id' => $id]);
+            if (is_null($this->ans->data)) {
+                $this->ans->message = __('task.not_found', ['id' => $id]);
+            } else {
+                $this->ans->message = __('task.show', ['id' => $id]);
+            }
         } catch (Exception $e) {
             $this->getCatch($e);
         }
-        return response()->json($this->ans, $this->ans->status);
+        return $this->getJsonResponse();
     }
 
     /**
@@ -54,9 +58,9 @@ class TaskController extends Controller
             $this->ans->message = __('task.update');
         } catch (Exception $e) {
             $this->ans->status = 500;
-            $this->ans->error = (__('task.update_transaction_fail', ['e' => $e->getMessage()]));
+            $this->ans->message = (__('task.update_transaction_fail', ['e' => $e->getMessage()]));
         }
-        return response()->json($this->ans, $this->ans->status);
+        return $this->getJsonResponse();
     }
 
     /**
@@ -74,7 +78,7 @@ class TaskController extends Controller
         } catch (Exception $e) {
             $this->getCatch($e);
         }
-        return response()->json($this->ans, $this->ans->status);
+        return $this->getJsonResponse();
     }
 
     /**
@@ -94,7 +98,7 @@ class TaskController extends Controller
         } catch (Exception $e) {
             $this->getCatch($e);
         }
-        return response()->json($this->ans, $this->ans->status);
+        return $this->getJsonResponse();
     }
 
 }

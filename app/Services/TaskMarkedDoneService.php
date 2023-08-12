@@ -49,12 +49,12 @@ class TaskMarkedDoneService
     {
         DB::beginTransaction();
         try {
-            $request = $this->repository->taskMarkedDone($id);
+            $result = $this->repository->taskMarkedDone($id);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
         DB::commit();
-        return $request;
+        return $result;
     }
 }

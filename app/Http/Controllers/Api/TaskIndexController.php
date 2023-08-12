@@ -45,7 +45,7 @@ class TaskIndexController extends Controller
         } catch (Exception $e) {
             $this->getCatch($e);
         }
-        return response()->json($this->ans, $this->ans->status);
+        return $this->getJsonResponse();
     }
 
 }
