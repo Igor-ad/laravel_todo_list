@@ -10,6 +10,10 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'completed_at' => 'datetime',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
