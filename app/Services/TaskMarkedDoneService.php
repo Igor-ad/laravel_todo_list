@@ -30,6 +30,7 @@ class TaskMarkedDoneService
     /**
      * @param int $id
      * @return bool
+     * @throws Exception
      */
     public function decisionChildTodo(int $id): bool
     {

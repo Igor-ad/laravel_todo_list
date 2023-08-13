@@ -24,3 +24,11 @@ Route::middleware(['auth:api'])->group(callback: function () {
     Route::put('/task/update', [TaskController::class, 'update']);
     Route::delete('/task/del/{task}', [TaskController::class, 'del']);
 });
+
+Route::get('/login', fn() => response()->json(data: [
+    'status' => 200,
+    'message' => __('auth.api_login'),
+    'help' => __('exception.help'),
+], status: 200));
+
+Route::post('login', [ 'as' => 'login']);

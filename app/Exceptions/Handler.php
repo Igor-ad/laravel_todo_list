@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -28,12 +29,23 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e, $request) {
-            if ($request->is('api/*')) {
+
+            if ($e instanceof AuthenticationException) {
+                $e = new AuthenticationException($e->getMessage(), []);
+                return response()->json(data: [
+                    'status' => 401,
+                    'message' => sprintf("%s 'eMsg: %s'", __('exception.unauthenticated'), $e->getMessage()),
+                    'help' => __('exception.help'),
+                    'code' => $e->getCode(),
+                ], status: 401);
+            }
+
+            if ($request->is('api/*') && !($e->getMessage() === 'Unauthenticated.')) {
                 return response()->json(data: [
                     'status' => 404,
                     'message' => __('exception.404', ['message' => $e->getMessage()]),
+                    'help' => __('exception.help'),
                     'code' => $e->getCode(),
-                    'help' => __('exception.help_404'),
                 ], status: 404);
             }
         });
