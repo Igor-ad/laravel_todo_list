@@ -31,9 +31,12 @@ class TaskMarkedDoneController extends Controller
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
-            $this->ans->message = ($this->ans->data)
-                ? __('task.market_done', ['id' => $id])
-                : __('task.market_done_fail', ['id' => $id]);
+
+            if ($this->ans->data) {
+                $this->ans->message = __('task.market_done', ['id' => $id]);
+            } else {
+                $this->ans->message = __('task.market_done_fail', ['id' => $id]);
+            }
         } catch (Exception $e) {
             $this->getCatch($e);
         }

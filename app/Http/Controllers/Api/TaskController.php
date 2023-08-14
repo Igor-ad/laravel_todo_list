@@ -33,9 +33,11 @@ class TaskController extends Controller
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->taskService->show($id);
-            $this->ans->message = is_null($this->ans->data)
-                ? __('task.not_found', ['id' => $id])
-                : __('task.show', ['id' => $id]);
+            if (is_null($this->ans->data)) {
+                $this->ans->message = __('task.not_found', ['id' => $id]);
+            } else {
+                $this->ans->message = __('task.show', ['id' => $id]);
+            }
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -87,9 +89,11 @@ class TaskController extends Controller
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->taskService->del($id);
-            $this->ans->message = is_object($this->ans->data)
-                ? __('task.delete_fail', ['id' => $id])
-                : __('task.delete_success', ['id' => $id]);
+            if (is_object($this->ans->data)) {
+                $this->ans->message = __('task.delete_fail', ['id' => $id]);
+            } else {
+                $this->ans->message = __('task.delete_success', ['id' => $id]);
+            }
         } catch (Exception $e) {
             $this->getCatch($e);
         }
