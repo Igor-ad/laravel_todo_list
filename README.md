@@ -9,6 +9,8 @@
 
 ## Laravel TODO List REST API
 
+#### Required version: `PHP 8.1 or later`
+
 Implemented:
 - Model "Task", 
 - Controller "\API\TaskController", 
@@ -53,10 +55,211 @@ Fields for ordering:
   - SQL query `order by comlpeted_at desc`
 
 Example GET query:
-`http://my_tasks_manager.com/tasks/&api_token=**********&status=todo&priority=2&createdSort=desc&prioritySort=asc&comlpeted_at=desc`
+
+GET `http://my_tasks_manager.com:80/tasks/?api_token=**********&status=todo&priority=2&createdSort=asc&prioritySort=asc`
+ 
+Show request
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 20:28:34 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 20:28:34 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": [
+{
+"id": 375,
+"parent_id": 21,
+"user_id": 857,
+"status": "todo",
+"priority": 2,
+"title": "Test Task",
+"description": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+"created_at": "2123-07-31T21:32:38.000000Z",
+"updated_at": "2123-08-12T08:45:59.000000Z",
+"completed_at": null
+},
+{
+"id": 1431,
+"parent_id": 17,
+"user_id": 857,
+"status": "todo",
+"priority": 2,
+"title": "New Task",
+"description": "Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.",
+"created_at": "2123-08-13T19:38:39.000000Z",
+"updated_at": "2123-09-15T20:06:17.000000Z",
+"completed_at": null
+}
+],
+"message": "All tasks"
+}
+]`
+
+### Task status is setting to 'done'
+
+Example GET query sets status to 'done' task id=869:
+
+GET `http://my_tasks_manager.com:80/api/task/done/869?api_token=**********`
+
+Show request (all children have status 'todo')
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 11:04:63 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 11:04:63 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": true,
+"message": "Task ID 869 was marked 'done' successfully"
+}
+]`
+
+Show request (children have status 'done')
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 11:04:63 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 11:04:63 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": false,
+"message": "One or more children of Task ID 1 have status 'done'."
+}
+]`
 
 
-## About Laravel
+### Delete Task
+
+Example DELETE Query, delete task id=883:
+
+DELETE `http://my_tasks_manager.com:80/api/task/del/883?api_token=**********`
+
+Show request (Task status is 'todo')
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 15:48:42 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 15:48:42 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": true,
+"message": "Task ID 883 was deleted successfully."
+}
+]`
+
+Show request (Task status is 'done')
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 16:48:42 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 16:48:42 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": {
+"id": 883,
+"parent_id": 37,
+"user_id": 418,
+"status": "done",
+"priority": 3,
+"title": "Old Task",
+"description": " Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.",
+"created_at": "2123-08-13T11:38:39.000000Z",
+"updated_at": "2123-08-15T20:06:17.000000Z",
+"completed_at": "2123-08-15T20:06:17.000000Z"
+},
+"message": "Task ID 883 status: 'done'. Please select another task."
+}
+]`
+ 
+### Update Task
+
+Example Update query:
+
+PUT http://my_tasks_manager.com:80/api/task/update/?api_token=1234567890&id=391&description=Start_new_project
+
+Show request
+
+>`HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 12:00:10 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 12:00:10 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+>`[
+{
+"status": 200,
+"data": {
+"id": 391,
+"parent_id": 47,
+"user_id": 179,
+"status": "done",
+"priority": 1,
+"title": "New_project",
+"description": "Start_new_project",
+"created_at": "2123-08-12T18:45:09.000000Z",
+"updated_at": "2123-08-15T19:21:26.000000Z",
+"completed_at": "2123-08-15T19:21:26.000000Z"
+},
+"message": "Task was updated successfully."
+}
+]`
+
+
+
+
+## About Laravel`
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and
 creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in
