@@ -37,11 +37,9 @@ class TaskIndexController extends Controller
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->taskIndexService->getTasks($inputData, $order);
-            if ($this->ans->data->isEmpty()) {
-                $this->ans->message = __('task.index_filter_fail');
-            } else {
-                $this->ans->message = __('task.index');
-            }
+            $this->ans->message = $this->ans->data->isEmpty()
+                ? __('task.index_filter_fail')
+                : __('task.index');
         } catch (Exception $e) {
             $this->getCatch($e);
         }
