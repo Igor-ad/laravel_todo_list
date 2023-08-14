@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\TaskStatusEnum as Status;
+
 class TaskRequest extends ApiFormRequest
 {
     /**
@@ -21,7 +23,7 @@ class TaskRequest extends ApiFormRequest
     {
         return [
             'parent_id' => ['integer'],
-            'status' => ['required', 'string', 'in:todo,done'],
+            'status' => ['required', 'string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['required', 'integer', 'min:1', 'max:5'],
             'title' => ['required', 'string', 'max:255', 'min:4'],
             'description' => ['required', 'string', 'max:2048', 'min:8'],

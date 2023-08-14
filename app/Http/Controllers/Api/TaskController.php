@@ -49,7 +49,6 @@ class TaskController extends Controller
     public function update(TaskUpdateRequest $request): JsonResponse
     {
         $data = $request->validated();
-
         try {
             $this->ans->status = 200;
             $this->ans->data = $this->taskService->update($data);
@@ -64,13 +63,12 @@ class TaskController extends Controller
      * @param TaskRequest $request
      * @return JsonResponse
      */
-    public function add(TaskRequest $request): JsonResponse
+    public function create(TaskRequest $request): JsonResponse
     {
         $data = $request->validated();
-
         try {
             $this->ans->status = 201;
-            $this->ans->data = $this->taskService->add($data);
+            $this->ans->data = $this->taskService->create($data);
             $this->ans->message = __('task.store');
         } catch (Exception $e) {
             $this->getCatch($e);
@@ -82,11 +80,11 @@ class TaskController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function del(int $id): JsonResponse
+    public function delete(int $id): JsonResponse
     {
         try {
             $this->ans->status = 200;
-            $this->ans->data = $this->taskService->del($id);
+            $this->ans->data = $this->taskService->delete($id);
             $this->ans->message = is_object($this->ans->data)
                 ? __('task.delete_fail', ['id' => $id])
                 : __('task.delete_success', ['id' => $id]);

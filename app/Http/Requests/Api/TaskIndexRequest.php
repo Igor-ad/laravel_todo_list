@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\TaskStatusEnum as Status;
+
 class TaskIndexRequest extends TaskOrderRequest
 {
     /**
@@ -22,7 +24,7 @@ class TaskIndexRequest extends TaskOrderRequest
 
 
         $subRules = [
-            'status' => ['string', 'in:todo,done'],
+            'status' => ['string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['integer', 'min:1', 'max:5'],
             'title' => ['string', 'max:255', 'min:4'],
         ];

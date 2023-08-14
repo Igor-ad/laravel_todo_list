@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\OrderEnum;
+
 class TaskOrderService
 {
 
-    const ORDER = [
-        'priority' => 'prioritySort',
-        'created_at' => 'createdSort',
-        'completed_at' => 'completedSort',
-    ];
 
     /**
      * @param object $data
@@ -19,10 +16,10 @@ class TaskOrderService
     {
         $orderDirection = null;
 
-        foreach (self::ORDER as $key => $property) {
-            if (isset($data->{$property})) {
-                $direction = $data->{$property};
-                $orderDirection[] = $this->orderString($key, $direction);
+        foreach (OrderEnum::cases() as $case) {
+            if (isset($data->{$case->value})) {
+                $direction = $data->{$case->value};
+                $orderDirection[] = $this->orderString($case->name, $direction);
             }
         }
         return $orderDirection;

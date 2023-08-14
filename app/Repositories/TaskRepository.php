@@ -27,7 +27,7 @@ class TaskRepository
      * @param object $data
      * @return Collection
      */
-    public function getUserTasks(object $data): Collection
+    public function get(object $data): Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->get();
@@ -37,7 +37,7 @@ class TaskRepository
      * @param object $data
      * @return Collection
      */
-    public function getOrderUserTasks(object $data): Collection
+    public function getOrder(object $data): Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->orderByRaw($this->order->orderExpression($data))
@@ -48,7 +48,7 @@ class TaskRepository
      * @param object $data
      * @return Collection
      */
-    public function getAllFilterUserTasks(object $data): Collection
+    public function getAllFilter(object $data): Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
@@ -59,7 +59,7 @@ class TaskRepository
      * @param object $data
      * @return Collection
      */
-    public function getOrderAllFilterUserTasks(object $data): Collection
+    public function getOrderAllFilter(object $data): Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))

@@ -19,13 +19,13 @@ class TaskIndexService
      * @param bool $order
      * @return Collection
      */
-    public function getTasks(object $data, bool $order): Collection
+    public function index(object $data, bool $order): Collection
     {
         return match (true) {
-            !$order && !isset($data->title) => $this->repository->getOrderUserTasks($data),
-            $order && isset($data->title) => $this->repository->getAllFilterUserTasks($data),
-            !$order && isset($data->title) => $this->repository->getOrderAllFilterUserTasks($data),
-            default => $this->repository->getUserTasks($data),
+            !$order && !isset($data->title) => $this->repository->getOrder($data),
+            $order && isset($data->title) => $this->repository->getAllFilter($data),
+            !$order && isset($data->title) => $this->repository->getOrderAllFilter($data),
+            default => $this->repository->get($data),
         };
     }
 

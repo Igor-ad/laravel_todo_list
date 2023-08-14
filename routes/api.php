@@ -18,17 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api'])->group(callback: function () {
     Route::get('/tasks', [TaskIndexController::class, 'index']);
-    Route::get('/task/show/{task}', [TaskController::class, 'show']);
-    Route::get('/task/done/{task}', [TaskMarkedDoneController::class, 'done']);
-    Route::post('/task/add', [TaskController::class, 'add']);
-    Route::put('/task/update', [TaskController::class, 'update']);
-    Route::delete('/task/del/{task}', [TaskController::class, 'del']);
+    Route::get('/tasks/show/{task}', [TaskController::class, 'show']);
+    Route::put('/tasks/complete/{task}', [TaskMarkedDoneController::class, 'complete']);
+    Route::post('/tasks/create', [TaskController::class, 'create']);
+    Route::put('/tasks/update', [TaskController::class, 'update']);
+    Route::delete('/tasks/delete/{task}', [TaskController::class, 'delete']);
 });
 
-Route::get('/login', fn() => response()->json(data: [
-    'status' => 200,
-    'message' => __('auth.api_login'),
-    'help' => __('exception.help'),
-], status: 200));
+Route::get('/login', function () {
+    return response()->json(data: [
+        'status' => 200,
+        'message' => __('auth.api_login'),
+        'help' => __('exception.help'),
+    ], status: 200);
+});
 
 Route::post('login', [ 'as' => 'login']);

@@ -26,7 +26,7 @@ class TaskMarkedDoneController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function done(int $id): JsonResponse
+    public function complete(int $id): JsonResponse
     {
         try {
             $this->ans->status = 200;

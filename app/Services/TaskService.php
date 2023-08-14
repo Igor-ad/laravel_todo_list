@@ -46,7 +46,7 @@ class TaskService
      * @param array $data
      * @return mixed
      */
-    public function add(array $data): mixed
+    public function create(array $data): mixed
     {
         return $this->repository->storeTask($data);
     }
@@ -56,7 +56,7 @@ class TaskService
      * @return mixed
      * @throws Exception
      */
-    public function del(int $id): mixed
+    public function delete(int $id): mixed
     {
         DB::beginTransaction();
         try {
