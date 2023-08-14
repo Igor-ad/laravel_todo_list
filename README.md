@@ -221,7 +221,7 @@ Access-Control-Allow-Origin: *`
 
 Example Update query:
 
-PUT http://my_tasks_manager.com:80/api/task/update/?api_token=1234567890&id=391&description=Start_new_project
+PUT `http://my_tasks_manager.com:80/api/task/update/?api_token=1234567890&id=391&description=Start_new_project`
 
 Show request
 
