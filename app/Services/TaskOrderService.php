@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\OrderDirectionEnum;
 use App\Enums\OrderEnum;
 
 class TaskOrderService
 {
-
 
     /**
      * @param object $data
@@ -18,11 +18,25 @@ class TaskOrderService
 
         foreach (OrderEnum::cases() as $case) {
             if (isset($data->{$case->value})) {
-                $direction = $data->{$case->value};
+                $direction = $this->orderSqlDirection($data->{$case->value});
                 $orderDirection[] = $this->orderString($case->name, $direction);
             }
         }
         return $orderDirection;
+    }
+
+    /**
+     * @param string $direction
+     * @return string
+     */
+    private function orderSqlDirection(string $direction): string
+    {
+        foreach (OrderDirectionEnum::cases() as $case) {
+            if ($case->value === $direction) {
+
+                return $case->name;
+            }
+        }
     }
 
     /**
