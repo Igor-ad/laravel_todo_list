@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Enums\OrderEnum as Order;
-use App\Enums\OrderDirectionEnum as Direct;
+use App\Enums\SortEnum;
+use App\Enums\SortOrderEnum;
 
 class TaskOrderRequest extends ApiFormRequest
 {
@@ -23,9 +23,9 @@ class TaskOrderRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            Order::priority->value => ['string', sprintf('in:%s,%s', Direct::ASC->value, Direct::DESC->value)],
-            Order::created_at->value => ['string', sprintf('in:%s,%s', Direct::ASC->value, Direct::DESC->value)],
-            Order::completed_at->value => ['string', sprintf('in:%s,%s', Direct::ASC->value, Direct::DESC->value)],
+            SortEnum::priority->value => ['string', sprintf('in:%s,%s', SortOrderEnum::ASC->value, SortOrderEnum::DESC->value)],
+            SortEnum::created_at->value => ['string', sprintf('in:%s,%s', SortOrderEnum::ASC->value, SortOrderEnum::DESC->value)],
+            SortEnum::completed_at->value => ['string', sprintf('in:%s,%s', SortOrderEnum::ASC->value, SortOrderEnum::DESC->value)],
         ];
     }
 }

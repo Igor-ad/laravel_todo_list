@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Enums\OrderDirectionEnum;
-use App\Enums\OrderEnum;
+use App\Enums\SortOrderEnum;
+use App\Enums\SortEnum;
 
 class TaskOrderService
 {
@@ -16,9 +16,9 @@ class TaskOrderService
     {
         $orderDirection = null;
 
-        foreach (OrderEnum::cases() as $case) {
+        foreach (SortEnum::cases() as $case) {
             if (isset($data->{$case->value})) {
-                $direction = OrderDirectionEnum::from($data->{$case->value})->name;
+                $direction = SortOrderEnum::from($data->{$case->value})->name;
                 $orderDirection[] = $this->orderString($case->name, $direction);
             }
         }

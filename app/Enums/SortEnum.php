@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum OrderEnum: string
+enum SortEnum: string
 {
     case priority = 'prioritySort';
     case created_at = 'createdSort';
