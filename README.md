@@ -33,6 +33,9 @@ Do not implement:
 ### Task searching filters and ordering expressions.
 
 Fields for searching:
+
+( Allowed sorting directions for GET request are set in OrderDirectionEnum, allowed 'up' and 'dw')
+
 - status     
   - GET query `&status=todo`
   - SQL query `status = 'todo'`
@@ -45,18 +48,18 @@ Fields for searching:
 
 Fields for ordering:
 - priority      
-  - GET query `&prioritySort=asc`
+  - GET query `&prioritySort=up`
   - SQL query `order by priority asc`
 - created_at    
-  - GET query `&createdSort=desc`
+  - GET query `&createdSort=dw`
   - SQL query `order by cteated_at desc`
 - completed_at  
-  - GET query `&completedSort=desc`
+  - GET query `&completedSort=dw`
   - SQL query `order by comlpeted_at desc`
 
 Example GET query:
 
-GET `http://my_tasks_manager.com:80/tasks/?api_token=**********&status=todo&priority=2&createdSort=asc&prioritySort=asc`
+GET `http://my_tasks_manager.com:80/tasks/?api_token=**********&status=todo&priority=2&createdSort=up&prioritySort=dw`
  
 Show request
 
