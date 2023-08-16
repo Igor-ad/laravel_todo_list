@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\AnswerData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskOrderRequest;
 use App\Http\Requests\Api\TaskIndexRequest;
@@ -19,7 +20,8 @@ class TaskIndexController extends Controller
      */
     public function __construct(
         protected TaskIndexService $taskIndexService,
-        protected object           $ans = new \stdClass,
+        protected AnswerData            $ans,
+
     )
     {
     }

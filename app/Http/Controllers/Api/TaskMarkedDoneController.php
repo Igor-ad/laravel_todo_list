@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\AnswerData;
 use App\Http\Controllers\Controller;
 use App\Services\TaskMarkedDoneService;
 use Exception;
@@ -17,7 +18,7 @@ class TaskMarkedDoneController extends Controller
      */
     public function __construct(
         protected TaskMarkedDoneService $markedDoneService,
-        protected object                $ans = new \stdClass,
+        protected AnswerData            $ans,
     )
     {
     }

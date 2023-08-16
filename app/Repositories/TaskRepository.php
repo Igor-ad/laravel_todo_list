@@ -2,11 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Data\TaskUpsertData;
 use App\Models\Task;
 use App\Services\TaskFilterService;
 use App\Services\TaskOrderService;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskRepository
@@ -25,9 +24,9 @@ class TaskRepository
 
     /**
      * @param object $data
-     * @return Collection
+     * @return Task|null
      */
-    public function get(object $data): Collection
+    public function get(object $data): ?Task
     {
         return Task::where($this->filter->getFilter($data))
             ->get();
@@ -35,9 +34,9 @@ class TaskRepository
 
     /**
      * @param object $data
-     * @return Collection
+     * @return Task|null
      */
-    public function getOrder(object $data): Collection
+    public function getOrder(object $data): ?Task
     {
         return Task::where($this->filter->getFilter($data))
             ->orderByRaw($this->order->orderExpression($data))
@@ -46,9 +45,9 @@ class TaskRepository
 
     /**
      * @param object $data
-     * @return Collection
+     * @return Task|null
      */
-    public function getAllFilter(object $data): Collection
+    public function getAllFilter(object $data): ?Task
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
@@ -57,9 +56,9 @@ class TaskRepository
 
     /**
      * @param object $data
-     * @return Collection
+     * @return Task|null
      */
-    public function getOrderAllFilter(object $data): Collection
+    public function getOrderAllFilter(object $data): ?Task
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
@@ -69,41 +68,30 @@ class TaskRepository
 
     /**
      * @param int $id
-     * @return mixed
+     * @return Task|null
      */
-    public function getTask(int $id): mixed
+    public function getTask(int $id): ?Task
     {
         return Task::where($this->filter->getFilterParam($id))
             ->first();
     }
 
     /**
-     * @param array $data
-     * @return mixed
+     * @param TaskUpsertData $data
+     * @return bool|null
      */
-    public function updateTask(array $data): mixed
+    public function updateTask(TaskUpsertData $data): ?bool
     {
-        return Task::where($this->filter->getFilterParam($data['id']))
+        return Task::where($this->filter->getFilterParam($data->id))
             ->firstOrFail()
-            ->update($data);
-    }
-
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function storeTask(array $data): mixed
-    {
-        $data['user_id'] = Auth::id();
-
-        return Task::create($data);
+            ->update($data->getData());
     }
 
     /**
      * @param int $id
-     * @return mixed
+     * @return Task|null
      */
-    public function doneStatusTask(int $id): mixed
+    public function doneStatusTask(int $id): ?Task
     {
         return Task::where($this->filter->getFilterParam($id))
             ->where('status', '=', 'done')
@@ -112,9 +100,9 @@ class TaskRepository
 
     /**
      * @param int $id
-     * @return mixed
+     * @return bool
      */
-    public function eraseTask(int $id): mixed
+    public function eraseTask(int $id): bool
     {
         return Task::where($this->filter->getFilterParam($id))
             ->where('status', '=', 'todo')
@@ -124,9 +112,9 @@ class TaskRepository
 
     /**
      * @param int $id
-     * @return mixed
+     * @return Task|null
      */
-    public function taskMarkedDone(int $id): mixed
+    public function taskMarkedDone(int $id): ?Task
     {
         return Task::where($this->filter->getFilterParam($id))
             ->firstOrFail()

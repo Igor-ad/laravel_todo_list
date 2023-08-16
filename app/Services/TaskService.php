@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Data\TaskUpsertData;
+//use App\Data\TaskUpdateData;
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -24,16 +27,16 @@ class TaskService
     }
 
     /**
-     * @param array $data
+     * @param TaskUpsertData $data
      * @return mixed
      * @throws Exception
      */
-    public function update(array $data): mixed
+    public function update(TaskUpsertData $data): mixed
     {
         DB::beginTransaction();
         try {
             $this->repository->updateTask($data);
-            $result = $this->repository->getTask($data['id']);
+            $result = $this->repository->getTask($data->id);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -43,12 +46,12 @@ class TaskService
     }
 
     /**
-     * @param array $data
-     * @return mixed
+     * @param TaskUpsertData $data
+     * @return Task|null
      */
-    public function create(array $data): mixed
+    public function create(TaskUpsertData $data): ?Task
     {
-        return $this->repository->storeTask($data);
+        return Task::create($data->getData());
     }
 
     /**

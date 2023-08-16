@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Data\AnswerData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
 use App\Services\TaskService;
+use Database\Factories\TaskUpsertDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -15,11 +18,13 @@ class TaskController extends Controller
 
     /**
      * @param TaskService $taskService
-     * @param object $ans
+     * @param TaskUpsertDataFactory $upsertDataFactory
+     * @param AnswerData $ans
      */
     public function __construct(
-        protected TaskService $taskService,
-        protected object      $ans = new \stdClass,
+        protected TaskService           $taskService,
+        protected TaskUpsertDataFactory $upsertDataFactory,
+        protected AnswerData            $ans,
     )
     {
     }
@@ -48,10 +53,11 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $validData = $this->upsertDataFactory->getValidData($request);
+
         try {
             $this->ans->status = 200;
-            $this->ans->data = $this->taskService->update($data);
+            $this->ans->data = $this->taskService->update($validData);
             $this->ans->message = __('task.update');
         } catch (Exception $e) {
             $this->getCatch($e);
@@ -65,11 +71,12 @@ class TaskController extends Controller
      */
     public function create(TaskRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $validData = $this->upsertDataFactory->getValidData($request);
+        $validData->user_id = Auth::id();
         try {
             $this->ans->status = 201;
-            $this->ans->data = $this->taskService->create($data);
-            $this->ans->message = __('task.store');
+            $this->ans->data = $this->taskService->create($validData);
+            $this->ans->message = __('task.create');
         } catch (Exception $e) {
             $this->getCatch($e);
         }
