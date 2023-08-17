@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Data\TaskIndexData;
 use App\Repositories\TaskRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -10,21 +11,21 @@ class TaskIndexService
 
     public function __construct(
         protected TaskRepository $repository,
+        protected TaskIndexData $taskIndexData,
     )
     {
     }
 
     /**
-     * @param object $data
-     * @param bool $order
-     * @return Collection
+     * @param TaskIndexData $data
+     * @return Collection|null
      */
-    public function index(object $data, bool $order): Collection
+    public function index(TaskIndexData $data): ?Collection
     {
         return match (true) {
-            !$order && !isset($data->title) => $this->repository->getOrder($data),
-            $order && isset($data->title) => $this->repository->getAllFilter($data),
-            !$order && isset($data->title) => $this->repository->getOrderAllFilter($data),
+            $data->hasSort() && !$data->hasTxtFilter() => $this->repository->getOrder($data),
+            !$data->hasSort() && $data->hasTxtFilter() => $this->repository->getAllFilter($data),
+            $data->hasSort() && $data->hasTxtFilter() => $this->repository->getOrderAllFilter($data),
             default => $this->repository->get($data),
         };
     }

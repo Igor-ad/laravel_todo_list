@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Data\TaskIndexData;
 use App\Data\TaskUpsertData;
 use App\Models\Task;
 use App\Services\TaskFilterService;
 use App\Services\TaskOrderService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class TaskRepository
@@ -23,20 +25,20 @@ class TaskRepository
     }
 
     /**
-     * @param object $data
-     * @return Task|null
+     * @param TaskIndexData $data
+     * @return Collection|null
      */
-    public function get(object $data): ?Task
+    public function get(TaskIndexData $data): ?Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->get();
     }
 
     /**
-     * @param object $data
-     * @return Task|null
+     * @param TaskIndexData $data
+     * @return Collection|null
      */
-    public function getOrder(object $data): ?Task
+    public function getOrder(TaskIndexData $data): ?Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->orderByRaw($this->order->orderExpression($data))
@@ -44,10 +46,10 @@ class TaskRepository
     }
 
     /**
-     * @param object $data
-     * @return Task|null
+     * @param TaskIndexData $data
+     * @return Collection|null
      */
-    public function getAllFilter(object $data): ?Task
+    public function getAllFilter(TaskIndexData $data): ?Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
@@ -55,10 +57,10 @@ class TaskRepository
     }
 
     /**
-     * @param object $data
-     * @return Task|null
+     * @param TaskIndexData $data
+     * @return Collection|null
      */
-    public function getOrderAllFilter(object $data): ?Task
+    public function getOrderAllFilter(TaskIndexData $data): ?Collection
     {
         return Task::where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))

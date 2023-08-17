@@ -53,7 +53,7 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request): JsonResponse
     {
-        $validData = $this->upsertDataFactory->getValidData($request);
+        $validData = $this->upsertDataFactory->getValidData($request, null);
 
         try {
             $this->ans->status = 200;
@@ -71,8 +71,7 @@ class TaskController extends Controller
      */
     public function create(TaskRequest $request): JsonResponse
     {
-        $validData = $this->upsertDataFactory->getValidData($request);
-        $validData->user_id = Auth::id();
+        $validData = $this->upsertDataFactory->getValidData($request, Auth::id());
         try {
             $this->ans->status = 201;
             $this->ans->data = $this->taskService->create($validData);

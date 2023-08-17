@@ -14,13 +14,13 @@ class TaskUpsertData
      * @param string|null $description
      */
     public function __construct(
-        public ?int    $id = null,
-        public ?int    $user_id = null,
-        public ?int    $parent_id = null,
-        public ?string $status = null,
-        public ?int    $priority = null,
-        public ?string $title = null,
-        public ?string $description = null,
+        public readonly ?int    $id = null,
+        public readonly ?int    $user_id = null,
+        public readonly ?int    $parent_id = null,
+        public readonly ?string $status = null,
+        public readonly ?int    $priority = null,
+        public readonly ?string $title = null,
+        public readonly ?string $description = null,
     )
     {
     }
