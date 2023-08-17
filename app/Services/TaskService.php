@@ -12,6 +12,7 @@ class TaskService
 {
     public function __construct(
         protected TaskRepository $repository,
+        protected TaskFilterService $filter,
     )
     {
     }
@@ -22,7 +23,7 @@ class TaskService
      */
     public function show(int $id): mixed
     {
-        return Task::where(TaskFilterService::class->getFilterParam($id))->first();
+        return Task::where($this->filter->getFilterParam($id))->first();
     }
 
     /**
@@ -34,8 +35,9 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            $this->repository->updateTask($data);
-            $result = Task::where(TaskFilterService::class->getFilterParam($data->id))->first();
+            Task::where($this->filter->getFilterParam($data->id))
+                ->firstOrFail()->update($data->getData());
+            $result = Task::where($this->filter->getFilterParam($data->id))->first();
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -62,11 +64,11 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            $status = $this->repository->doneStatusTask($id);
+            $status = $this->repository->doneStatus($id);
             if ($status) {
                 return $status;
             }
-            $status = $this->repository->eraseTask($id);
+            $status = $this->repository->delete($id);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

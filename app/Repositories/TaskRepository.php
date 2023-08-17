@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Data\TaskIndexData;
-use App\Data\TaskUpsertData;
 use App\Models\Task;
 use App\Services\TaskFilterService;
 use App\Services\TaskOrderService;
@@ -69,21 +68,10 @@ class TaskRepository
     }
 
     /**
-     * @param TaskUpsertData $data
-     * @return bool|null
-     */
-    public function updateTask(TaskUpsertData $data): ?bool
-    {
-        return Task::where($this->filter->getFilterParam($data->id))
-            ->firstOrFail()
-            ->update($data->getData());
-    }
-
-    /**
      * @param int $id
      * @return Task|null
      */
-    public function doneStatusTask(int $id): ?Task
+    public function doneStatus(int $id): ?Task
     {
         return Task::where($this->filter->getFilterParam($id))
             ->where('status', '=', 'done')
@@ -94,7 +82,7 @@ class TaskRepository
      * @param int $id
      * @return bool
      */
-    public function eraseTask(int $id): bool
+    public function delete(int $id): bool
     {
         return Task::where($this->filter->getFilterParam($id))
             ->where('status', '=', 'todo')
