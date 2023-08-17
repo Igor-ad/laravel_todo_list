@@ -21,8 +21,6 @@ class TaskIndexRequest extends TaskOrderRequest
      */
     public function rules(): array
     {
-
-
         $subRules = [
             'status' => ['string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['integer', 'min:1', 'max:5'],

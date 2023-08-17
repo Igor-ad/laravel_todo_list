@@ -2,15 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\FilterEnum;
 use Illuminate\Support\Facades\Auth;
 
 class TaskFilterService
 {
-
-    const FILTER = [
-        'status' => '=',
-        'priority' => '>=',
-    ];
 
     /**
      * @param object $data
@@ -20,10 +16,10 @@ class TaskFilterService
     {
         $where[] = ['user_id', '=', (string)Auth::id()];
 
-        foreach (self::FILTER as $field => $action) {
-            if (isset($data->{$field})) {
-                $value = $data->{$field};
-                $where[] = [$field, $action, $value];
+        foreach (FilterEnum::cases() as $case) {
+            if (isset($data->{$case->name})) {
+                $value = $data->{$case->name};
+                $where[] = [$case->name, $case->value, $value];
             }
         }
         return $where;

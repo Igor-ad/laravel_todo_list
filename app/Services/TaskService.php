@@ -22,7 +22,7 @@ class TaskService
      */
     public function show(int $id): mixed
     {
-        return $this->repository->getTask($id);
+        return Task::where(TaskFilterService::class->getFilterParam($id))->first();
     }
 
     /**
@@ -35,7 +35,7 @@ class TaskService
         DB::beginTransaction();
         try {
             $this->repository->updateTask($data);
-            $result = $this->repository->getTask($data->id);
+            $result = Task::where(TaskFilterService::class->getFilterParam($data->id))->first();
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

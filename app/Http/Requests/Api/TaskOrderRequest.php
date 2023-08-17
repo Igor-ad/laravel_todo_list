@@ -17,7 +17,7 @@ class TaskOrderRequest extends ApiFormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     * @keys 'prioritySort', 'createdSort, 'completedSort' (SortEnum)
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array

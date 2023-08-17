@@ -69,16 +69,6 @@ class TaskRepository
     }
 
     /**
-     * @param int $id
-     * @return Task|null
-     */
-    public function getTask(int $id): ?Task
-    {
-        return Task::where($this->filter->getFilterParam($id))
-            ->first();
-    }
-
-    /**
      * @param TaskUpsertData $data
      * @return bool|null
      */
