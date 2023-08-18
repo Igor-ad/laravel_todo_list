@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Enums\TaskStatusEnum;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
+ */
+class TaskFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'parent_id' => rand(1, 128),
+            'user_id' => rand(1, 1024),
+            'status' => TaskStatusEnum::TODO->value,
+            'priority' => rand(1, 5),
+            'title' => fake()->sentence(2),
+            'description' => fake()->sentence(5),
+        ];
+    }
+}
