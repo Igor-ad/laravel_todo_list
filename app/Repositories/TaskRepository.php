@@ -92,9 +92,9 @@ class TaskRepository
 
     /**
      * @param int $id
-     * @return Task|null
+     * @return bool|null
      */
-    public function taskMarkedDone(int $id): ?Task
+    public function taskMarkedDone(int $id): ?bool
     {
         return Task::where($this->filter->getFilterParam($id))
             ->firstOrFail()
