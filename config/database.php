@@ -148,4 +148,6 @@ return [
 
     ],
 
+    'database' => env('DB_DATABASE', 'laravel_todo'),
+    'test_db' => env('DB_TEST_DATABASE', 'testing'),
 ];
