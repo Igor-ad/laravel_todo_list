@@ -2,25 +2,28 @@
 
 namespace Tests\Feature;
 
-use App\Models\Task;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Enums\TaskRouteEnum as Route;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TaskTestHelper;
 use Tests\TestCase;
 
 class TaskUpdateTest extends TestCase
 {
-//    use RefreshDatabase;
+    use TaskTestHelper;
 
     /**
      * test_task_update_path_successful_access
      */
     public function test_task_update_path_successful_access(): void
     {
-        $user = User::factory()->create();
-        $task = Task::factory()->create(['user_id' => $user->id]);
+        $this->init();
 
-        $response = $this->put(sprintf("/api/tasks/update/?api_token=%s&id=%d", $user->api_token, $task->id));
+        $response = $this->put(uri: sprintf(
+            "%s?api_token=%s&id=%d",
+            Route::update->value,
+            $this->user->api_token,
+            $this->task->id
+        ));
 
         $response->assertStatus(200);
     }
@@ -30,10 +33,14 @@ class TaskUpdateTest extends TestCase
      */
     public function test_task_update_successfully(): void
     {
-        $user = User::factory()->create();
-        $task = Task::factory()->create(['user_id' => $user->id]);
+        $this->init();
 
-        $response = $this->put(sprintf("/api/tasks/update/?api_token=%s&id=%d&title=TEST", $user->api_token, $task->id));
+        $response = $this->put(uri: sprintf(
+            "%s?api_token=%s&id=%d&title=TEST",
+            Route::update->value,
+            $this->user->api_token,
+            $this->task->id
+        ));
 
         $response->assertStatus(200);
     }

@@ -2,22 +2,26 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Enums\TaskRouteEnum as Route;
+use Tests\TaskTestHelper;
 use Tests\TestCase;
 
 class TaskIndexTest extends TestCase
 {
-//    use RefreshDatabase;
+    use TaskTestHelper;
 
     /**
      * test_task_index_path_successful_access
      */
     public function test_task_index_path_successful_access(): void
     {
-        $user = User::factory()->create();
+        $this->init();
 
-        $response = $this->get(sprintf("/api/tasks/?api_token=%s", $user->api_token));
+        $response = $this->get(uri: sprintf(
+            "%s?api_token=%s",
+            Route::index->value,
+            $this->user->api_token
+        ));
 
         $response->assertStatus(200);
     }

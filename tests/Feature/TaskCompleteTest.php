@@ -2,25 +2,28 @@
 
 namespace Tests\Feature;
 
-use App\Models\Task;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Enums\TaskRouteEnum as Route;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TaskTestHelper;
 use Tests\TestCase;
 
 class TaskCompleteTest extends TestCase
 {
-//    use RefreshDatabase;
+    use TaskTestHelper;
 
     /**
      * test_task_set_complete_successful
      */
     public function test_task_set_complete_successful(): void
     {
-        $user = User::factory()->create();
-        $task = Task::factory()->create(['user_id' => $user->id]);
+        $this->init();
 
-        $response = $this->put(sprintf("/api/tasks/complete/%d?api_token=%s", $task->id, $user->api_token));
+        $response = $this->put(uri: sprintf(
+            "%s%d?api_token=%s",
+            Route::complete->value,
+            $this->task->id,
+            $this->user->api_token
+        ));
 
         $response->assertStatus(200);
     }
