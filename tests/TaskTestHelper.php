@@ -53,7 +53,8 @@ trait TaskTestHelper
     }
 
     /**
-     *  Clean testing database after complete future test.
+     *  Clean testing database after complete future test
+     *  instead of the slow "use RefreshDatabase" trait
      *
      * @return void
      */

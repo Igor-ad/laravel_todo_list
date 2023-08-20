@@ -35,10 +35,11 @@ class TaskUpdateTest extends TestCase
         $this->init();
 
         $response = $this->put(uri: sprintf(
-            "%s?api_token=%s&id=%d&title=TEST",
+            "%s?api_token=%s&id=%d&title=%і",
             Route::update->value,
             $this->user->api_token,
-            $this->task->id
+            $this->task->id,
+            fake()->jobTitle
         ));
 
         $response->assertStatus(200);
