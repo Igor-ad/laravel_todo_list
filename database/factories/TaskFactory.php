@@ -20,11 +20,10 @@ class TaskFactory extends Factory
         return [
             'parent_id' => rand(1, 128),
             'user_id' => 1,
-//            'user_id' => rand(1, 1024),
             'status' => TaskStatusEnum::TODO->value,
             'priority' => rand(1, 5),
-            'title' => fake()->sentence(2),
-            'description' => fake()->sentence(5),
+            'title' => fake()->jobTitle,
+            'description' => fake()->paragraph(1),
         ];
     }
 }
