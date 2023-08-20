@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ class TaskCreateTest extends TestCase
 
         $response = $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',
-            Route::create->value,
+            Path::create->value,
             $this->user->api_token,
             1, 'todo', 1,
             fake()->jobTitle,

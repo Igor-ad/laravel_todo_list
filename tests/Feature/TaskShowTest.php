@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class TaskShowTest extends TestCase
 
         $response = $this->get(uri: sprintf(
             '%s%d?api_token=%s',
-            Route::show->value,
+            Path::show->value,
             $this->task->id,
             $this->user->api_token
         ));

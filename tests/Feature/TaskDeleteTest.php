@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class TaskDeleteTest extends TestCase
 
         $response = $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
-            Route::delete->value,
+            Path::delete->value,
             $this->task->id,
             $this->user->api_token
         ));

@@ -62,7 +62,7 @@ trait TaskTestHelper
     {
         $this->user->delete();
         unset($this->user);
-        
+
         if (isset($this->task)) {
             $this->task->delete();
             unset($this->task);

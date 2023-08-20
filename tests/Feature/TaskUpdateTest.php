@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class TaskUpdateTest extends TestCase
 
         $response = $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d",
-            Route::update->value,
+            Path::update->value,
             $this->user->api_token,
             $this->task->id
         ));
@@ -36,7 +36,7 @@ class TaskUpdateTest extends TestCase
 
         $response = $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
-            Route::update->value,
+            Path::update->value,
             $this->user->api_token,
             $this->task->id,
             fake()->jobTitle

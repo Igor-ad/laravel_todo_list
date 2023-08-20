@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class TaskIndexTest extends TestCase
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
-            Route::index->value,
+            Path::index->value,
             $this->user->api_token
         ));
 

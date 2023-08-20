@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\TaskRouteEnum as Route;
+use App\Enums\TaskPathEnum as Path;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -19,7 +19,7 @@ class TaskCompleteTest extends TestCase
 
         $response = $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Route::complete->value,
+            Path::complete->value,
             $this->task->id,
             $this->user->api_token
         ));
