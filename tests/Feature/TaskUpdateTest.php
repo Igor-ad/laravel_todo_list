@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Enums\TaskRouteEnum as Route;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 

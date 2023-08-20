@@ -6,20 +6,20 @@ use App\Enums\TaskRouteEnum as Route;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
-class TaskCompleteTest extends TestCase
+class TaskShowTest extends TestCase
 {
     use TaskTestHelper;
 
     /**
-     * test_task_set_complete_successful
+     * test_task_show_complete_successful
      */
-    public function test_task_set_complete_successful(): void
+    public function test_task_show_complete_successful(): void
     {
         $this->init();
 
-        $response = $this->put(uri: sprintf(
-            "%s%d?api_token=%s",
-            Route::complete->value,
+        $response = $this->get(uri: sprintf(
+            '%s%d?api_token=%s',
+            Route::show->value,
             $this->task->id,
             $this->user->api_token
         ));

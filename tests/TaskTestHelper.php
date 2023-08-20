@@ -10,10 +10,21 @@ trait TaskTestHelper
     protected User $user;
     protected Task $task;
 
+    /**
+     * @return void
+     */
     protected function init(): void
     {
         $this->setUser();
         $this->setTask();
+    }
+
+    /**
+     * @return void
+     */
+    protected function userInit(): void
+    {
+        $this->setUser();
     }
 
     /**
@@ -35,7 +46,7 @@ trait TaskTestHelper
     /**
      * @return void
      */
-    protected function __destruct()
+    public function __destruct()
     {
         $this->user->delete();
         $this->task->delete();

@@ -15,7 +15,7 @@ class TaskIndexTest extends TestCase
      */
     public function test_task_index_path_successful_access(): void
     {
-        $this->init();
+        $this->userInit();
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",

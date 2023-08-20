@@ -4,7 +4,7 @@ return [
     'show' => "Task ID :id",
     'not_found' => "Task ID :id not found.",
     'update' => "Task was updated successfully.",
-    'store' => "Task was created successfully.",
+    'create' => "Task was created successfully.",
     'delete_fail' => "Task ID :id status: 'done'. Please select another task.",
     'delete_success' => "Task ID :id was deleted successfully.",
     'index_filter_fail' => "Your repo doesn't have any tasks with this properties.",
