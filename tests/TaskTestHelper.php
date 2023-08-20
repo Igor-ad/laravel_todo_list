@@ -44,13 +44,26 @@ trait TaskTestHelper
     }
 
     /**
+     * @param int $id
+     * @return bool
+     */
+    private function deleteTask(int $id): bool
+    {
+        return Task::where('id', '=', $id)->delete();
+    }
+
+    /**
+     *  Clean testing database after complete future test.
+     *
      * @return void
      */
     public function __destruct()
     {
         $this->user->delete();
-        $this->task->delete();
-        unset($this->task);
         unset($this->user);
+        if (isset($this->task)) {
+            $this->task->delete();
+            unset($this->task);
+        }
     }
 }
