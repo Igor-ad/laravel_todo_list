@@ -36,8 +36,9 @@ class TaskController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $this->ans->status = 200;
             $this->ans->data = $this->taskService->show($id);
+            $this->ans->status = is_null($this->ans->data)
+                ? 501 : 200;
             $this->ans->message = is_null($this->ans->data)
                 ? __('task.not_found', ['id' => $id])
                 : __('task.show', ['id' => $id]);

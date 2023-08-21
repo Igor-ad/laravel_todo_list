@@ -26,4 +26,21 @@ class TaskShowTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /**
+     * test_task_id_not_found
+     */
+    public function test_task_id_not_found(): void
+    {
+        $this->userInit();
+
+        $response = $this->get(uri: sprintf(
+            '%s%d?api_token=%s',
+            Path::show->value,
+            0,
+            $this->user->api_token
+        ));
+
+        $response->assertStatus(501);
+    }
 }
