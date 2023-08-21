@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Data\AnswerData;
 use App\Http\Controllers\Controller;
-use App\Services\TaskMarkedDoneService;
+use App\Services\TaskCompleteService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class TaskMarkedDoneController extends Controller
+class TaskCompleteController extends Controller
 {
     use TaskHelper;
 
     /**
-     * @param TaskMarkedDoneService $markedDoneService
+     * @param TaskCompleteService $markedDoneService
      * @param object $ans
      */
     public function __construct(
-        protected TaskMarkedDoneService $markedDoneService,
-        protected AnswerData            $ans,
+        protected TaskCompleteService $markedDoneService,
+        protected AnswerData          $ans,
     )
     {
     }

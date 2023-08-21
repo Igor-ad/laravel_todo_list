@@ -13,9 +13,9 @@ class TaskDeleteTest extends TestCase
     use TaskTestHelper;
 
     /**
-     * test_task_delete_successful
+     * test_the_task_was_deleted_successfully
      */
-    public function test_task_delete_successful(): void
+    public function test_the_task_was_deleted_successfully(): void
     {
         $this->init();
 
@@ -30,7 +30,7 @@ class TaskDeleteTest extends TestCase
     }
 
     /**
-     * the_test_task_is_not_exists
+     * test_attempt_deleted_task_if_task_is_not_exists
      */
     public function test_attempt_deleted_task_if_task_is_not_exists(): void
     {
@@ -47,9 +47,9 @@ class TaskDeleteTest extends TestCase
     }
 
     /**
-     * test_task_status_is_done
+     * test_attempt_deleted_the_task_with_it_status_is_complete
      */
-    public function test_attempt_deleted_task_with_status_is_complete(): void
+    public function test_attempt_deleted_task_with_it_status_is_complete(): void
     {
         $this->userInit();
 

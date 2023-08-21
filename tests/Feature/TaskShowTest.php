@@ -11,9 +11,9 @@ class TaskShowTest extends TestCase
     use TaskTestHelper;
 
     /**
-     * test_task_show_complete_successful
+     * test_the_task_was_shown_successfully
      */
-    public function test_task_show_complete_successful(): void
+    public function test_the_task_was_shown_successfully(): void
     {
         $this->init();
 
@@ -28,9 +28,9 @@ class TaskShowTest extends TestCase
     }
 
     /**
-     * test_task_id_not_found
+     * test_the_task_id_is_not_found_in_the_system
      */
-    public function test_task_id_not_found(): void
+    public function test_the_task_id_is_not_found_in_the_system(): void
     {
         $this->userInit();
 

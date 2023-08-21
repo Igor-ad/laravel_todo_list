@@ -15,7 +15,7 @@ class TaskCompleteTest extends TestCase
     /**
      * test_task_set_complete_successful
      */
-    public function test_task_set_complete_successful(): void
+    public function test_the_task_status_set_complete_successfully(): void
     {
         $this->init();
 
@@ -32,7 +32,7 @@ class TaskCompleteTest extends TestCase
     /**
      * test_attempt_completed_task_if_task_not_exists
      */
-    public function test_attempt_completed_task_if_task_not_exists(): void
+    public function test_attempt_the_task_status_set_complete_if_task_not_exists(): void
     {
         $this->userInit();
 
@@ -47,9 +47,9 @@ class TaskCompleteTest extends TestCase
     }
 
     /**
-     * test_task_set_complete_with_children_are_status_done
+     * test_attempt_set_task_status_to_complete_if_children_are_status_todo
      */
-    public function test_task_set_complete_with_children_are_status_done(): void
+    public function test_attempt_set_task_status_to_complete_if_children_are_status_todo(): void
     {
         $this->init();
         $taskId = $this->task->id;

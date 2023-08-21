@@ -13,9 +13,9 @@ class TaskCreateTest extends TestCase
     use TaskTestHelper;
 
     /**
-     * test_task_sampled_create_successful
+     * test_the_task_sample_created_successfully
      */
-    public function test_task_sample_created_successful(): void
+    public function test_the_task_sample_created_successfully(): void
     {
         $this->userInit();
 
@@ -36,9 +36,9 @@ class TaskCreateTest extends TestCase
     }
 
     /**
-     * test_task_sample_does_not_created_wrong_field
+     * test_the_task_sample_does_not_created_with_the_wrong_field
      */
-    public function test_task_sample_does_not_created_wrong_field(): void
+    public function test_the_task_sample_does_not_created_with_the_wrong_field(): void
     {
         $this->userInit();
 

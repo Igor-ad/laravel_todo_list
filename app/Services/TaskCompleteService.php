@@ -6,7 +6,7 @@ use App\Repositories\TaskRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class TaskMarkedDoneService
+class TaskCompleteService
 {
 
     /**
