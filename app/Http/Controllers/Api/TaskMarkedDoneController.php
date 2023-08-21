@@ -30,8 +30,9 @@ class TaskMarkedDoneController extends Controller
     public function complete(int $id): JsonResponse
     {
         try {
-            $this->ans->status = 200;
             $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
+            $this->ans->status = ($this->ans->data)
+                ? 200 : 501;
             $this->ans->message = ($this->ans->data)
                 ? __('task.market_done', ['id' => $id])
                 : __('task.market_done_fail', ['id' => $id]);

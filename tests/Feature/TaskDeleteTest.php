@@ -32,7 +32,7 @@ class TaskDeleteTest extends TestCase
     /**
      * the_test_task_is_not_exists
      */
-    public function test_task_is_not_exists(): void
+    public function test_attempt_deleted_task_if_task_is_not_exists(): void
     {
         $this->init();
 
@@ -49,13 +49,13 @@ class TaskDeleteTest extends TestCase
     /**
      * test_task_status_is_done
      */
-    public function test_task_status_is_done(): void
+    public function test_attempt_deleted_task_with_status_is_complete(): void
     {
         $this->userInit();
 
         $this->task = Task::factory()->create([
             'user_id' => $this->user->id,
-            'status' => TaskStatusEnum::DONE->value
+            'status' => TaskStatusEnum::DONE->value,
         ]);
 
         $response = $this->delete(uri: sprintf(
