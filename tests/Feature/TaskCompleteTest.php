@@ -13,7 +13,7 @@ class TaskCompleteTest extends TestCase
     use TaskTestHelper;
 
     /**
-     * test_task_set_complete_successful
+     * test_the_task_status_set_complete_successfully
      */
     public function test_the_task_status_set_complete_successfully(): void
     {
@@ -30,9 +30,9 @@ class TaskCompleteTest extends TestCase
     }
 
     /**
-     * test_attempt_completed_task_if_task_not_exists
+     * test_attempt_to_set_task_status_to_complete_if_task_does_not_exist
      */
-    public function test_attempt_the_task_status_set_complete_if_task_not_exists(): void
+    public function test_attempt_to_set_task_status_to_complete_if_task_does_not_exist(): void
     {
         $this->userInit();
 
@@ -47,9 +47,9 @@ class TaskCompleteTest extends TestCase
     }
 
     /**
-     * test_attempt_set_task_status_to_complete_if_children_are_status_todo
+     * test_attempt_to_set_task_status_to_complete_if_children_are_status_todo
      */
-    public function test_attempt_set_task_status_to_complete_if_children_are_status_todo(): void
+    public function test_attempt_to_set_task_status_to_complete_if_children_are_status_todo(): void
     {
         $this->init();
         $taskId = $this->task->id;
