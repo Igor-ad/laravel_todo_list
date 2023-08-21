@@ -37,6 +37,15 @@ class TaskIndexData
     /**
      * @return bool
      */
+    public function hasFilter(): bool
+    {
+        return isset($this->status)
+            || isset($this->priority);
+    }
+
+    /**
+     * @return bool
+     */
     public function hasTxtFilter(): bool
     {
         return isset($this->title);

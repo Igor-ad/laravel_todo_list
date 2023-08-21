@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Data\TaskIndexData;
+use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Services\TaskFilterService;
 use App\Services\TaskOrderService;
@@ -74,7 +75,7 @@ class TaskRepository
     public function doneStatus(int $id): ?Task
     {
         return Task::where($this->filter->getFilterParam($id))
-            ->where('status', '=', 'done')
+            ->where('status', '=', TaskStatusEnum::DONE->value)
             ->first();
     }
 
@@ -85,7 +86,6 @@ class TaskRepository
     public function delete(int $id): bool
     {
         return Task::where($this->filter->getFilterParam($id))
-            ->where('status', '=', 'todo')
             ->firstOrFail()
             ->delete();
     }
@@ -99,7 +99,7 @@ class TaskRepository
         return Task::where($this->filter->getFilterParam($id))
             ->firstOrFail()
             ->update([
-                'status' => 'done',
+                'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),
             ]);
     }

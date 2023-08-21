@@ -89,8 +89,9 @@ class TaskController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            $this->ans->status = 200;
             $this->ans->data = $this->taskService->delete($id);
+            $this->ans->status = is_bool($this->ans->data)
+                ? 200 : 501;
             $this->ans->message = is_object($this->ans->data)
                 ? __('task.delete_fail', ['id' => $id])
                 : __('task.delete_success', ['id' => $id]);

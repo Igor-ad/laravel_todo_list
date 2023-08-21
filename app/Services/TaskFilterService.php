@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Data\TaskIndexData;
 use App\Enums\FilterEnum;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,12 +10,24 @@ class TaskFilterService
 {
 
     /**
-     * @param object $data
+     * @param TaskIndexData $data
      * @return array
      */
-    public function getFilter(object $data): array
+    public function getFilter(TaskIndexData $data): array
     {
-        $where[] = ['user_id', '=', (string)Auth::id()];
+        if (!$data->hasFilter()) {
+            return [$this->userFilter()];
+        }
+        return [$this->userFilter(), $this->rowFilter($data)];
+    }
+
+    /**
+     * @param TaskIndexData $data
+     * @return array
+     */
+    protected function rowFilter(TaskIndexData $data): array
+    {
+        $where = [];
 
         foreach (FilterEnum::cases() as $case) {
             if (isset($data->{$case->name})) {
@@ -22,14 +35,23 @@ class TaskFilterService
                 $where[] = [$case->name, $case->value, $value];
             }
         }
-        return $where;
+        return [$where];
     }
 
     /**
-     * @param object $data
+     * @return array
+     */
+    protected function userFilter(): array
+    {
+        return ['user_id', '=', Auth::id()];
+
+    }
+
+    /**
+     * @param TaskIndexData $data
      * @return string
      */
-    public function matchAgainstFilter(object $data): string
+    public function matchAgainstFilter(TaskIndexData $data): string
     {
         $value = $data->title;
 
@@ -44,7 +66,7 @@ class TaskFilterService
     {
         return [
             ['id', '=', $id],
-            ['user_id', '=', Auth::id()],
+            $this->userFilter(),
         ];
     }
 
