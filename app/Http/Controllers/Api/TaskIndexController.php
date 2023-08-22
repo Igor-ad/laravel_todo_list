@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 class TaskIndexController extends Controller
 {
-    use TaskHelper;
+    use ControllerTrait, AnswerTrait;
 
     /**
      * @param TaskIndexService $taskIndexService

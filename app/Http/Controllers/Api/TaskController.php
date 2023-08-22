@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    use TaskHelper;
+    use ControllerTrait, AnswerTrait;
 
     /**
      * @param TaskService $taskService

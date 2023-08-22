@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class TaskCompleteController extends Controller
 {
-    use TaskHelper;
+    use ControllerTrait, AnswerTrait;
 
     /**
      * @param TaskCompleteService $completeService
