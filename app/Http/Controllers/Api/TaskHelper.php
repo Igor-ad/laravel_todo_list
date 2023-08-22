@@ -12,6 +12,15 @@ trait TaskHelper
     protected AnswerData $aData;
 
     /**
+     * @param array $data
+     */
+    public function setAData(array $data): void
+    {
+        $this->aData = AnswerDataFactory::answerData($data);
+    }
+
+
+    /**
      * @param Exception $e
      * @return void
      */
@@ -20,7 +29,7 @@ trait TaskHelper
         $status = 500;
         $message = $e->getMessage();
         $code = $e->getCode();
-        $this->aData = AnswerDataFactory::answerData([$status, $message, $code]);
+        $this->setAData([$status, $message, $code]);
     }
 
     /**

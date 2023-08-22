@@ -39,7 +39,7 @@ class TaskIndexController extends Controller
             $message = $data->isEmpty()
                 ? __('task.index_filter_fail')
                 : __('task.index');
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }

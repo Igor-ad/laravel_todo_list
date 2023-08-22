@@ -40,7 +40,7 @@ class TaskController extends Controller
             $message = is_null($data)
                 ? __('task.not_found', ['id' => $id])
                 : __('task.show', ['id' => $id]);
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -59,7 +59,7 @@ class TaskController extends Controller
             $status = 200;
             $data = $this->taskService->update($validData);
             $message = __('task.update');
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -77,7 +77,7 @@ class TaskController extends Controller
             $status = 201;
             $data = $this->taskService->create($validData);
             $message = __('task.create');
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -97,7 +97,7 @@ class TaskController extends Controller
             $message = is_object($data)
                 ? __('task.delete_fail', ['id' => $id])
                 : __('task.delete_success', ['id' => $id]);
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }

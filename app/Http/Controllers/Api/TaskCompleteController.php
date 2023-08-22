@@ -34,7 +34,7 @@ class TaskCompleteController extends Controller
             $message = ($data)
                 ? __('task.market_done', ['id' => $id])
                 : __('task.market_done_fail', ['id' => $id]);
-            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
+            $this->setAData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }
