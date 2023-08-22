@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskIndexRequest;
 use App\Services\TaskIndexService;
-use Database\Factories\AnswerDataFactory;
 use Database\Factories\TaskDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
