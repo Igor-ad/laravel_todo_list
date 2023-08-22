@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Data\AnswerData;
 use App\Http\Controllers\Controller;
 use App\Services\TaskCompleteService;
+use Database\Factories\AnswerDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -13,12 +13,10 @@ class TaskCompleteController extends Controller
     use TaskHelper;
 
     /**
-     * @param TaskCompleteService $markedDoneService
-     * @param object $ans
+     * @param TaskCompleteService $completeService
      */
     public function __construct(
-        protected TaskCompleteService $markedDoneService,
-        protected AnswerData          $ans,
+        protected TaskCompleteService $completeService,
     )
     {
     }
@@ -30,12 +28,13 @@ class TaskCompleteController extends Controller
     public function complete(int $id): JsonResponse
     {
         try {
-            $this->ans->data = $this->markedDoneService->decisionChildTodo($id);
-            $this->ans->status = ($this->ans->data)
+            $data = $this->completeService->decisionChildTodo($id);
+            $status = ($data)
                 ? 200 : 501;
-            $this->ans->message = ($this->ans->data)
+            $message = ($data)
                 ? __('task.market_done', ['id' => $id])
                 : __('task.market_done_fail', ['id' => $id]);
+            $this->aData = AnswerDataFactory::answerData([$status, $message, $data]);
         } catch (Exception $e) {
             $this->getCatch($e);
         }

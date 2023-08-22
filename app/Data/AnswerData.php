@@ -5,17 +5,30 @@ namespace App\Data;
 class AnswerData
 {
     /**
-     * @param int|null $status
+     * @param int $status
+     * @param string $message
      * @param object|bool|null $data
-     * @param string|null $message
      * @param int|string|null $code
      */
     public function __construct(
-        public ?int             $status = null,
-        public object|bool|null $data = null,
-        public ?string          $message = null,
-        public int|string|null  $code = null,
+        public readonly int              $status,
+        public readonly string           $message,
+        public readonly object|bool|null $data = null,
+        public readonly int|string|null  $code = null,
     )
     {
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return array_diff([
+            'status' => $this->status,
+            'message' => $this->message,
+            'data' => $this->data,
+            'code' => $this->code,
+        ], [null]);
     }
 }

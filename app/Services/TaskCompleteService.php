@@ -36,7 +36,7 @@ class TaskCompleteService
     {
         $status = empty($this->childStatus($id));
         if ($status) {
-            $this->setTaskStatusDone($id);
+            $this->setCompleteStatus($id);
         }
         return $status;
     }
@@ -46,11 +46,11 @@ class TaskCompleteService
      * @return mixed
      * @throws Exception
      */
-    protected function setTaskStatusDone(int $id): mixed
+    protected function setCompleteStatus(int $id): mixed
     {
         DB::beginTransaction();
         try {
-            $result = $this->repository->taskMarkedDone($id);
+            $result = $this->repository->complete($id);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
