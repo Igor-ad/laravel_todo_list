@@ -27,6 +27,22 @@ class TaskIndexTest extends TestCase
     }
 
     /**
+     * test_attempt_to_access_to_the_wrong_path
+     */
+    public function test_attempt_to_access_to_the_wrong_path(): void
+    {
+        $this->userInit();
+        
+        $response = $this->get(uri: sprintf(
+            "%s?api_token=%s",
+            '/api/tasks/wrong_path/',
+            $this->user->api_token
+        ));
+
+        $response->assertStatus(404);
+    }
+
+    /**
      * test_attempt_unauthorized_access_to_task_index_path
      */
     public function test_attempt_unauthorized_access_to_the_task_index_path(): void
