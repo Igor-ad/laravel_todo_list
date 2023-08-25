@@ -34,6 +34,26 @@ class TaskCreateTest extends TestCase
     }
 
     /**
+     * test_the_root_task_sample_created_successfully_without_parent_id
+     */
+    public function test_the_root_task_sample_created_successfully_without_parent_id(): void
+    {
+        $this->userInit();
+
+        $this->post(uri: sprintf(
+            '%s?api_token=%s&status=%s&priority=%d&title=%s&description=%s',
+            Path::create->value,
+            $this->user->getAttribute('api_token'),
+            TaskStatusEnum::TODO->value,
+            rand(1, 5),
+            fake()->jobTitle,
+            fake()->paragraph(1)
+        ))->assertStatus(201);
+
+        $this->deleteTask(Task::all()->last()->getAttribute('id'));
+    }
+
+    /**
      * test_the_task_sample_does_not_created_with_the_wrong_field
      */
     public function test_the_task_sample_does_not_created_with_the_wrong_field(): void
