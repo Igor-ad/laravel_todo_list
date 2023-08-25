@@ -29,9 +29,10 @@ class TaskCreateTest extends TestCase
             fake()->jobTitle,
             fake()->paragraph(1)
         ));
-        $this->deleteTask(Task::all()->last()->getAttribute('id'));
+//        $this->deleteTask(Task::all()->last()->getAttribute('id'));
 
         $response->assertStatus(201);
+        $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
 
     /**
