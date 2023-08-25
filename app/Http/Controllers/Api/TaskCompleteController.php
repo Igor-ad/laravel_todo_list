@@ -27,13 +27,10 @@ class TaskCompleteController extends Controller
     public function complete(int $id): JsonResponse
     {
         try {
-            $data = $this->completeService->decisionChildTodo($id);
-            $status = ($data)
-                ? 200 : 501;
-            $message = ($data)
-                ? __('task.market_done', ['id' => $id])
-                : __('task.market_done_fail', ['id' => $id]);
-            $this->setAData([$status, $message, $data]);
+            $response = $this->completeService->complete($id);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }

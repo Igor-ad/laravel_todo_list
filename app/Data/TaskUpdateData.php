@@ -2,11 +2,10 @@
 
 namespace App\Data;
 
-class TaskUpsertData
+class TaskUpdateData
 {
     /**
-     * @param int|null $id
-     * @param int|null $user_id
+     * @param int $id
      * @param int|null $parent_id
      * @param string|null $status
      * @param int|null $priority
@@ -14,8 +13,7 @@ class TaskUpsertData
      * @param string|null $description
      */
     public function __construct(
-        public readonly ?int    $id = null,
-        public readonly ?int    $user_id = null,
+        public readonly int     $id,
         public readonly ?int    $parent_id = null,
         public readonly ?string $status = null,
         public readonly ?int    $priority = null,
@@ -32,7 +30,6 @@ class TaskUpsertData
     {
         return array_diff([
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'priority' => $this->priority,

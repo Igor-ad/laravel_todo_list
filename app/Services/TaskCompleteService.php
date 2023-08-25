@@ -11,11 +11,30 @@ class TaskCompleteService
 
     /**
      * @param TaskRepository $repository
+     * @param ResponseService $response
      */
     public function __construct(
-        protected TaskRepository $repository,
+        protected TaskRepository  $repository,
+        protected ResponseService $response,
     )
     {
+    }
+
+    /**
+     * @param int $id
+     * @return ResponseService|null
+     * @throws Exception
+     */
+    public function complete(int $id): ?ResponseService
+    {
+        if (empty($this->childStatus($id))) {
+            $this->response->setTaskCompleteData(
+                $id, $this->setCompleteStatus($id)
+            );
+        } else {
+            $this->response->setTaskCompleteFailData($id);
+        }
+        return $this->response;
     }
 
     /**
@@ -32,21 +51,7 @@ class TaskCompleteService
      * @return bool
      * @throws Exception
      */
-    public function decisionChildTodo(int $id): bool
-    {
-        $status = empty($this->childStatus($id));
-        if ($status) {
-            $this->setCompleteStatus($id);
-        }
-        return $status;
-    }
-
-    /**
-     * @param int $id
-     * @return mixed
-     * @throws Exception
-     */
-    protected function setCompleteStatus(int $id): mixed
+    protected function setCompleteStatus(int $id): bool
     {
         DB::beginTransaction();
         try {

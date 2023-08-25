@@ -25,7 +25,7 @@ class TaskRequest extends ApiFormRequest
             'parent_id' => ['integer'],
             'status' => ['required', 'string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['required', 'integer', 'min:1', 'max:5'],
-            'title' => ['required', 'string', 'max:255', 'min:4'],
+            'title' => ['required', 'string', 'max:255', 'min:3'],
             'description' => ['required', 'string', 'max:2048', 'min:8'],
         ];
     }

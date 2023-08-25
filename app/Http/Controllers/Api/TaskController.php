@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
+use App\Services\ResponseService;
 use App\Services\TaskService;
-use Database\Factories\TaskUpsertDataFactory;
+use Database\Factories\TaskUpdateDataFactory;
+use Database\Factories\TaskCreateDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +19,15 @@ class TaskController extends Controller
 
     /**
      * @param TaskService $taskService
-     * @param TaskUpsertDataFactory $upsertDataFactory
+     * @param TaskUpdateDataFactory $updateDataFactory
+     * @param TaskCreateDataFactory $createDataFactory
+     * @param ResponseService $response
      */
     public function __construct(
         protected TaskService           $taskService,
-        protected TaskUpsertDataFactory $upsertDataFactory,
+        protected TaskUpdateDataFactory $updateDataFactory,
+        protected TaskCreateDataFactory $createDataFactory,
+        protected ResponseService       $response,
     )
     {
     }
@@ -33,13 +39,10 @@ class TaskController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $data = $this->taskService->show($id);
-            $status = is_null($data)
-                ? 501 : 200;
-            $message = is_null($data)
-                ? __('task.not_found', ['id' => $id])
-                : __('task.show', ['id' => $id]);
-            $this->setAData([$status, $message, $data]);
+            $response = $this->taskService->show($id);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -52,13 +55,13 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request): JsonResponse
     {
-        $validData = $this->upsertDataFactory->getValidData($request, null);
+        $validData = $this->updateDataFactory->getValidData($request);
 
         try {
-            $status = 200;
-            $data = $this->taskService->update($validData);
-            $message = __('task.update');
-            $this->setAData([$status, $message, $data]);
+            $response = $this->taskService->update($validData);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -71,12 +74,13 @@ class TaskController extends Controller
      */
     public function create(TaskRequest $request): JsonResponse
     {
-        $validData = $this->upsertDataFactory->getValidData($request, Auth::id());
+        $validData = $this->createDataFactory->getValidData(Auth::id(), $request);
+
         try {
-            $status = 201;
-            $data = $this->taskService->create($validData);
-            $message = __('task.create');
-            $this->setAData([$status, $message, $data]);
+            $response = $this->taskService->create($validData);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }
@@ -90,13 +94,10 @@ class TaskController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            $data = $this->taskService->delete($id);
-            $status = is_bool($data)
-                ? 200 : 501;
-            $message = is_object($data)
-                ? __('task.delete_fail', ['id' => $id])
-                : __('task.delete_success', ['id' => $id]);
-            $this->setAData([$status, $message, $data]);
+            $response = $this->taskService->delete($id);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }

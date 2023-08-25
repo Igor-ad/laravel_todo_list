@@ -7,14 +7,14 @@ class AnswerData
     /**
      * @param int $status
      * @param string $message
-     * @param object|bool|null $data
+     * @param object|array|bool|null $data
      * @param int|string|null $code
      */
     public function __construct(
-        public readonly int              $status,
-        public readonly string           $message,
-        public readonly object|bool|null $data = null,
-        public readonly int|string|null  $code = null,
+        public readonly int                    $status,
+        public readonly string                 $message,
+        public readonly object|array|bool|null $data,
+        public readonly int|string|null        $code,
     )
     {
     }
@@ -24,11 +24,11 @@ class AnswerData
      */
     public function getData(): array
     {
-        return array_diff([
+        return [
             'status' => $this->status,
             'message' => $this->message,
             'data' => $this->data,
             'code' => $this->code,
-        ], [null]);
+        ];
     }
 }

@@ -24,7 +24,7 @@ class TaskIndexRequest extends TaskOrderRequest
         $subRules = [
             'status' => ['string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['integer', 'min:1', 'max:5'],
-            'title' => ['string', 'max:255', 'min:4'],
+            'title' => ['string', 'max:255', 'min:3'],
         ];
         return array_merge(parent::rules(), $subRules);
     }

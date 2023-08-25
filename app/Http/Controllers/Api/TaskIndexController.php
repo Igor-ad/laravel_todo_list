@@ -32,13 +32,12 @@ class TaskIndexController extends Controller
     public function index(TaskIndexRequest $request): JsonResponse
     {
         $validData = $this->taskFactory->getValidData($request);
+
         try {
-            $status = 200;
-            $data = $this->taskIndexService->index($validData);
-            $message = $data->isEmpty()
-                ? __('task.index_filter_fail')
-                : __('task.index');
-            $this->setAData([$status, $message, $data]);
+            $response = $this->taskIndexService->index($validData);
+
+            $this->setAnswer($response);
+
         } catch (Exception $e) {
             $this->getCatch($e);
         }

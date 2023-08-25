@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Data\TaskUpsertData;
+use App\Data\TaskCreateData;
+use App\Data\TaskUpdateData;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use Exception;
@@ -11,70 +12,91 @@ use Illuminate\Support\Facades\DB;
 class TaskService
 {
     public function __construct(
-        protected TaskRepository $repository,
+        protected TaskRepository    $repository,
         protected TaskFilterService $filter,
+        protected ResponseService   $response,
     )
     {
     }
 
     /**
      * @param int $id
-     * @return mixed
+     * @return ResponseService
      */
-    public function show(int $id): mixed
+    public function show(int $id): ResponseService
     {
-        return Task::where($this->filter->getFilterParam($id))->first();
+        $data = Task::where($this->filter->getFilterParam($id))->first();
+        if ($data) {
+            $this->response->setTaskShowData($id, $data);
+        } else {
+            $this->response->setTaskShowFailData($id, $data);
+        }
+        return $this->response;
     }
 
     /**
-     * @param TaskUpsertData $data
-     * @return mixed
+     * @param TaskUpdateData $data
+     * @return ResponseService
      * @throws Exception
      */
-    public function update(TaskUpsertData $data): mixed
+    public function update(TaskUpdateData $data): ResponseService
     {
         DB::beginTransaction();
         try {
             Task::where($this->filter->getFilterParam($data->id))
                 ->firstOrFail()->update($data->getData());
-            $result = Task::where($this->filter->getFilterParam($data->id))->first();
+
+            $data = Task::where($this->filter->getFilterParam($data->id))->first();
+
+            $this->response->setTaskUpdateData($data);
+
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
         DB::commit();
-        return $result;
+
+        return $this->response;
     }
 
     /**
-     * @param TaskUpsertData $data
-     * @return Task|null
+     * @param TaskCreateData $data
+     * @return ResponseService
      */
-    public function create(TaskUpsertData $data): ?Task
+    public function create(TaskCreateData $data): ResponseService
     {
-        return Task::create($data->getData());
+        $data = Task::create($data->getData());
+
+        $this->response->setTaskCreateData($data);
+
+        return $this->response;
     }
 
     /**
      * @param int $id
-     * @return mixed
+     * @return ResponseService
      * @throws Exception
      */
-    public function delete(int $id): mixed
+    public function delete(int $id): ResponseService
     {
         DB::beginTransaction();
         try {
-            $status = $this->repository->doneStatus($id);
-            if ($status) {
-                return $status;
+            $doneStatus = $this->repository->doneStatus($id);
+
+            if ($doneStatus) {
+                $this->response->setTaskDeleteFailData($id, $doneStatus);
+
+                return $this->response;
             }
-            $status = $this->repository->delete($id);
+            $data = $this->repository->delete($id);
+            $this->response->setTaskDeleteData($id, $data);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
         DB::commit();
-        return $status;
+
+        return $this->response;
     }
 
 }
