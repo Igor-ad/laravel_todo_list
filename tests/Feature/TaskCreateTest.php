@@ -19,7 +19,7 @@ class TaskCreateTest extends TestCase
     {
         $this->userInit();
 
-        $response = $this->post(uri: sprintf(
+        $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',
             Path::create->value,
             $this->user->getAttribute('api_token'),
@@ -28,10 +28,8 @@ class TaskCreateTest extends TestCase
             rand(1, 5),
             fake()->jobTitle,
             fake()->paragraph(1)
-        ));
-//        $this->deleteTask(Task::all()->last()->getAttribute('id'));
+        ))->assertStatus(201);
 
-        $response->assertStatus(201);
         $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
 
