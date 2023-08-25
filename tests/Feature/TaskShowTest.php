@@ -17,14 +17,12 @@ class TaskShowTest extends TestCase
     {
         $this->init();
 
-        $response = $this->get(uri: sprintf(
+        $this->get(uri: sprintf(
             '%s%d?api_token=%s',
             Path::show->value,
-            $this->task->id,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(200);
+            $this->task->getAttribute('id'),
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(200);
     }
 
     /**
@@ -34,13 +32,11 @@ class TaskShowTest extends TestCase
     {
         $this->userInit();
 
-        $response = $this->get(uri: sprintf(
+        $this->get(uri: sprintf(
             '%s%d?api_token=%s',
             Path::show->value,
             0,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(501);
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(501);
     }
 }

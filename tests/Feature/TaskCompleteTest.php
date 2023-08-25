@@ -19,14 +19,12 @@ class TaskCompleteTest extends TestCase
     {
         $this->init();
 
-        $response = $this->put(uri: sprintf(
+        $this->put(uri: sprintf(
             "%s%d?api_token=%s",
             Path::complete->value,
-            $this->task->id,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(200);
+            $this->task->getAttribute('id'),
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(200);
     }
 
     /**
@@ -36,14 +34,12 @@ class TaskCompleteTest extends TestCase
     {
         $this->userInit();
 
-        $response = $this->put(uri: sprintf(
+        $this->put(uri: sprintf(
             "%s%d?api_token=%s",
             Path::complete->value,
             0,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(500);
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(500);
     }
 
     /**
@@ -52,11 +48,11 @@ class TaskCompleteTest extends TestCase
     public function test_attempt_to_set_task_status_to_complete_if_children_are_status_todo(): void
     {
         $this->init();
-        $taskId = $this->task->id;
+        $taskId = $this->task->getAttribute('id');
 
         $this->task = Task::factory()->create([
-            'parent_id' => $this->task->id,
-            'user_id' => $this->user->id,
+            'parent_id' => $this->task->getAttribute('id'),
+            'user_id' => $this->user->getAttribute('id'),
             'status' => TaskStatusEnum::DONE->value,
         ]);
 
@@ -64,7 +60,7 @@ class TaskCompleteTest extends TestCase
             "%s%d?api_token=%s",
             Path::complete->value,
             $taskId,
-            $this->user->api_token
+            $this->user->getAttribute('api_token'),
         ));
 
         $this->deleteTask($taskId);

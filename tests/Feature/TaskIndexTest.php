@@ -15,12 +15,12 @@ class TaskIndexTest extends TestCase
      */
     public function test_successful_access_to_task_index_path(): void
     {
-        $this->userInit();
+        $this->init();
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
             Path::index->value,
-            $this->user->api_token
+            $this->user->getAttribute('api_token'),
         ));
 
         $response->assertStatus(200);
@@ -32,11 +32,11 @@ class TaskIndexTest extends TestCase
     public function test_attempt_to_access_to_the_wrong_path(): void
     {
         $this->userInit();
-        
+
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
             '/api/tasks/wrong_path/',
-            $this->user->api_token
+            $this->user->getAttribute('api_token'),
         ));
 
         $response->assertStatus(404);

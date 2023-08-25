@@ -19,14 +19,12 @@ class TaskDeleteTest extends TestCase
     {
         $this->init();
 
-        $response = $this->delete(uri: sprintf(
+        $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
             Path::delete->value,
-            $this->task->id,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(200);
+            $this->task->getAttribute('id'),
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(200);
     }
 
     /**
@@ -36,14 +34,12 @@ class TaskDeleteTest extends TestCase
     {
         $this->init();
 
-        $response = $this->delete(uri: sprintf(
+        $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
             Path::delete->value,
             0,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(500);
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(500);
     }
 
     /**
@@ -58,13 +54,11 @@ class TaskDeleteTest extends TestCase
             'status' => TaskStatusEnum::DONE->value,
         ]);
 
-        $response = $this->delete(uri: sprintf(
+        $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
             Path::delete->value,
-            $this->task->id,
-            $this->user->api_token
-        ));
-
-        $response->assertStatus(501);
+            $this->task->getAttribute('id'),
+            $this->user->getAttribute('api_token'),
+        ))->assertStatus(501);
     }
 }
