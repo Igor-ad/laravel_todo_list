@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AnswerService;
 use App\Services\TaskCompleteService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
 class TaskCompleteController extends Controller
 {
-    use ControllerTrait, AnswerTrait;
+    use ControllerTrait;
 
     /**
      * @param TaskCompleteService $completeService
+     * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskCompleteService $completeService,
+        protected AnswerService       $answerService,
     )
     {
     }
@@ -29,7 +32,7 @@ class TaskCompleteController extends Controller
         try {
             $response = $this->completeService->complete($id);
 
-            $this->setAnswer($response);
+            $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
             $this->getCatch($e);

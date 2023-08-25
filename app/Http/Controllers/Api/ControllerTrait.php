@@ -16,7 +16,7 @@ trait ControllerTrait
         $status = 500;
         $message = $e->getMessage();
         $code = $e->getCode();
-        $this->setAnswerData(
+        $this->answerService->setAnswerData(
             status: $status,
             message: $message,
             data: null,
@@ -30,8 +30,8 @@ trait ControllerTrait
     protected function getJsonResponse(): JsonResponse
     {
         return response()->json(
-            data: [$this->answerData->getData()],
-            status: $this->answerData->status
+            data: [$this->answerService->answerData->getData()],
+            status: $this->answerService->answerData->status,
         );
     }
 }

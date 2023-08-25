@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
+use App\Services\AnswerService;
 use App\Services\ResponseService;
 use App\Services\TaskService;
 use Database\Factories\TaskUpdateDataFactory;
@@ -15,19 +16,21 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    use ControllerTrait, AnswerTrait;
+    use ControllerTrait;
 
     /**
      * @param TaskService $taskService
      * @param TaskUpdateDataFactory $updateDataFactory
      * @param TaskCreateDataFactory $createDataFactory
      * @param ResponseService $response
+     * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskService           $taskService,
         protected TaskUpdateDataFactory $updateDataFactory,
         protected TaskCreateDataFactory $createDataFactory,
         protected ResponseService       $response,
+        protected AnswerService         $answerService,
     )
     {
     }
@@ -41,7 +44,7 @@ class TaskController extends Controller
         try {
             $response = $this->taskService->show($id);
 
-            $this->setAnswer($response);
+            $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
             $this->getCatch($e);
@@ -60,7 +63,7 @@ class TaskController extends Controller
         try {
             $response = $this->taskService->update($validData);
 
-            $this->setAnswer($response);
+            $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
             $this->getCatch($e);
@@ -79,7 +82,7 @@ class TaskController extends Controller
         try {
             $response = $this->taskService->create($validData);
 
-            $this->setAnswer($response);
+            $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
             $this->getCatch($e);
@@ -96,7 +99,7 @@ class TaskController extends Controller
         try {
             $response = $this->taskService->delete($id);
 
-            $this->setAnswer($response);
+            $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
             $this->getCatch($e);

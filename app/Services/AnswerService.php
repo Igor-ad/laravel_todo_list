@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Services;
 
 use App\Data\AnswerData;
-use App\Services\ResponseService;
 use Database\Factories\AnswerDataFactory;
 
-trait AnswerTrait
+class AnswerService
 {
-    protected AnswerData $answerData;
+    public AnswerData $answerData;
 
     /**
      * @param int $status
@@ -16,26 +15,21 @@ trait AnswerTrait
      * @param object|bool|null $data
      * @param string|int|null $code
      */
-    protected function setAnswerData(
+    public function setAnswerData(
         int              $status,
         string           $message,
         object|bool|null $data,
         string|int|null  $code
     ): void
     {
-        $this->answerData = AnswerDataFactory::answerData(
-            status: $status,
-            message: $message,
-            data: $data,
-            code: $code,
-        );
+        $this->answerData = AnswerDataFactory::answerData([$status, $message, $data, $code]);
     }
 
     /**
      * @param ResponseService $responseService
      * @return void
      */
-    protected function setAnswer(ResponseService $responseService): void
+    public function setAnswer(ResponseService $responseService): void
     {
         $this->setAnswerData(
             status: $responseService->responseData->status,
@@ -44,5 +38,4 @@ trait AnswerTrait
             code: null,
         );
     }
-
 }

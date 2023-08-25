@@ -23,7 +23,7 @@ class ResponseService
         bool|object|null $data
     ): void
     {
-        $this->responseData = ResponseDataFactory::ResponseData(
+        $this->responseData = ResponseDataFactory::responseData(
             status: $status,
             message: $message,
             data: $data
