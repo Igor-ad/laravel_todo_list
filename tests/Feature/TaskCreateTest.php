@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
+use App\Models\Task;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -28,8 +29,7 @@ class TaskCreateTest extends TestCase
             fake()->jobTitle,
             fake()->paragraph(1)
         ));
-
-//        $this->deleteTask($response->json(0)['data']['id']);
+        $this->deleteTask(Task::all()->last()->getAttribute('id'));
 
         $response->assertStatus(201);
     }

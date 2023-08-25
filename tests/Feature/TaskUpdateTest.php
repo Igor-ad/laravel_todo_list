@@ -17,14 +17,12 @@ class TaskUpdateTest extends TestCase
     {
         $this->init();
 
-        $response = $this->put(uri: sprintf(
+        $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d",
             Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
-        ));
-
-        $response->assertStatus(200);
+        ))->assertStatus(200);
     }
 
     /**
@@ -34,15 +32,13 @@ class TaskUpdateTest extends TestCase
     {
         $this->init();
 
-        $response = $this->put(uri: sprintf(
+        $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
             Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             fake()->jobTitle
-        ));
-
-        $response->assertStatus(200);
+        ))->assertStatus(200);
     }
 
     /**
@@ -52,14 +48,12 @@ class TaskUpdateTest extends TestCase
     {
         $this->init();
 
-        $response = $this->put(uri: sprintf(
+        $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&status=%s",
             Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             'OK'
-        ));
-
-        $response->assertStatus(422);
+        ))->assertStatus(422);
     }
 }
