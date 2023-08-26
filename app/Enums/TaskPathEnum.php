@@ -4,11 +4,13 @@ namespace App\Enums;
 
 enum TaskPathEnum: string
 {
-    case index = '/api/tasks/';
-    case show = '/api/tasks/show/';
-    case complete = '/api/tasks/complete/';
-    case create = '/api/tasks/create/';
-    case update = '/api/tasks/update/';
-    case delete = '/api/tasks/delete/';
+    case API = '/api';
+    case index = '/tasks/';
+    case show = '/tasks/show/';
+    case complete = '/tasks/complete/';
+    case create = '/tasks/create/';
+    case update = '/tasks/update/';
+    case delete = '/tasks/delete/';
+    case login = '/login';
 
 }
