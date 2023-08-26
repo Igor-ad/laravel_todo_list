@@ -21,7 +21,7 @@ class TaskCompleteTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::complete->value,
+            Path::API->value . Path::complete->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertStatus(200);
@@ -36,7 +36,7 @@ class TaskCompleteTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::complete->value,
+            Path::API->value . Path::complete->value,
             0,
             $this->user->getAttribute('api_token'),
         ))->assertStatus(500);
@@ -58,7 +58,7 @@ class TaskCompleteTest extends TestCase
 
         $response = $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::complete->value,
+            Path::API->value . Path::complete->value,
             $taskId,
             $this->user->getAttribute('api_token'),
         ));

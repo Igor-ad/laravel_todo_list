@@ -19,7 +19,7 @@ class TaskIndexTest extends TestCase
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
-            Path::index->value,
+            Path::API->value . Path::index->value,
             $this->user->getAttribute('api_token'),
         ));
 
@@ -51,7 +51,7 @@ class TaskIndexTest extends TestCase
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
-            Path::index->value,
+            Path::API->value . Path::index->value,
             '**********'
         ));
 

@@ -19,7 +19,7 @@ class TaskShowTest extends TestCase
 
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::show->value,
+            Path::API->value . Path::show->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertStatus(200);
@@ -34,7 +34,7 @@ class TaskShowTest extends TestCase
 
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::show->value,
+            Path::API->value . Path::show->value,
             0,
             $this->user->getAttribute('api_token'),
         ))->assertStatus(501);
