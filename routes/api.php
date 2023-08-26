@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskIndexController;
-use App\Http\Controllers\Api\TaskMarkedDoneController;
+use App\Http\Controllers\Api\TaskCompleteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:api'])->group(callback: function () {
     Route::get('/tasks', [TaskIndexController::class, 'index']);
     Route::get('/tasks/show/{task}', [TaskController::class, 'show']);
-    Route::put('/tasks/complete/{task}', [TaskMarkedDoneController::class, 'complete']);
+    Route::put('/tasks/complete/{task}', [TaskCompleteController::class, 'complete']);
     Route::post('/tasks/create', [TaskController::class, 'create']);
     Route::put('/tasks/update', [TaskController::class, 'update']);
     Route::delete('/tasks/delete/{task}', [TaskController::class, 'delete']);
