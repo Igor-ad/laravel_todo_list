@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\TaskController;
 use Illuminate\Support\Facades\Route;
-use App\Enums\TaskPathEnum as Path;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get(Path::login->value, function () {
-    return redirect(Path::API->value . Path::login->value);
+Route::get('login', function () {
+    return redirect('/api/login');
 });
 
-Route::post(Path::login->value, [ 'as' => 'login']);
+Route::post('login', [ 'as' => 'login']);

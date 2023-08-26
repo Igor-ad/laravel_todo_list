@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\TaskPathEnum as Path;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskIndexController;
 use App\Http\Controllers\Api\TaskCompleteController;
@@ -18,15 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:api'])->group(callback: function () {
-    Route::get(Path::index->value, [TaskIndexController::class, 'index']);
-    Route::get(Path::show->value . '{task}', [TaskController::class, 'show']);
-    Route::put(Path::complete->value . '{task}', [TaskCompleteController::class, 'complete']);
-    Route::post(Path::create->value, [TaskController::class, 'create']);
-    Route::put(Path::update->value, [TaskController::class, 'update']);
-    Route::delete(Path::delete->value . '{task}', [TaskController::class, 'delete']);
+    Route::get('/tasks', [TaskIndexController::class, 'index']);
+    Route::get('/tasks/show/{task}', [TaskController::class, 'show']);
+    Route::put('/tasks/complete/{task}', [TaskCompleteController::class, 'complete']);
+    Route::post('/tasks/create', [TaskController::class, 'create']);
+    Route::put('/tasks/update', [TaskController::class, 'update']);
+    Route::delete('/tasks/delete/{task}', [TaskController::class, 'delete']);
 });
 
-Route::get(Path::login->value, function () {
+Route::get('/login', function () {
     return response()->json(data: [
         'status' => 200,
         'message' => __('auth.api_login'),
@@ -34,4 +33,4 @@ Route::get(Path::login->value, function () {
     ], status: 200);
 });
 
-Route::post(Path::login->value, [ 'as' => 'login']);
+Route::post('login', [ 'as' => 'login']);

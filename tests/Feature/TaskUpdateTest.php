@@ -19,7 +19,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d",
-            Path::API->value . Path::update->value,
+            Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
         ))->assertStatus(200);
@@ -34,7 +34,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
-            Path::API->value . Path::update->value,
+            Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             fake()->jobTitle
@@ -50,7 +50,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&status=%s",
-            Path::API->value . Path::update->value,
+            Path::update->value,
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             'OK'
