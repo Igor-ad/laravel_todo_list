@@ -5,9 +5,11 @@ namespace App\Repositories;
 use App\Data\TaskIndexData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
+use App\Models\User;
 use App\Services\TaskFilterService;
 use App\Services\TaskOrderService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskRepository
@@ -30,8 +32,11 @@ class TaskRepository
      */
     public function get(TaskIndexData $data): ?Collection
     {
-        return Task::where($this->filter->getFilter($data))
-            ->get();
+        return $data->hasFilter()
+            ? User::find(Auth::id())->tasks()
+                ->where($this->filter->getFilter($data))
+                ->get()
+            : User::find(Auth::id())->tasks()->get();
     }
 
     /**
@@ -40,7 +45,8 @@ class TaskRepository
      */
     public function getOrder(TaskIndexData $data): ?Collection
     {
-        return Task::where($this->filter->getFilter($data))
+        return User::find(Auth::id())->tasks()
+            ->where($this->filter->getFilter($data))
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
@@ -51,7 +57,8 @@ class TaskRepository
      */
     public function getAllFilter(TaskIndexData $data): ?Collection
     {
-        return Task::where($this->filter->getFilter($data))
+        return User::find(Auth::id())->tasks()
+            ->where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
             ->get();
     }
@@ -62,7 +69,8 @@ class TaskRepository
      */
     public function getOrderAllFilter(TaskIndexData $data): ?Collection
     {
-        return Task::where($this->filter->getFilter($data))
+        return User::find(Auth::id())->tasks()
+            ->where($this->filter->getFilter($data))
             ->whereRaw($this->filter->matchAgainstFilter($data))
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
@@ -74,8 +82,9 @@ class TaskRepository
      */
     public function doneStatus(int $id): ?Task
     {
-        return Task::where($this->filter->getFilterParam($id))
-            ->where('status', '=', TaskStatusEnum::DONE->value)
+        return User::find(Auth::id())->tasks()
+            ->where('id', $id)
+            ->where('status', TaskStatusEnum::DONE->value)
             ->first();
     }
 
@@ -85,8 +94,8 @@ class TaskRepository
      */
     public function delete(int $id): bool
     {
-        return Task::where($this->filter->getFilterParam($id))
-            ->firstOrFail()
+        return User::find(Auth::id())->tasks()
+            ->findOrFail($id)
             ->delete();
     }
 
@@ -96,8 +105,8 @@ class TaskRepository
      */
     public function complete(int $id): ?bool
     {
-        return Task::where($this->filter->getFilterParam($id))
-            ->firstOrFail()
+        return User::find(Auth::id())->tasks()
+            ->findOrFail($id)
             ->update([
                 'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),

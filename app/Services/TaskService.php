@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Data\TaskCreateData;
 use App\Data\TaskUpdateData;
 use App\Models\Task;
+use App\Models\User;
 use App\Repositories\TaskRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskService
@@ -25,7 +27,9 @@ class TaskService
      */
     public function show(int $id): ResponseService
     {
-        $data = Task::where($this->filter->getFilterParam($id))->first();
+        $data = User::find(Auth::id())->tasks()
+            ->where('id', $id)
+            ->first();
         if ($data) {
             $this->response->setTaskShowData($id, $data);
         } else {
@@ -43,10 +47,13 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            Task::where($this->filter->getFilterParam($data->id))
-                ->firstOrFail()->update($data->getData());
+            User::find(Auth::id())->tasks()
+                ->where('id', $data->id)
+                ->update($data->getData());
 
-            $data = Task::where($this->filter->getFilterParam($data->id))->first();
+            $data = User::find(Auth::id())->tasks()
+                ->where('id', $data->id)
+                ->first();
 
             $this->response->setTaskUpdateData($data);
 
