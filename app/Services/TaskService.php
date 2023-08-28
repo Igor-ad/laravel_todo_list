@@ -27,13 +27,13 @@ class TaskService
      */
     public function show(int $id): ResponseService
     {
-        $data = User::find(Auth::id())->tasks()
+        $result = User::find(Auth::id())->tasks()
             ->where('id', $id)
             ->first();
-        if ($data) {
-            $this->response->setTaskShowData($id, $data);
+        if ($result) {
+            $this->response->setTaskShowData($id, $result);
         } else {
-            $this->response->setTaskShowFailData($id, $data);
+            $this->response->setTaskShowFailData($id, $result);
         }
         return $this->response;
     }
@@ -47,16 +47,20 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            User::find(Auth::id())->tasks()
+            $result = User::find(Auth::id())->tasks()
                 ->where('id', $data->id)
                 ->update($data->getData());
 
-            $data = User::find(Auth::id())->tasks()
+            if (!$result) {
+                $this->response->setTaskUpdateFailData($data->id);
+
+                return $this->response;
+            }
+            $result = User::find(Auth::id())->tasks()
                 ->where('id', $data->id)
                 ->first();
 
-            $this->response->setTaskUpdateData($data);
-
+            $this->response->setTaskUpdateData($result);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -69,12 +73,20 @@ class TaskService
     /**
      * @param TaskCreateData $data
      * @return ResponseService
+     * @throws Exception
      */
     public function create(TaskCreateData $data): ResponseService
     {
-        $data = Task::create($data->getData());
+        DB::beginTransaction();
+        try {
+            $result = Task::create($data->getData());
 
-        $this->response->setTaskCreateData($data);
+            $this->response->setTaskCreateData($result);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
 
         return $this->response;
     }
@@ -95,8 +107,8 @@ class TaskService
 
                 return $this->response;
             }
-            $data = $this->repository->delete($id);
-            $this->response->setTaskDeleteData($id, $data);
+            $result = $this->repository->delete($id);
+            $this->response->setTaskDeleteData($id, $result);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

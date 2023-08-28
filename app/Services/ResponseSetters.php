@@ -102,6 +102,19 @@ trait ResponseSetters
     }
 
     /**
+     * @param int $id
+     * @return void
+     */
+    public function setTaskUpdateFailData(int $id): void
+    {
+        $this->setResponseData(
+            status: 406,
+            message: __('task.not_found', ['id' => $id]),
+            data: 0,
+        );
+    }
+
+    /**
      * @param bool|Task $data
      * @return void
      */

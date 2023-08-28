@@ -11,18 +11,19 @@ class TaskUpdateTest extends TestCase
     use TaskTestHelper;
 
     /**
-     * test_successful_access_to_the_task_update_path
+     * test_attempt_updated_the_task_with_wrong_id
      */
-    public function test_successful_access_to_the_task_update_path(): void
+    public function test_attempt_updated_the_task_with_wrong_id(): void
     {
         $this->init();
 
         $this->put(uri: sprintf(
-            "%s?api_token=%s&id=%d",
+            "%s?api_token=%s&id=%d&title=%s",
             Path::API->value . Path::update->value,
             $this->user->getAttribute('api_token'),
-            $this->task->getAttribute('id'),
-        ))->assertStatus(200);
+            0,
+            fake()->jobTitle
+        ))->assertStatus(406);
     }
 
     /**
