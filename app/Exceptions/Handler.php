@@ -34,10 +34,16 @@ class Handler extends ExceptionHandler
                 $e = new AuthenticationException($e->getMessage(), []);
                 return response()->json(data: [
                     'status' => 401,
-                    'message' => sprintf("%s 'eMsg: %s'", __('exception.unauthenticated'), $e->getMessage()),
+                    'message' => sprintf(
+                        "%s 'eMsg: %s'",
+                        __('exception.unauthenticated'), $e->getMessage()
+                    ),
                     'help' => __('exception.help'),
                     'code' => $e->getCode(),
-                ], status: 401);
+                ],
+                    status: 401,
+                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                );
             }
 
             if ($request->is('api/*') && !($e->getMessage() === 'Unauthenticated.')) {

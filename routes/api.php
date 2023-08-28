@@ -27,11 +27,15 @@ Route::middleware(['auth:api'])->group(callback: function () {
 });
 
 Route::get(Path::login->value, function () {
-    return response()->json(data: [
-        'status' => 200,
-        'message' => __('auth.api_login'),
-        'help' => __('exception.help'),
-    ], status: 200);
+    return response()->json(
+        data: [
+            'status' => 200,
+            'message' => __('auth.api_login'),
+            'help' => __('exception.help'),
+        ],
+        status: 200,
+        options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+    );
 });
 
-Route::post(Path::login->value, [ 'as' => 'login']);
+Route::post(Path::login->value, ['as' => 'login']);

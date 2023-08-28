@@ -13,14 +13,11 @@ trait ControllerTrait
      */
     protected function getCatch(Exception $e): void
     {
-        $status = 500;
-        $message = $e->getMessage();
-        $code = $e->getCode();
         $this->answerService->setAnswerData(
-            status: $status,
-            message: $message,
+            status: 500,
+            message: $e->getMessage(),
             data: null,
-            code: $code,
+            code: $e->getCode(),
         );
     }
 
@@ -30,8 +27,10 @@ trait ControllerTrait
     protected function getJsonResponse(): JsonResponse
     {
         return response()->json(
-            data: [$this->answerService->answerData->getData()],
+            data: $this->answerService->answerData->getData(),
             status: $this->answerService->answerData->status,
+            headers: [],
+            options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }
 }
