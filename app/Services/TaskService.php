@@ -48,16 +48,16 @@ class TaskService
         DB::beginTransaction();
         try {
             $result = User::find(Auth::id())->tasks()
-                ->where('id', $data->id)
+                ->where('id', $data->getId())
                 ->update($data->getData());
 
             if (!$result) {
-                $this->response->setTaskUpdateFailData($data->id);
+                $this->response->setTaskUpdateFailData($data->getId());
 
                 return $this->response;
             }
             $result = User::find(Auth::id())->tasks()
-                ->where('id', $data->id)
+                ->where('id', $data->getId())
                 ->first();
 
             $this->response->setTaskUpdateData($result);

@@ -13,12 +13,12 @@ class TaskCreateData
      * @param int|null $parent_id
      */
     public function __construct(
-        public readonly int    $user_id,
-        public readonly string $status,
-        public readonly int    $priority,
-        public readonly string $title,
-        public readonly string $description,
-        public readonly ?int   $parent_id = null,
+        private readonly int    $user_id,
+        private readonly string $status,
+        private readonly int    $priority,
+        private readonly string $title,
+        private readonly string $description,
+        private readonly ?int   $parent_id = null,
 
     )
     {

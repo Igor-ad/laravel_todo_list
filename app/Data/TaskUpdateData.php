@@ -13,14 +13,22 @@ class TaskUpdateData
      * @param string|null $description
      */
     public function __construct(
-        public readonly int     $id,
-        public readonly ?int    $parent_id = null,
-        public readonly ?string $status = null,
-        public readonly ?int    $priority = null,
-        public readonly ?string $title = null,
-        public readonly ?string $description = null,
+        private readonly int     $id,
+        private readonly ?int    $parent_id = null,
+        private readonly ?string $status = null,
+        private readonly ?int    $priority = null,
+        private readonly ?string $title = null,
+        private readonly ?string $description = null,
     )
     {
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
