@@ -31,4 +31,13 @@ class ResponseData
             'data' => $this->data,
         ];
     }
+
+    /**
+     * @param ResponseData $anotherOne
+     * @return bool
+     */
+    public function equals(self $anotherOne): bool
+    {
+        return $this->getResponseData() === $anotherOne->getResponseData();
+    }
 }

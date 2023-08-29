@@ -41,11 +41,11 @@ class AnswerData
     }
 
     /**
-     * @param AnswerData $other
+     * @param AnswerData $anotherOne
      * @return bool
      */
-    public function equals(self $other): bool
+    public function equals(self $anotherOne): bool
     {
-        return $this->getData() === $other->getData();
+        return $this->getData() === $anotherOne->getData();
     }
 }
