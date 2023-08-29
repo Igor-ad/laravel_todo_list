@@ -11,10 +11,10 @@ class AnswerData
      * @param int|string|null $code
      */
     public function __construct(
-        public readonly int                    $status,
-        public readonly string                 $message,
-        public readonly object|array|bool|null $data,
-        public readonly int|string|null        $code,
+        private readonly int                    $status,
+        private readonly string                 $message,
+        private readonly object|array|bool|null $data = null,
+        private readonly int|string|null        $code = null,
     )
     {
     }
@@ -30,5 +30,22 @@ class AnswerData
             'data' => $this->data,
             'code' => $this->code,
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param AnswerData $other
+     * @return bool
+     */
+    public function equals(self $other): bool
+    {
+        return $this->getData() === $other->getData();
     }
 }

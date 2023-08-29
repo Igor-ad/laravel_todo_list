@@ -28,7 +28,7 @@ trait ControllerTrait
     {
         return response()->json(
             data: $this->answerService->answerData->getData(),
-            status: $this->answerService->answerData->status,
+            status: $this->answerService->answerData->getStatus(),
             headers: [],
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );

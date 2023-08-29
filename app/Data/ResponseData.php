@@ -13,9 +13,9 @@ class ResponseData
      * @param bool|object|null $data
      */
     public function __construct(
-        public readonly int              $status,
-        public readonly string           $message,
-        public readonly bool|object|null $data = null,
+        private readonly int              $status,
+        private readonly string           $message,
+        private readonly bool|object|null $data = null,
     )
     {
     }

@@ -31,11 +31,8 @@ class AnswerService
      */
     public function setAnswer(ResponseService $responseService): void
     {
-        $this->setAnswerData(
-            status: $responseService->responseData->status,
-            message: $responseService->responseData->message,
-            data: $responseService->responseData->data,
-            code: null,
+        $this->answerData = AnswerDataFactory::answerData(
+            $responseService->responseData->getResponseData()
         );
     }
 }
