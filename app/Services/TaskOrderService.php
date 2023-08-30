@@ -2,27 +2,28 @@
 
 namespace App\Services;
 
+use App\Data\TaskIndexData;
 use App\Enums\SortOrderEnum;
 use App\Enums\SortEnum;
 
 class TaskOrderService
 {
 
+    private array $orderDirection = [];
+
     /**
-     * @param object $data
+     * @param TaskIndexData $data
      * @return array|null
      */
-    private function orderDirection(object $data): ?array
+    private function orderDirection(TaskIndexData $data): ?array
     {
-        $orderDirection = null;
-
-        foreach (SortEnum::cases() as $case) {
-            if (isset($data->{$case->value})) {
-                $direction = SortOrderEnum::from($data->{$case->value})->name;
-                $orderDirection[] = $this->orderString($case->name, $direction);
-            }
+        foreach ($data->getSort() as $key => $value) {
+            $this->orderDirection[] = $this->orderString(
+                SortEnum::from($key)->name,
+                SortOrderEnum::from($value)->name,
+            );
         }
-        return $orderDirection;
+        return $this->orderDirection;
     }
 
     /**
@@ -36,10 +37,10 @@ class TaskOrderService
     }
 
     /**
-     * @param object $data
+     * @param TaskIndexData $data
      * @return string
      */
-    public function orderExpression(object $data): string
+    public function orderExpression(TaskIndexData $data): string
     {
         return implode(', ', $this->orderDirection($data));
     }

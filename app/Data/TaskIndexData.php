@@ -2,7 +2,6 @@
 
 namespace App\Data;
 
-
 class TaskIndexData
 {
     /**
@@ -57,5 +56,28 @@ class TaskIndexData
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSort(): array
+    {
+        return array_diff([
+            'prioritySort' => $this->prioritySort,
+            'createdSort' => $this->createdSort,
+            'completedSort' => $this->completedSort,
+        ], [null]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilter(): array
+    {
+        return array_diff([
+            'status' => $this->status,
+            'priority' => $this->priority,
+        ], [null]);
     }
 }

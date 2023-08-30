@@ -7,6 +7,7 @@ use App\Enums\FilterEnum;
 
 class TaskFilterService
 {
+    private array $where = [];
 
     /**
      * @param TaskIndexData $data
@@ -14,26 +15,23 @@ class TaskFilterService
      */
     public function getFilter(TaskIndexData $data): array
     {
-        $where = [];
-
         foreach (FilterEnum::cases() as $case) {
-            if (isset($data->{$case->name})) {
-                $value = $data->{$case->name};
-                $where[] = [$case->name, $case->value, $value];
+            if (isset($data->getFilter()[$case->name])) {
+                $value = $data->getFilter()[$case->name];
+                $this->where[] = [$case->name, $case->value, $value];
             }
         }
-        return $where;
+        return $this->where;
     }
 
     /**
      * @param TaskIndexData $data
      * @return string
      */
-    public function matchAgainstFilter(TaskIndexData $data): string
+    public function fullTextFilter(TaskIndexData $data): string
     {
         $value = $data->getTitle();
 
         return "MATCH (`title`) AGAINST ('$value')";
     }
-
 }
