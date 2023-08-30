@@ -11,8 +11,8 @@
 
 #### Required version: `PHP 8.1 or later`
 
-> <span style="color: orange">Migration '...create_database_testing' will drop database 'testing' if it exists.
-> Make Backup Database 'testing', please!</span>
+> <span style="color: red">Migration '...create_database_testing' will drop database 'testing' if it exists.
+Make Backup Database 'testing', please!</span>
 
 Implemented:
 
