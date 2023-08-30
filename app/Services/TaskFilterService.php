@@ -31,7 +31,7 @@ class TaskFilterService
      */
     public function matchAgainstFilter(TaskIndexData $data): string
     {
-        $value = $data->title;
+        $value = $data->getTitle();
 
         return "MATCH (`title`) AGAINST ('$value')";
     }

@@ -14,12 +14,12 @@ class TaskIndexData
      * @param string|null $completedSort
      */
     public function __construct(
-        public readonly ?string $status = null,
-        public readonly ?int    $priority = null,
-        public readonly ?string $title = null,
-        public readonly ?string $prioritySort = null,
-        public readonly ?string $createdSort = null,
-        public readonly ?string $completedSort = null,
+        private readonly ?string $status = null,
+        private readonly ?int    $priority = null,
+        private readonly ?string $title = null,
+        private readonly ?string $prioritySort = null,
+        private readonly ?string $createdSort = null,
+        private readonly ?string $completedSort = null,
     )
     {
     }
@@ -49,5 +49,13 @@ class TaskIndexData
     public function hasTxtFilter(): bool
     {
         return isset($this->title);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 }

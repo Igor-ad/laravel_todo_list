@@ -32,7 +32,7 @@ class AnswerService
     public function setAnswer(ResponseService $responseService): void
     {
         $this->answerData = AnswerDataFactory::answerData(
-            $responseService->responseData->getResponseData()
+            $responseService->responseData->getData()
         );
     }
 }

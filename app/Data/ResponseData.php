@@ -23,7 +23,7 @@ class ResponseData
     /**
      * @return array
      */
-    public function getResponseData(): array
+    public function getData(): array
     {
         return [
             'status' => $this->status,
@@ -38,6 +38,6 @@ class ResponseData
      */
     public function equals(self $anotherOne): bool
     {
-        return $this->getResponseData() === $anotherOne->getResponseData();
+        return $this->getData() === $anotherOne->getData();
     }
 }
