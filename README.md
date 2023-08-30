@@ -11,26 +11,35 @@
 
 #### Required version: `PHP 8.1 or later`
 
-><font color="red">Migration '...create_database_testing' will drop database 'testing' if it exists. 
-Make Backup Database 'testing', please!</font>
+> <span style="color: orange">Migration '...create_database_testing' will drop database 'testing' if it exists.
+> Make Backup Database 'testing', please!</span>
 
 Implemented:
-- Model "Task", 
-- Controller "\API\TaskController", 
-- Controller "\API\TaskIndexController", 
-- Controller "\API\TaskMarkedDoneController", 
+
+- Model "Task",
+- Controller "\API\TaskController",
+- Controller "\API\TaskIndexController",
+- Controller "\API\TaskCompleteController",
 - Data validation rules "\Requests\Api\TaskRequest".
 - Data validation rules "\Requests\Api\TaskIndexRequest".
 - Class return json response for all errors of requests validation "\Requests\Api\ApiFormRequest".
+- ENUMs system.
+- TaskPathEnum consists all system paths.
+- English and Ukrainian localization files.
+- Feature tests.
+- Few Unit tests.
 
 Migration creates:
-- table "tasks",
+
+- table "tasks".
 - row "api_token" into "users" table.
+- table "testing.tasks" & "testing.users".
 
 Recursive query for searching tasks children in code, unfortunately.
 But in future the query must migrate to stored procedure.
 
 Do not implement:
+
 - Recursive delete tasks and children if parent task was deleted.
 
 ### Task searching filters and ordering expressions.
@@ -39,34 +48,35 @@ Fields for searching:
 
 ( Allowed sorting directions for GET request are set in OrderDirectionEnum, allowed 'up' and 'dw')
 
-- status     
-  - GET query `&status=todo`
-  - SQL query `status = 'todo'`
-- priority 
-  - GET query `&priority=2`
-  - SQL query `priority >= 2`
-- title     
-  - GET query `&title=Title_of_task`
-  - SQL query `(full text searching) MATCH (title) AGAINST ('Title_of_task')`
+- status
+    - GET query `&status=todo`
+    - SQL query `status = 'todo'`
+- priority
+    - GET query `&priority=2`
+    - SQL query `priority >= 2`
+- title
+    - GET query `&title=Title_of_task`
+    - SQL query `(full text searching) MATCH (title) AGAINST ('Title_of_task')`
 
 Fields for ordering:
-- priority      
-  - GET query `&prioritySort=up`
-  - SQL query `order by priority asc`
-- created_at    
-  - GET query `&createdSort=dw`
-  - SQL query `order by cteated_at desc`
-- completed_at  
-  - GET query `&completedSort=dw`
-  - SQL query `order by comlpeted_at desc`
+
+- priority
+    - GET query `&prioritySort=up`
+    - SQL query `order by priority asc`
+- created_at
+    - GET query `&createdSort=dw`
+    - SQL query `order by cteated_at desc`
+- completed_at
+    - GET query `&completedSort=dw`
+    - SQL query `order by comlpeted_at desc`
 
 Example GET query:
 
 GET `http://my_tasks_manager.com:80/tasks/?api_token=**********&status=todo&priority=2&createdSort=up&prioritySort=dw`
- 
+
 Show request
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 20:28:34 GMT
 Connection: close
@@ -78,9 +88,9 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
+"message": "All tasks",
 "data": [
 {
 "id": 375,
@@ -106,20 +116,55 @@ Access-Control-Allow-Origin: *`
 "updated_at": "2123-09-15T20:06:17.000000Z",
 "completed_at": null
 }
-],
-"message": "All tasks"
+]
+}`
+
+### Show one task only
+
+Example GET query show task id=869:
+
+GET `http://my_tasks_manager.com:80/api/tasks/show/869?api_token=**********`
+
+Show request
+
+> `HTTP/1.1 200 OK
+Host: 127.0.0.1:80
+Date: Sun, 13 Aug 2123 15:48:42 GMT
+Connection: close
+X-Powered-By: PHP/8.2.8
+Cache-Control: no-cache, private
+Date: Sun, 13 Aug 2123 15:48:42 GMT
+Content-Type: application/json
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+Access-Control-Allow-Origin: *`
+
+> `{
+"status": 200,
+"message": "Task ID 869.",
+"data": {
+"id": 869,
+"parent_id": 37,
+"user_id": 418,
+"status": "done",
+"priority": 3,
+"title": "Old Task",
+"description": " Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.",
+"created_at": "2123-08-11T11:38:39.000000Z",
+"updated_at": "2123-08-12T20:06:17.000000Z",
+"completed_at": "2123-08-12T20:06:17.000000Z"
 }
-]`
+}`
 
-### Task status is setting to 'done'
+### The status of the task is set to "done".
 
-Example GET query sets status to 'done' task id=869:
+Example PUT query sets status to 'done' task id=869:
 
-GET `http://my_tasks_manager.com:80/api/task/done/869?api_token=**********`
+PUT `http://my_tasks_manager.com:80/api/tasks/complete/869?api_token=**********`
 
 Show request (all children have status 'todo')
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 11:04:63 GMT
 Connection: close
@@ -131,17 +176,15 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
-"data": true,
-"message": "Task ID 869 was marked 'done' successfully"
-}
-]`
+"message": "Task ID 869 was marked 'done' successfully",
+"data": true
+}`
 
 Show request (children have status 'done')
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 11:04:63 GMT
 Connection: close
@@ -153,24 +196,21 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
-"data": false,
-"message": "One or more children of Task ID 1 have status 'done'."
-}
-]`
-
+"message": "One or more children of Task ID 1 have status 'done'.",
+"data": false
+}`
 
 ### Delete Task
 
 Example DELETE Query, delete task id=883:
 
-DELETE `http://my_tasks_manager.com:80/api/task/del/883?api_token=**********`
+DELETE `http://my_tasks_manager.com:80/api/tasks/delete/883?api_token=**********`
 
 Show request (Task status is 'todo')
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 15:48:42 GMT
 Connection: close
@@ -182,17 +222,15 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
-"data": true,
-"message": "Task ID 883 was deleted successfully."
-}
-]`
+"message": "Task ID 883 was deleted successfully.",
+"data": true
+}`
 
 Show request (Task status is 'done')
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 16:48:42 GMT
 Connection: close
@@ -204,9 +242,9 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
+"message": "Task ID 883 status: 'done'. Please select another task.",
 "data": {
 "id": 883,
 "parent_id": 37,
@@ -218,20 +256,18 @@ Access-Control-Allow-Origin: *`
 "created_at": "2123-08-13T11:38:39.000000Z",
 "updated_at": "2123-08-15T20:06:17.000000Z",
 "completed_at": "2123-08-15T20:06:17.000000Z"
-},
-"message": "Task ID 883 status: 'done'. Please select another task."
 }
-]`
- 
+}`
+
 ### Update Task
 
 Example Update query:
 
-PUT `http://my_tasks_manager.com:80/api/task/update/?api_token=1234567890&id=391&description=Start_new_project`
+PUT `http://my_tasks_manager.com:80/api/tasks/update/?api_token=**********&id=391&description=Start_new_project`
 
 Show request
 
->`HTTP/1.1 200 OK
+> `HTTP/1.1 200 OK
 Host: 127.0.0.1:80
 Date: Sun, 13 Aug 2123 12:00:10 GMT
 Connection: close
@@ -243,9 +279,9 @@ X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *`
 
->`[
-{
+> `{
 "status": 200,
+"message": "Task was updated successfully.",
 "data": {
 "id": 391,
 "parent_id": 47,
@@ -257,15 +293,14 @@ Access-Control-Allow-Origin: *`
 "created_at": "2123-08-12T18:45:09.000000Z",
 "updated_at": "2123-08-15T19:21:26.000000Z",
 "completed_at": "2123-08-15T19:21:26.000000Z"
-},
-"message": "Task was updated successfully."
 }
-]`
+}`
 
 ===============
 
 add branch dev
 
+===============
 
 ## About Laravel`
 
