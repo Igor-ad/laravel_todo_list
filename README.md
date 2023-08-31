@@ -28,6 +28,7 @@ Implemented:
 - English and Ukrainian localization files.
 - Feature tests.
 - Few Unit tests.
+- Implemented boolean full-text searches using the IN BOOLEAN MODE modifier ('title' field).
 
 Migration creates:
 

@@ -32,6 +32,6 @@ class TaskFilterService
     {
         $value = $data->getTitle();
 
-        return "MATCH (`title`) AGAINST ('$value')";
+        return "MATCH (`title`) AGAINST ('+$value' IN BOOLEAN MODE)";
     }
 }
