@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use Illuminate\Support\Collection;
+
 class AnswerData
 {
     /**
@@ -20,16 +22,16 @@ class AnswerData
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getData(): array
+    public function getData(): Collection
     {
-        return [
+        return collect([
             'status' => $this->status,
             'message' => $this->message,
             'data' => $this->data,
             'code' => $this->code,
-        ];
+        ]);
     }
 
     /**
@@ -46,6 +48,6 @@ class AnswerData
      */
     public function equals(self $anotherOne): bool
     {
-        return $this->getData() === $anotherOne->getData();
+        return $this->getData()->toArray() === $anotherOne->getData()->toArray();
     }
 }

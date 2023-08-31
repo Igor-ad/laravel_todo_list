@@ -15,12 +15,12 @@ class AnswerDataFactoryTest extends TestCase
     {
         $testAnswerData = new AnswerData(200, 'test', true, 'error_code');
 
-        $answerData = AnswerDataFactory::answerData([
+        $answerData = AnswerDataFactory::answerData(collect([
             200,
             'test',
             true,
             'error_code',
-        ]);
+        ]));
 
         $this->assertObjectEquals($testAnswerData, $answerData);
     }

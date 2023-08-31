@@ -25,13 +25,10 @@ class TaskFilterService
     }
 
     /**
-     * @param TaskIndexData $data
      * @return string
      */
-    public function fullTextFilter(TaskIndexData $data): string
+    public function fullTextFilter(): string
     {
-        $value = $data->getTitle();
-
-        return "MATCH (`title`) AGAINST ('+$value' IN BOOLEAN MODE)";
+        return 'MATCH (`title`) AGAINST (+? IN BOOLEAN MODE)';
     }
 }

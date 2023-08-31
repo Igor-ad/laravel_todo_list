@@ -49,7 +49,7 @@ class TaskService
         try {
             $result = User::find(Auth::id())->tasks()
                 ->where('id', $data->getId())
-                ->update($data->getData());
+                ->update($data->getData()->toArray());
 
             if (!$result) {
                 $this->response->setTaskUpdateFailData($data->getId());
@@ -79,7 +79,7 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            $result = Task::create($data->getData());
+            $result = Task::create($data->getData()->toArray());
 
             $this->response->setTaskCreateData($result);
         } catch (Exception $e) {

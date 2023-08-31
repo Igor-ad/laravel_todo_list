@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use Illuminate\Support\Collection;
+
 class TaskIndexData
 {
     /**
@@ -59,25 +61,25 @@ class TaskIndexData
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getSort(): array
+    public function getSort(): Collection
     {
-        return array_diff([
+        return collect([
             'prioritySort' => $this->prioritySort,
             'createdSort' => $this->createdSort,
             'completedSort' => $this->completedSort,
-        ], [null]);
+        ])->whereNotNull();
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getFilter(): array
+    public function getFilter(): Collection
     {
-        return array_diff([
+        return collect([
             'status' => $this->status,
             'priority' => $this->priority,
-        ], [null]);
+        ])->whereNotNull();
     }
 }

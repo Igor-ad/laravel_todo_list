@@ -4,25 +4,19 @@ namespace App\Services;
 
 use App\Data\AnswerData;
 use Database\Factories\AnswerDataFactory;
+use Illuminate\Support\Collection;
 
 class AnswerService
 {
     public AnswerData $answerData;
 
     /**
-     * @param int $status
-     * @param string $message
-     * @param object|bool|null $data
-     * @param string|int|null $code
+     * @param Collection $data
+     * @return void
      */
-    public function setAnswerData(
-        int              $status,
-        string           $message,
-        object|bool|null $data,
-        string|int|null  $code
-    ): void
+    public function setAnswerData(Collection $data): void
     {
-        $this->answerData = AnswerDataFactory::answerData([$status, $message, $data, $code]);
+        $this->answerData = AnswerDataFactory::answerData($data);
     }
 
     /**

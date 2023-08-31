@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use Illuminate\Support\Collection;
+
 class TaskUpdateData
 {
     /**
@@ -32,17 +34,17 @@ class TaskUpdateData
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getData(): array
+    public function getData(): Collection
     {
-        return array_diff([
+        return collect([
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'priority' => $this->priority,
             'title' => $this->title,
             'description' => $this->description,
-        ], [null]);
+        ])->whereNotNull();
     }
 }

@@ -59,7 +59,7 @@ class TaskRepository
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->getFilter($data))
-            ->whereRaw($this->filter->fullTextFilter($data))
+            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->get();
     }
 
@@ -71,7 +71,7 @@ class TaskRepository
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->getFilter($data))
-            ->whereRaw($this->filter->fullTextFilter($data))
+            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }

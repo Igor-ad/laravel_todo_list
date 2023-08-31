@@ -13,12 +13,12 @@ trait ControllerTrait
      */
     protected function getCatch(Exception $e): void
     {
-        $this->answerService->setAnswerData(
-            status: 500,
-            message: $e->getMessage(),
-            data: null,
-            code: $e->getCode(),
-        );
+        $this->answerService->setAnswerData(collect([
+            'status' => 500,
+            'message' => $e->getMessage(),
+            'data' => null,
+            'code' => $e->getCode(),
+        ]));
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use Illuminate\Support\Collection;
+
 class TaskCreateData
 {
     /**
@@ -25,17 +27,17 @@ class TaskCreateData
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getData(): array
+    public function getData(): Collection
     {
-        return [
+        return collect([
             'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'priority' => $this->priority,
             'title' => $this->title,
             'description' => $this->description,
-        ];
+        ]);
     }
 }
