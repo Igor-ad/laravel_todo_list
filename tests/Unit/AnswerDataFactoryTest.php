@@ -22,6 +22,6 @@ class AnswerDataFactoryTest extends TestCase
             'error_code',
         ]));
 
-        $this->assertObjectEquals($testAnswerData, $answerData);
+        $this->assertObjectEquals($answerData, $testAnswerData);
     }
 }
