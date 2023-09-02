@@ -1,6 +1,5 @@
 <?php
 
-
 use Database\Factories\AnswerDataFactory;
 use PHPUnit\Framework\TestCase;
 use App\Data\AnswerData;

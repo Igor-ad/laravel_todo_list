@@ -10,24 +10,32 @@ class ResponseDataTest extends TestCase
     /**
      * @return ResponseData
      */
-    public function getResponseDataClass(): ResponseData
+    public function testGetResponseDataClass(): ResponseData
     {
-        return new ResponseData(200, 'OK', true);
+        $responseData = new ResponseData(200, 'OK', true);
+
+        $this->assertTrue(is_a($responseData, 'App\Data\ResponseData'));
+
+        return $responseData;
     }
 
     /**
      * @return void
+     * @depends testGetResponseDataClass
      */
     public function test__construct()
     {
-        $responseData = new ResponseData(200, 'OK', true);
+        $responseData = $this->testGetResponseDataClass();
 
-        $this->assertTrue(is_a($responseData,  'App\Data\ResponseData'));
         $this->assertObjectHasProperty('status', $responseData);
         $this->assertObjectHasProperty('message', $responseData);
         $this->assertObjectHasProperty('data', $responseData);
     }
 
+    /**
+     * @return void
+     * @depends testGetResponseDataClass
+     */
     public function testGetData()
     {
         $this->assertEquals(
@@ -36,7 +44,7 @@ class ResponseDataTest extends TestCase
                 'message' => 'OK',
                 'data' => true,
             ]),
-            actual: $this->getResponseDataClass()->getData(),
+            actual: $this->testGetResponseDataClass()->getData(),
         );
     }
 }

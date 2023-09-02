@@ -10,37 +10,32 @@ class AnswerDataTest extends TestCase
     /**
      * @return AnswerData
      */
-    public function getAnswerDataClass(): AnswerData
+    public function testGetAnswerDataClass(): AnswerData
     {
-        return new AnswerData(200, 'test', new \stdClass(), 'code=987');
+        $answerData =  new AnswerData(200, 'test', true, 'code=987');
+
+        $this->assertTrue(is_a($answerData, 'App\Data\AnswerData'));
+
+        return $answerData;
     }
 
     /**
      * @return void
+     * @depends testGetAnswerDataClass
      */
     public function test__construct()
     {
-        $answerData = new AnswerData(200, 'test', true, 'code=987');
+        $answerData = $this->testGetAnswerDataClass();
 
-        $this->assertTrue(is_a($answerData,  'App\Data\AnswerData'));
         $this->assertObjectHasProperty('status', $answerData);
         $this->assertObjectHasProperty('message', $answerData);
         $this->assertObjectHasProperty('data', $answerData);
         $this->assertObjectHasProperty('code', $answerData);
-
-        $this->assertEquals(
-            expected: collect([
-                'status' => 200,
-                'message' => 'test',
-                'data' => true,
-                'code' => 'code=987'
-            ]),
-            actual: $answerData->getData(),
-        );
     }
 
     /**
      * @return void
+     * @depends testGetAnswerDataClass
      */
     public function testGetData()
     {
@@ -48,21 +43,22 @@ class AnswerDataTest extends TestCase
             expected: collect([
                 'status' => 200,
                 'message' => 'test',
-                'data' => new \stdClass(),
+                'data' => true,
                 'code' => 'code=987'
             ]),
-            actual: $this->getAnswerDataClass()->getData(),
+            actual: $this->testGetAnswerDataClass()->getData(),
         );
     }
 
     /**
      * @return void
+     * @depends testGetAnswerDataClass
      */
     public function testGetStatus()
     {
         $this->assertEquals(
             expected: 200,
-            actual: $this->getAnswerDataClass()->getStatus(),
+            actual: $this->testGetAnswerDataClass()->getStatus(),
         );
     }
 }
