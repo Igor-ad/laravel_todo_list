@@ -17,6 +17,9 @@ class TaskUpdateTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
             Path::API->value . Path::update->value,
@@ -33,6 +36,9 @@ class TaskUpdateTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
             Path::API->value . Path::update->value,
@@ -48,6 +54,9 @@ class TaskUpdateTest extends TestCase
     public function test_attempt_updated_the_task_with_wrong_field(): void
     {
         $this->init();
+
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&status=%s",

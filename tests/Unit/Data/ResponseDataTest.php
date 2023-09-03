@@ -12,7 +12,7 @@ class ResponseDataTest extends TestCase
      */
     public function testGetResponseDataClass(): ResponseData
     {
-        $responseData = new ResponseData(200, 'OK', true);
+        $responseData = new ResponseData(status: 200, message: 'OK', data: true);
 
         $this->assertTrue(is_a($responseData, 'App\Data\ResponseData'));
 

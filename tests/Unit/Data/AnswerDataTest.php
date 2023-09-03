@@ -12,7 +12,9 @@ class AnswerDataTest extends TestCase
      */
     public function testGetAnswerDataClass(): AnswerData
     {
-        $answerData =  new AnswerData(200, 'test', true, 'code=987');
+        $answerData = new AnswerData(
+            status: 200, message: 'test', data: true, code: 'code=987'
+        );
 
         $this->assertTrue(is_a($answerData, 'App\Data\AnswerData'));
 

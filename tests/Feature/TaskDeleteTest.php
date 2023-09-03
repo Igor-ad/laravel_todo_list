@@ -19,6 +19,9 @@ class TaskDeleteTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
             Path::API->value . Path::delete->value,
@@ -33,6 +36,9 @@ class TaskDeleteTest extends TestCase
     public function test_attempt_to_delete_task_if_task_does_not_exist(): void
     {
         $this->init();
+
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
 
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
@@ -49,10 +55,14 @@ class TaskDeleteTest extends TestCase
     {
         $this->userInit();
 
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->task = Task::factory()->create([
             'user_id' => $this->user->id,
             'status' => TaskStatusEnum::DONE->value,
         ]);
+
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
 
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',

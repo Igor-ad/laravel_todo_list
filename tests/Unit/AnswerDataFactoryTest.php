@@ -12,7 +12,9 @@ class AnswerDataFactoryTest extends TestCase
      */
     public function testAnswerDataFactoryTest()
     {
-        $testAnswerData = new AnswerData(200, 'test', true, 'error_code');
+        $testAnswerData = new AnswerData(
+            status: 200, message: 'test', data: true, code: 'error_code'
+        );
 
         $answerData = AnswerDataFactory::answerData(collect([
             200,

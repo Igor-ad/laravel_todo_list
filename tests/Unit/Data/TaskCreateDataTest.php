@@ -12,7 +12,14 @@ class TaskCreateDataTest extends TestCase
      */
     public function testGetTaskCreateDataClass(): TaskCreateData
     {
-        $taskCreateData = new TaskCreateData(1, 'todo', 3, 'test', 'New Test', 2);
+        $taskCreateData = new TaskCreateData(
+            user_id: 1,
+            status: 'todo',
+            priority: 3,
+            title: 'test',
+            description: 'New Test',
+            parent_id: 2,
+        );
 
         $this->assertTrue(is_a($taskCreateData, 'App\Data\TaskCreateData'));
 

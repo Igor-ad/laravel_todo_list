@@ -17,6 +17,9 @@ class TaskShowTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',
             Path::API->value . Path::show->value,
@@ -31,6 +34,8 @@ class TaskShowTest extends TestCase
     public function test_the_task_id_is_not_found_in_the_system(): void
     {
         $this->userInit();
+
+        $this->assertDatabaseHas('users', $this->user->toArray());
 
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',

@@ -13,7 +13,12 @@ class TaskIndexDataTest extends TestCase
     public function testGetTaskIndexData(): TaskIndexData
     {
         $indexData = new TaskIndexData(
-            'todo', 2, 'test', 'up', 'dw', 'up'
+            status: 'todo',
+            priority: 2,
+            title: 'test',
+            prioritySort: 'up',
+            createdSort: 'dw',
+            completedSort: 'up',
         );
         $this->assertTrue(is_a($indexData, 'App\Data\TaskIndexData'));
 

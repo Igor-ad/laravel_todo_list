@@ -17,6 +17,9 @@ class TaskIndexTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
             Path::API->value . Path::index->value,
@@ -33,6 +36,8 @@ class TaskIndexTest extends TestCase
     {
         $this->userInit();
 
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",
             '/api/tasks/wrong_path/',
@@ -48,6 +53,8 @@ class TaskIndexTest extends TestCase
     public function test_attempt_unauthorized_access_to_the_task_index_path(): void
     {
         $this->userInit();
+
+        $this->assertDatabaseHas('users', $this->user->toArray());
 
         $response = $this->get(uri: sprintf(
             "%s?api_token=%s",

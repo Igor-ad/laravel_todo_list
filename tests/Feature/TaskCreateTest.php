@@ -19,6 +19,8 @@ class TaskCreateTest extends TestCase
     {
         $this->userInit();
 
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',
             Path::API->value . Path::create->value,
@@ -40,6 +42,8 @@ class TaskCreateTest extends TestCase
     {
         $this->userInit();
 
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->post(uri: sprintf(
             '%s?api_token=%s&status=%s&priority=%d&title=%s&description=%s',
             Path::API->value . Path::create->value,
@@ -59,6 +63,8 @@ class TaskCreateTest extends TestCase
     public function test_the_task_sample_does_not_created_with_the_wrong_field(): void
     {
         $this->userInit();
+
+        $this->assertDatabaseHas('users', $this->user->toArray());
 
         $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',

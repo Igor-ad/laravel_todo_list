@@ -10,12 +10,14 @@ class ResponseDataFactoryTest extends TestCase
 
     public function testResponseDataFactoryTest()
     {
-        $testResponseData = new ResponseData(201, 'test', true);
+        $testResponseData = new ResponseData(
+            status: 201, message: 'test', data: true
+        );
 
         $responseData = ResponseDataFactory::responseData(
-            201,
-            'test',
-            true,
+            status: 201,
+            message: 'test',
+            data: true,
         );
 
         $this->assertObjectEquals($testResponseData, $responseData);

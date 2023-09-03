@@ -12,7 +12,14 @@ class TaskUpdateDataTest extends TestCase
      */
     public function testGetUpdateDataClass(): TaskUpdateData
     {
-        $updateData = new TaskUpdateData(10, 2, 'todo', 5, 'test', 'New Test');
+        $updateData = new TaskUpdateData(
+            id: 10,
+            parent_id: 2,
+            status: 'todo',
+            priority: 5,
+            title: 'test',
+            description: 'New Test'
+        );
 
         $this->assertTrue(is_a($updateData, 'App\Data\TaskUpdateData'));
 

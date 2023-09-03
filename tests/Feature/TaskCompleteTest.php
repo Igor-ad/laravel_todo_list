@@ -19,6 +19,9 @@ class TaskCompleteTest extends TestCase
     {
         $this->init();
 
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
             Path::API->value . Path::complete->value,
@@ -34,6 +37,8 @@ class TaskCompleteTest extends TestCase
     {
         $this->userInit();
 
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
             Path::API->value . Path::complete->value,
@@ -48,6 +53,10 @@ class TaskCompleteTest extends TestCase
     public function test_attempt_to_set_task_status_to_complete_if_children_are_status_todo(): void
     {
         $this->init();
+
+        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertDatabaseHas('users', $this->user->toArray());
+
         $taskId = $this->task->getAttribute('id');
 
         $this->task = Task::factory()->create([
