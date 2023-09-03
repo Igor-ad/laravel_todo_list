@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 
 trait ControllerTrait
 {
@@ -13,12 +14,17 @@ trait ControllerTrait
      */
     protected function getCatch(Exception $e): void
     {
-        $this->answerService->setAnswerData(collect([
+        $this->answerService->setAnswerData($this->eFormatter($e));
+    }
+
+    protected function eFormatter(Exception $e): Collection
+    {
+        return collect([
             'status' => 500,
             'message' => $e->getMessage(),
             'data' => null,
             'code' => $e->getCode(),
-        ]));
+        ]);
     }
 
     /**

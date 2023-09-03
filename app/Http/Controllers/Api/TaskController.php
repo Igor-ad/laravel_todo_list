@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
 use App\Services\AnswerService;
-use App\Services\ResponseService;
 use App\Services\TaskService;
 use Database\Factories\TaskUpdateDataFactory;
 use Database\Factories\TaskCreateDataFactory;
@@ -22,14 +21,12 @@ class TaskController extends Controller
      * @param TaskService $taskService
      * @param TaskUpdateDataFactory $updateDataFactory
      * @param TaskCreateDataFactory $createDataFactory
-     * @param ResponseService $response
      * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskService           $taskService,
         protected TaskUpdateDataFactory $updateDataFactory,
         protected TaskCreateDataFactory $createDataFactory,
-        protected ResponseService       $response,
         protected AnswerService         $answerService,
     )
     {
