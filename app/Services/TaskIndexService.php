@@ -29,8 +29,9 @@ class TaskIndexService
             default => $this->repository->get($data),
         };
 
-        if ($data->isEmpty()) $this->response->setTaskIndexFailData($data);
-        else $this->response->setTaskIndexData($data);
+        ($data->isEmpty())
+            ? $this->response->setTaskIndexFailData($data)
+            : $this->response->setTaskIndexData($data);
 
         return $this->response;
     }

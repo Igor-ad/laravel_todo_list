@@ -31,7 +31,7 @@ class AnswerData
             'message' => $this->message,
             'data' => $this->data,
             'code' => $this->code,
-        ]);
+        ])->whereNotNull();
     }
 
     /**

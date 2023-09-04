@@ -32,7 +32,7 @@ trait TaskTestHelper
      */
     private function setTask(): void
     {
-        $this->task = Task::factory()->create(['user_id' => $this->user->id]);
+        $this->task = Task::factory()->create(['user_id' => $this->user->getAttribute('id')]);
     }
 
     /**

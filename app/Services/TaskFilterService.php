@@ -13,7 +13,7 @@ class TaskFilterService
      * @param TaskIndexData $data
      * @return array
      */
-    public function getFilter(TaskIndexData $data): array
+    public function filter(TaskIndexData $data): array
     {
         foreach (FilterEnum::cases() as $case) {
             if (isset($data->getFilter()[$case->name])) {

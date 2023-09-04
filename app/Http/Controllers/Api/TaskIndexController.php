@@ -12,8 +12,6 @@ use Illuminate\Http\JsonResponse;
 
 class TaskIndexController extends Controller
 {
-    use ControllerTrait;
-
     /**
      * @param TaskIndexService $taskIndexService
      * @param TaskDataFactory $taskFactory
@@ -41,9 +39,9 @@ class TaskIndexController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
 }

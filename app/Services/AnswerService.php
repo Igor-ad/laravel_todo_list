@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class AnswerService
 {
+    use AnswerSetters;
+
     public AnswerData $answerData;
 
     /**

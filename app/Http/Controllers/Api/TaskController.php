@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    use ControllerTrait;
-
     /**
      * @param TaskService $taskService
      * @param TaskUpdateDataFactory $updateDataFactory
@@ -44,9 +42,9 @@ class TaskController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
     /**
@@ -63,9 +61,9 @@ class TaskController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
     /**
@@ -82,9 +80,9 @@ class TaskController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
     /**
@@ -99,9 +97,9 @@ class TaskController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
 }

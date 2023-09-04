@@ -63,9 +63,11 @@ class TaskIndexData
     /**
      * @return Collection
      */
-    public function getSort(): Collection
+    public function getData(): Collection
     {
         return collect([
+            'status' => $this->status,
+            'priority' => $this->priority,
             'prioritySort' => $this->prioritySort,
             'createdSort' => $this->createdSort,
             'completedSort' => $this->completedSort,
@@ -75,11 +77,23 @@ class TaskIndexData
     /**
      * @return Collection
      */
+    public function getSort(): Collection
+    {
+        return $this->getData()->only([
+            'prioritySort',
+            'createdSort',
+            'completedSort'
+        ]);
+    }
+
+    /**
+     * @return Collection
+     */
     public function getFilter(): Collection
     {
-        return collect([
-            'status' => $this->status,
-            'priority' => $this->priority,
-        ])->whereNotNull();
+        return $this->getData()->only([
+            'status',
+            'priority'
+        ]);
     }
 }

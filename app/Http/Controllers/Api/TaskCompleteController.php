@@ -10,8 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class TaskCompleteController extends Controller
 {
-    use ControllerTrait;
-
     /**
      * @param TaskCompleteService $completeService
      * @param AnswerService $answerService
@@ -35,9 +33,9 @@ class TaskCompleteController extends Controller
             $this->answerService->setAnswer($response);
 
         } catch (Exception $e) {
-            $this->getCatch($e);
+            $this->answerService->setExceptionAnswer($e);
         }
-        return $this->getJsonResponse();
+        return $this->answerService->getJsonResponse();
     }
 
 }
