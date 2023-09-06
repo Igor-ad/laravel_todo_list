@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 trait AnswerSetters
 {
@@ -24,7 +25,7 @@ trait AnswerSetters
     protected function eFormatter(Exception $e): Collection
     {
         return collect([
-            'status' => 500,
+            'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
             'message' => $e->getMessage(),
             'data' => null,
             'code' => $e->getCode(),
@@ -39,7 +40,6 @@ trait AnswerSetters
         return response()->json(
             data: $this->answerData->getData(),
             status: $this->answerData->getStatus(),
-            headers: [],
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }

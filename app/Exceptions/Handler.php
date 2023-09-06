@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,27 +33,32 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof AuthenticationException) {
                 $e = new AuthenticationException($e->getMessage(), []);
-                return response()->json(data: [
-                    'status' => 401,
-                    'message' => sprintf(
-                        "%s 'eMsg: %s'",
-                        __('exception.unauthenticated'), $e->getMessage()
-                    ),
-                    'help' => __('exception.help'),
-                    'code' => $e->getCode(),
-                ],
-                    status: 401,
-                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                return response()->json(
+                    data: [
+                        'status' => Response::HTTP_UNAUTHORIZED,
+                        'message' => sprintf(
+                            "%s 'eMsg: %s'",
+                            __('exception.unauthenticated'), $e->getMessage()
+                        ),
+                        'help' => __('exception.help'),
+                        'code' => $e->getCode(),
+                    ],
+                    status: Response::HTTP_UNAUTHORIZED,
+                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
                 );
             }
 
             if ($request->is('api/*') && !($e->getMessage() === 'Unauthenticated.')) {
-                return response()->json(data: [
-                    'status' => 404,
-                    'message' => __('exception.404', ['message' => $e->getMessage()]),
-                    'help' => __('exception.help'),
-                    'code' => $e->getCode(),
-                ], status: 404);
+                return response()->json(
+                    data: [
+                        'status' => Response::HTTP_NOT_FOUND,
+                        'message' => __('exception.404', ['message' => $e->getMessage()]),
+                        'help' => __('exception.help'),
+                        'code' => $e->getCode(),
+                    ],
+                    status: Response::HTTP_NOT_FOUND,
+                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
+                );
             }
         });
     }

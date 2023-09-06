@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseSetters
 {
@@ -14,7 +15,7 @@ trait ResponseSetters
     public function setTaskIndexData(Collection $data): void
     {
         $this->setResponseData(
-            status: 200,
+            status: Response::HTTP_OK,
             message: __('task.index'),
             data: $data,
         );
@@ -27,7 +28,7 @@ trait ResponseSetters
     public function setTaskIndexFailData(?Collection $data): void
     {
         $this->setResponseData(
-            status: 500,
+            status: Response::HTTP_NOT_IMPLEMENTED,
             message: __('task.index_filter_fail'),
             data: $data,
         );
@@ -41,7 +42,7 @@ trait ResponseSetters
     public function setTaskCompleteData(int $id, bool $data): void
     {
         $this->setResponseData(
-            status: 200,
+            status: Response::HTTP_OK,
             message: __('task.market_done', ['id' => $id]),
             data: $data,
         );
@@ -54,7 +55,7 @@ trait ResponseSetters
     public function setTaskCompleteFailData(int $id): void
     {
         $this->setResponseData(
-            status: 501,
+            status: Response::HTTP_NOT_IMPLEMENTED,
             message: __('task.market_done_fail', ['id' => $id]),
             data: false,
         );
@@ -68,7 +69,7 @@ trait ResponseSetters
     public function setTaskShowData(int $id, ?Task $data): void
     {
         $this->setResponseData(
-            status: 200,
+            status: Response::HTTP_OK,
             message: __('task.show', ['id' => $id]),
             data: $data,
         );
@@ -82,7 +83,7 @@ trait ResponseSetters
     public function setTaskShowFailData(int $id, ?Task $data): void
     {
         $this->setResponseData(
-            status: 501,
+            status: Response::HTTP_NOT_IMPLEMENTED,
             message: __('task.not_found', ['id' => $id]),
             data: $data,
         );
@@ -95,7 +96,7 @@ trait ResponseSetters
     public function setTaskUpdateData(bool|Task $data): void
     {
         $this->setResponseData(
-            status: 200,
+            status: Response::HTTP_OK,
             message: __('task.update'),
             data: $data,
         );
@@ -108,7 +109,7 @@ trait ResponseSetters
     public function setTaskUpdateFailData(int $id): void
     {
         $this->setResponseData(
-            status: 406,
+            status: Response::HTTP_NOT_ACCEPTABLE,
             message: __('task.not_found', ['id' => $id]),
             data: 0,
         );
@@ -121,7 +122,7 @@ trait ResponseSetters
     public function setTaskCreateData(bool|Task $data): void
     {
         $this->setResponseData(
-            status: 201,
+            status: Response::HTTP_CREATED,
             message: __('task.create'),
             data: $data,
         );
@@ -135,7 +136,7 @@ trait ResponseSetters
     public function setTaskDeleteData(int $id, bool $data): void
     {
         $this->setResponseData(
-            status: 200,
+            status: Response::HTTP_OK,
             message: __('task.delete_success', ['id' => $id]),
             data: $data,
         );
@@ -149,7 +150,7 @@ trait ResponseSetters
     public function setTaskDeleteFailData(int $id, ?Task $data): void
     {
         $this->setResponseData(
-            status: 501,
+            status: Response::HTTP_NOT_IMPLEMENTED,
             message: __('task.delete_fail', ['id' => $id]),
             data: $data,
         );

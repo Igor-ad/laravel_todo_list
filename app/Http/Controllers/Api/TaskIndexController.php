@@ -13,13 +13,13 @@ use Illuminate\Http\JsonResponse;
 class TaskIndexController extends Controller
 {
     /**
-     * @param TaskIndexService $taskIndexService
-     * @param TaskDataFactory $taskFactory
+     * @param TaskIndexService $indexService
+     * @param TaskDataFactory $dataFactory
      * @param AnswerService $answerService
      */
     public function __construct(
-        protected TaskIndexService $taskIndexService,
-        protected TaskDataFactory  $taskFactory,
+        protected TaskIndexService $indexService,
+        protected TaskDataFactory  $dataFactory,
         protected AnswerService    $answerService,
     )
     {
@@ -31,10 +31,10 @@ class TaskIndexController extends Controller
      */
     public function index(TaskIndexRequest $request): JsonResponse
     {
-        $validData = $this->taskFactory->getValidData($request);
+        $validData = $this->dataFactory->getValidData($request);
 
         try {
-            $response = $this->taskIndexService->index($validData);
+            $response = $this->indexService->index($validData);
 
             $this->answerService->setAnswer($response);
 

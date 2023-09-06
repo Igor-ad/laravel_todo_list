@@ -15,9 +15,14 @@ abstract class ApiFormRequest extends FormRequest
         $errors = (new ValidationException($validator))->errors();
 
         throw new HttpResponseException(
-            response: response()->json([
-            'errors' => $errors
-        ], status: Response::HTTP_UNPROCESSABLE_ENTITY));
+            response: response()->json(
+                data: [
+                    'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                    'errors' => $errors,
+                ],
+                status: Response::HTTP_UNPROCESSABLE_ENTITY,
+                options: JSON_PRETTY_PRINT,
+            ));
     }
 
     abstract function authorize();
