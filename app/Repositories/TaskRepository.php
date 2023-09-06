@@ -16,12 +16,12 @@ class TaskRepository
 {
 
     /**
-     * @param TaskFilterService $filter
-     * @param TaskOrderService $order
+     * @param TaskFilterService $filterService
+     * @param TaskOrderService $orderService
      */
     public function __construct(
-        protected TaskFilterService $filter,
-        protected TaskOrderService  $order,
+        protected TaskFilterService $filterService,
+        protected TaskOrderService  $orderService,
     )
     {
     }
@@ -34,7 +34,7 @@ class TaskRepository
     {
         return $data->hasFilter()
             ? User::find(Auth::id())->tasks()
-                ->where($this->filter->getFilter($data))
+                ->where($this->filterService->filter($data))
                 ->get()
             : User::find(Auth::id())->tasks()->get();
     }
@@ -46,8 +46,8 @@ class TaskRepository
     public function getOrder(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filter->getFilter($data))
-            ->orderByRaw($this->order->orderExpression($data))
+            ->where($this->filterService->filter($data))
+            ->orderByRaw($this->orderService->orderExpression($data))
             ->get();
     }
 
@@ -58,8 +58,8 @@ class TaskRepository
     public function getAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filter->getFilter($data))
-            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
+            ->where($this->filterService->filter($data))
+            ->whereRaw($this->filterService->fullTextFilter(), [$data->getTitle()])
             ->get();
     }
 
@@ -70,9 +70,9 @@ class TaskRepository
     public function getOrderAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filter->getFilter($data))
-            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
-            ->orderByRaw($this->order->orderExpression($data))
+            ->where($this->filterService->filter($data))
+            ->whereRaw($this->filterService->fullTextFilter(), [$data->getTitle()])
+            ->orderByRaw($this->orderService->orderExpression($data))
             ->get();
     }
 
