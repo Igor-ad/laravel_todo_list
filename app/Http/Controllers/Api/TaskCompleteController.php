@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\AnswerService;
 use App\Services\TaskCompleteService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,13 +11,12 @@ class TaskCompleteController extends Controller
 {
     /**
      * @param TaskCompleteService $completeService
-     * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskCompleteService $completeService,
-        protected AnswerService       $answerService,
     )
     {
+        parent::__construct(answerService: $this->answerService);
     }
 
     /**

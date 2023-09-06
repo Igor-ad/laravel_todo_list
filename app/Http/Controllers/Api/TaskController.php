@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller as parentAlias;
 use App\Http\Requests\Api\TaskRequest;
 use App\Http\Requests\Api\TaskUpdateRequest;
-use App\Services\AnswerService;
 use App\Services\TaskService;
 use Database\Factories\TaskUpdateDataFactory;
 use Database\Factories\TaskCreateDataFactory;
@@ -13,21 +12,20 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+class TaskController extends parentAlias
 {
     /**
      * @param TaskService $taskService
      * @param TaskUpdateDataFactory $updateDataFactory
      * @param TaskCreateDataFactory $createDataFactory
-     * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskService           $taskService,
         protected TaskUpdateDataFactory $updateDataFactory,
         protected TaskCreateDataFactory $createDataFactory,
-        protected AnswerService         $answerService,
     )
     {
+        parent::__construct(answerService: $this->answerService);
     }
 
     /**
