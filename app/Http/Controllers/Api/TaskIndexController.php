@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskIndexRequest;
+use App\Services\AnswerService;
 use App\Services\TaskIndexService;
 use Database\Factories\TaskDataFactory;
 use Exception;
@@ -14,13 +15,14 @@ class TaskIndexController extends Controller
     /**
      * @param TaskIndexService $indexService
      * @param TaskDataFactory $dataFactory
+     * @param AnswerService $answerService
      */
     public function __construct(
         protected TaskIndexService $indexService,
         protected TaskDataFactory  $dataFactory,
+        protected AnswerService    $answerService,
     )
     {
-        parent::__construct(answerService: $this->answerService);
     }
 
     /**
