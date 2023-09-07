@@ -72,7 +72,7 @@ class TaskController extends Controller
      */
     public function create(TaskRequest $request): JsonResponse
     {
-        $validData = $this->createDataFactory->getValidData(Auth::id(), $request);
+        $validData = $this->createDataFactory->getValidData($request);
 
         try {
             $response = $this->taskService->create($validData);

@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 class TaskCreateData implements RequestDataInterface
 {
     /**
-     * @param int $user_id
      * @param string $status
      * @param int $priority
      * @param string $title
@@ -15,7 +14,6 @@ class TaskCreateData implements RequestDataInterface
      * @param int|null $parent_id
      */
     public function __construct(
-        private readonly int    $user_id,
         private readonly string $status,
         private readonly int    $priority,
         private readonly string $title,
@@ -32,7 +30,6 @@ class TaskCreateData implements RequestDataInterface
     public function getData(): Collection
     {
         return collect([
-            'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'priority' => $this->priority,

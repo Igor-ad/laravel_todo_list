@@ -12,7 +12,7 @@ class TaskDataFactory implements RequestDataFactoryInterface
      * @param TaskIndexRequest|ApiRequestInterface $request
      * @return TaskIndexData
      */
-    public function getValidData(TaskIndexRequest|\App\Http\Requests\Api\ApiRequestInterface $request): TaskIndexData
+    public function getValidData(TaskIndexRequest|ApiRequestInterface $request): TaskIndexData
     {
         return new TaskIndexData(...$request->validated());
     }

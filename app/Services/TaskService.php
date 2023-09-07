@@ -79,7 +79,10 @@ class TaskService
     {
         DB::beginTransaction();
         try {
-            $result = Task::create($data->getData()->toArray());
+            $result = Task::create(array_merge(
+                ['user_id' => Auth::id()],
+                $data->getData()->toArray()),
+            );
 
             $this->response->setTaskCreateData($result);
         } catch (Exception $e) {

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use App\Enums\TaskStatusEnum as Status;
 
-class TaskUpdateRequest extends TaskRequest
+class TaskUpdateRequest extends TaskRequest implements ApiRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.

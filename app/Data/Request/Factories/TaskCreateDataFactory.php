@@ -6,15 +6,14 @@ use App\Data\Request\TaskCreateData;
 use App\Http\Requests\Api\ApiRequestInterface;
 use App\Http\Requests\Api\TaskRequest;
 
-class TaskCreateDataFactory implements ApiRequestInterface
+class TaskCreateDataFactory implements RequestDataFactoryInterface
 {
     /**
-     * @param TaskRequest $request
-     * @param int $userId
+     * @param TaskRequest|ApiRequestInterface $request
      * @return TaskCreateData
      */
-    public function getValidData(int $userId, TaskRequest $request): TaskCreateData
+    public function getValidData(TaskRequest|ApiRequestInterface $request): TaskCreateData
     {
-        return new TaskCreateData($userId, ...$request->validated());
+        return new TaskCreateData(...$request->validated());
     }
 }

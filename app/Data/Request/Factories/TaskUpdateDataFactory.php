@@ -6,13 +6,13 @@ use App\Data\Request\TaskUpdateData;
 use App\Http\Requests\Api\ApiRequestInterface;
 use App\Http\Requests\Api\TaskUpdateRequest;
 
-class TaskUpdateDataFactory implements ApiRequestInterface
+class TaskUpdateDataFactory implements RequestDataFactoryInterface
 {
     /**
-     * @param TaskUpdateRequest $request
+     * @param TaskUpdateRequest|ApiRequestInterface $request
      * @return TaskUpdateData
      */
-    public function getValidData(TaskUpdateRequest $request): TaskUpdateData
+    public function getValidData(TaskUpdateRequest|ApiRequestInterface $request): TaskUpdateData
     {
         return new TaskUpdateData(...$request->validated());
     }

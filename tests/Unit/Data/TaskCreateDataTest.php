@@ -13,7 +13,6 @@ class TaskCreateDataTest extends TestCase
     public function testGetTaskCreateDataClass(): TaskCreateData
     {
         $taskCreateData = new TaskCreateData(
-            user_id: 1,
             status: 'todo',
             priority: 3,
             title: 'test',
@@ -35,7 +34,6 @@ class TaskCreateDataTest extends TestCase
     {
         $taskCreateData = $this->testGetTaskCreateDataClass();
 
-        $this->assertObjectHasProperty('user_id', $taskCreateData);
         $this->assertObjectHasProperty('status', $taskCreateData);
         $this->assertObjectHasProperty('priority', $taskCreateData);
         $this->assertObjectHasProperty('title', $taskCreateData);
@@ -51,7 +49,6 @@ class TaskCreateDataTest extends TestCase
     {
         $this->assertEquals(
             expected: collect([
-                'user_id' => 1,
                 'status' => 'todo',
                 'priority' => 3,
                 'title' => 'test',
