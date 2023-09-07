@@ -11,7 +11,6 @@ use App\Data\Request\Factories\TaskUpdateDataFactory;
 use App\Data\Request\Factories\TaskCreateDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
