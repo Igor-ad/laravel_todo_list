@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Data\TaskCreateData;
-use App\Data\TaskUpdateData;
+use App\Data\Request\TaskCreateData;
+use App\Data\Request\TaskUpdateData;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepository;

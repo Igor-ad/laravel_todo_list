@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Data\TaskIndexData;
+use App\Data\Request\TaskIndexData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Models\User;

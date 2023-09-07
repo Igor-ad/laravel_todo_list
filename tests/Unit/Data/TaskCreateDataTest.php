@@ -2,7 +2,7 @@
 
 namespace Data;
 
-use App\Data\TaskCreateData;
+use App\Data\Request\TaskCreateData;
 use PHPUnit\Framework\TestCase;
 
 class TaskCreateDataTest extends TestCase
@@ -21,7 +21,7 @@ class TaskCreateDataTest extends TestCase
             parent_id: 2,
         );
 
-        $this->assertTrue(is_a($taskCreateData, 'App\Data\TaskCreateData'));
+        $this->assertTrue(is_a($taskCreateData, 'App\Data\Request\TaskCreateData'));
 
         return $taskCreateData;
 

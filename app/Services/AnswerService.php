@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Data\AnswerData;
-use Database\Factories\AnswerDataFactory;
+use App\Data\Response\AnswerData;
+use App\Data\Response\Factories\AnswerDataFactory;
 use Illuminate\Support\Collection;
 
 class AnswerService
@@ -18,7 +18,7 @@ class AnswerService
      */
     public function setAnswerData(Collection $data): void
     {
-        $this->answerData = AnswerDataFactory::answerData($data);
+        $this->answerData = AnswerDataFactory::getDTO($data);
     }
 
     /**
@@ -27,7 +27,7 @@ class AnswerService
      */
     public function setAnswer(ResponseService $responseService): void
     {
-        $this->answerData = AnswerDataFactory::answerData(
+        $this->answerData = AnswerDataFactory::getDTO(
             $responseService->responseData->getData()
         );
     }

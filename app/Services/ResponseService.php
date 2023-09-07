@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Data\ResponseData;
-use Database\Factories\ResponseDataFactory;
+use App\Data\Response\ResponseData;
+Use App\Data\Response\Factories\ResponseDataFactory;
 
 class ResponseService
 {
@@ -23,11 +23,9 @@ class ResponseService
         bool|object|null $data
     ): void
     {
-        $this->responseData = ResponseDataFactory::responseData(
-            status: $status,
-            message: $message,
-            data: $data
-        );
+        $this->responseData = ResponseDataFactory::getDTO(collect([
+            $status, $message, $data
+        ]));
     }
 
 }

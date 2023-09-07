@@ -2,7 +2,7 @@
 
 namespace Data;
 
-use App\Data\TaskUpdateData;
+use App\Data\Request\TaskUpdateData;
 use PHPUnit\Framework\TestCase;
 
 class TaskUpdateDataTest extends TestCase
@@ -21,7 +21,7 @@ class TaskUpdateDataTest extends TestCase
             description: 'New Test'
         );
 
-        $this->assertTrue(is_a($updateData, 'App\Data\TaskUpdateData'));
+        $this->assertTrue(is_a($updateData, 'App\Data\Request\TaskUpdateData'));
 
         return $updateData;
     }

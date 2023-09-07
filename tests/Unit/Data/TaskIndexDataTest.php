@@ -2,7 +2,7 @@
 
 namespace Data;
 
-use App\Data\TaskIndexData;
+use App\Data\Request\TaskIndexData;
 use PHPUnit\Framework\TestCase;
 
 class TaskIndexDataTest extends TestCase
@@ -20,7 +20,7 @@ class TaskIndexDataTest extends TestCase
             createdSort: 'dw',
             completedSort: 'up',
         );
-        $this->assertTrue(is_a($indexData, 'App\Data\TaskIndexData'));
+        $this->assertTrue(is_a($indexData, 'App\Data\Request\TaskIndexData'));
 
         return $indexData;
     }

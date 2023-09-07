@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\TaskIndexRequest;
 use App\Services\AnswerService;
 use App\Services\TaskIndexService;
-use Database\Factories\TaskDataFactory;
+use App\Data\Request\Factories\TaskDataFactory;
 use Exception;
 use Illuminate\Http\JsonResponse;
 

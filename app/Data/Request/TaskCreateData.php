@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Request;
 
 use Illuminate\Support\Collection;
 
-class TaskCreateData
+class TaskCreateData implements RequestDataInterface
 {
     /**
      * @param int $user_id

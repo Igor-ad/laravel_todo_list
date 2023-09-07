@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Request;
 
 use Illuminate\Support\Collection;
 
-class TaskIndexData
+class TaskIndexData implements RequestDataInterface
 {
     /**
      * @param string|null $status

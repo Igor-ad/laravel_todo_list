@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Data\TaskIndexData;
+use App\Data\Request\TaskIndexData;
 use App\Enums\FilterEnum;
 
 class TaskFilterService

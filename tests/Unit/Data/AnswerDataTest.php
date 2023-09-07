@@ -2,7 +2,7 @@
 
 namespace Data;
 
-use App\Data\AnswerData;
+use App\Data\Response\AnswerData;
 use PHPUnit\Framework\TestCase;
 
 class AnswerDataTest extends TestCase
@@ -16,7 +16,7 @@ class AnswerDataTest extends TestCase
             status: 200, message: 'test', data: true, code: 'code=987'
         );
 
-        $this->assertTrue(is_a($answerData, 'App\Data\AnswerData'));
+        $this->assertTrue(is_a($answerData, 'App\Data\Response\AnswerData'));
 
         return $answerData;
     }

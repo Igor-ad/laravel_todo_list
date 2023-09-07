@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Response;
 
 use Illuminate\Support\Collection;
 
-class AnswerData
+/**
+ * Response DTO
+ */
+class ResponseData implements ResponseDataInterface
 {
     /**
      * @param int $status
      * @param string $message
-     * @param object|array|bool|null $data
-     * @param int|string|null $code
+     * @param bool|object|null $data
      */
     public function __construct(
-        private readonly int                    $status,
-        private readonly string                 $message,
-        private readonly object|array|bool|null $data = null,
-        private readonly int|string|null        $code = null,
+        private readonly int              $status,
+        private readonly string           $message,
+        private readonly bool|object|null $data = null,
     )
     {
     }
@@ -30,20 +31,11 @@ class AnswerData
             'status' => $this->status,
             'message' => $this->message,
             'data' => $this->data,
-            'code' => $this->code,
-        ])->whereNotNull();
+        ]);
     }
 
     /**
-     * @return int
-     */
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param AnswerData $anotherOne
+     * @param ResponseData $anotherOne
      * @return bool
      */
     public function equals(self $anotherOne): bool

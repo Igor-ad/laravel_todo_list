@@ -1,23 +1,24 @@
 <?php
 
-
-use App\Data\ResponseData;
-use Database\Factories\ResponseDataFactory;
+use App\Data\Response\ResponseData;
+use App\Data\Response\Factories\ResponseDataFactory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResponseDataFactoryTest extends TestCase
 {
 
+    /**
+     * @return void
+     */
     public function testResponseDataFactoryTest()
     {
         $testResponseData = new ResponseData(
-            status: 201, message: 'test', data: true
+            status: Response::HTTP_CREATED, message: 'test', data: true
         );
 
-        $responseData = ResponseDataFactory::responseData(
-            status: 201,
-            message: 'test',
-            data: true,
+        $responseData = ResponseDataFactory::getDTO(
+            collect([Response::HTTP_CREATED, 'test', true,])
         );
 
         $this->assertObjectEquals($testResponseData, $responseData);

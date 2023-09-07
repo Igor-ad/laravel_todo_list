@@ -2,7 +2,7 @@
 
 namespace Data;
 
-use App\Data\ResponseData;
+use App\Data\Response\ResponseData;
 use PHPUnit\Framework\TestCase;
 
 class ResponseDataTest extends TestCase
@@ -14,7 +14,7 @@ class ResponseDataTest extends TestCase
     {
         $responseData = new ResponseData(status: 200, message: 'OK', data: true);
 
-        $this->assertTrue(is_a($responseData, 'App\Data\ResponseData'));
+        $this->assertTrue(is_a($responseData, 'App\Data\Response\ResponseData'));
 
         return $responseData;
     }
