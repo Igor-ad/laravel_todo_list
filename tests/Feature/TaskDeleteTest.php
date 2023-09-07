@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -27,7 +28,7 @@ class TaskDeleteTest extends TestCase
             Path::API->value . Path::delete->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(200);
+        ))->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -45,7 +46,7 @@ class TaskDeleteTest extends TestCase
             Path::API->value . Path::delete->value,
             0,
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(500);
+        ))->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -69,6 +70,6 @@ class TaskDeleteTest extends TestCase
             Path::API->value . Path::delete->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(501);
+        ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 }

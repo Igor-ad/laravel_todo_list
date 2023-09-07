@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -26,7 +27,7 @@ class TaskUpdateTest extends TestCase
             $this->user->getAttribute('api_token'),
             0,
             fake()->jobTitle
-        ))->assertStatus(406);
+        ))->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
     }
 
     /**
@@ -45,7 +46,7 @@ class TaskUpdateTest extends TestCase
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             fake()->jobTitle
-        ))->assertStatus(200);
+        ))->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -64,6 +65,6 @@ class TaskUpdateTest extends TestCase
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             'OK'
-        ))->assertStatus(422);
+        ))->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

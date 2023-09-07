@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -26,7 +27,7 @@ class TaskIndexTest extends TestCase
             $this->user->getAttribute('api_token'),
         ));
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -44,7 +45,7 @@ class TaskIndexTest extends TestCase
             $this->user->getAttribute('api_token'),
         ));
 
-        $response->assertStatus(404);
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -62,6 +63,6 @@ class TaskIndexTest extends TestCase
             '**********'
         ));
 
-        $response->assertStatus(401);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 }

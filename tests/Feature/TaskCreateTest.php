@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -30,7 +31,7 @@ class TaskCreateTest extends TestCase
             rand(1, 5),
             fake()->jobTitle,
             fake()->paragraph(1)
-        ))->assertStatus(201);
+        ))->assertStatus(Response::HTTP_CREATED);
 
         $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
@@ -52,7 +53,7 @@ class TaskCreateTest extends TestCase
             rand(1, 5),
             fake()->jobTitle,
             fake()->paragraph(1)
-        ))->assertStatus(201);
+        ))->assertStatus(Response::HTTP_CREATED);
 
         $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
@@ -75,6 +76,6 @@ class TaskCreateTest extends TestCase
             7, // The priority field must be at least 1 and must not be greater than 5.
             fake()->jobTitle,
             fake()->paragraph(1)
-        ))->assertStatus(422);
+        ))->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

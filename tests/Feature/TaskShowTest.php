@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
 
@@ -25,7 +26,7 @@ class TaskShowTest extends TestCase
             Path::API->value . Path::show->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(200);
+        ))->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -42,6 +43,6 @@ class TaskShowTest extends TestCase
             Path::API->value . Path::show->value,
             0,
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(501);
+        ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 }
