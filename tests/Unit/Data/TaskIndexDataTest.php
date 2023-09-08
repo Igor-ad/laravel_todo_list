@@ -44,6 +44,24 @@ class TaskIndexDataTest extends TestCase
      * @return void
      * @depends testGetTaskIndexData
      */
+    public function testGetData()
+    {
+        $this->assertEquals(
+            expected: collect([
+                'status' => 'todo',
+                'priority' => 2,
+                'prioritySort' => 'up',
+                'createdSort' => 'dw',
+                'completedSort' => 'up',
+            ]),
+            actual: $this->testGetTaskIndexData()->getData()
+        );
+    }
+
+    /**
+     * @return void
+     * @depends testGetTaskIndexData
+     */
     public function testGetFilter()
     {
         $this->assertEquals(
