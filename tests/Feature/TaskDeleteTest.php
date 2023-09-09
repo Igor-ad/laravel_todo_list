@@ -46,7 +46,7 @@ class TaskDeleteTest extends TestCase
             Path::API->value . Path::delete->value,
             0,
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+        ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 
     /**

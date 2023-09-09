@@ -95,7 +95,7 @@ class TaskRepository
     public function delete(int $id): bool
     {
         return User::find(Auth::id())->tasks()
-            ->findOrFail($id)
+            ->where('id',$id)
             ->delete();
     }
 
@@ -106,7 +106,7 @@ class TaskRepository
     public function complete(int $id): ?bool
     {
         return User::find(Auth::id())->tasks()
-            ->findOrFail($id)
+            ->where('id',$id)
             ->update([
                 'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),

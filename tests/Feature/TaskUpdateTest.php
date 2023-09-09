@@ -27,7 +27,7 @@ class TaskUpdateTest extends TestCase
             $this->user->getAttribute('api_token'),
             0,
             fake()->jobTitle
-        ))->assertStatus(Response::HTTP_NOT_ACCEPTABLE);
+        ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 
     /**

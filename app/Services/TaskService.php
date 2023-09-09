@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\Request\TaskCreateData;
 use App\Data\Request\TaskUpdateData;
+use App\Exceptions\ProcessingException;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepository;
@@ -24,6 +25,7 @@ class TaskService
     /**
      * @param int $id
      * @return ResponseService
+     * @throws ProcessingException
      */
     public function show(int $id): ResponseService
     {
@@ -33,7 +35,9 @@ class TaskService
         if ($result) {
             $this->response->setTaskShowData($id, $result);
         } else {
-            $this->response->setTaskShowFailData($id, $result);
+            throw new ProcessingException(
+                message: __('task.not_found', ['id' => $id]),
+            );
         }
         return $this->response;
     }
@@ -52,9 +56,9 @@ class TaskService
                 ->update($data->getData()->toArray());
 
             if (!$result) {
-                $this->response->setTaskUpdateFailData($data->getId());
-
-                return $this->response;
+                throw new ProcessingException(
+                    message: __('task.not_found', ['id' => $data->getId()]),
+                );
             }
             $result = User::find(Auth::id())->tasks()
                 ->where('id', $data->getId())
@@ -83,8 +87,13 @@ class TaskService
                 ['user_id' => Auth::id()],
                 $data->getData()->toArray()),
             );
-
-            $this->response->setTaskCreateData($result);
+            if ($result) {
+                $this->response->setTaskCreateData($result);
+            } else {
+                throw new ProcessingException(
+                  message: __('task.create_fail')
+                );
+            }
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -106,12 +115,18 @@ class TaskService
             $doneStatus = $this->repository->doneStatus($id);
 
             if ($doneStatus) {
-                $this->response->setTaskDeleteFailData($id, $doneStatus);
-
-                return $this->response;
+                throw new ProcessingException(
+                    message: __('task.delete_fail', ['id' => $id]),
+                );
             }
             $result = $this->repository->delete($id);
-            $this->response->setTaskDeleteData($id, $result);
+
+            if (!$result) {
+                throw new ProcessingException(
+                  message: __('task.not_found', ['id' => $id])
+                );
+            }
+            $this->response->setTaskDeleteData($id);
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

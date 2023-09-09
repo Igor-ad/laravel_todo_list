@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,9 @@ class TaskCompleteService
                 $id, $this->setCompleteStatus($id)
             );
         } else {
-            $this->response->setTaskCompleteFailData($id);
+            throw new ProcessingException(
+                message: __('task.market_done_fail', ['id' => $id]),
+            );
         }
         return $this->response;
     }
@@ -56,6 +59,11 @@ class TaskCompleteService
         DB::beginTransaction();
         try {
             $result = $this->repository->complete($id);
+            if (!$result) {
+                throw new ProcessingException(
+                    message: __('task.not_found', ['id' => $id]),
+                );
+            }
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

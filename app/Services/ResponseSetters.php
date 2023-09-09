@@ -22,19 +22,6 @@ trait ResponseSetters
     }
 
     /**
-     * @param Collection|null $data
-     * @return void
-     */
-    public function setTaskIndexFailData(?Collection $data): void
-    {
-        $this->setResponseData(
-            status: Response::HTTP_NOT_IMPLEMENTED,
-            message: __('task.index_filter_fail'),
-            data: $data,
-        );
-    }
-
-    /**
      * @param int $id
      * @param bool $data
      * @return void
@@ -45,19 +32,6 @@ trait ResponseSetters
             status: Response::HTTP_OK,
             message: __('task.market_done', ['id' => $id]),
             data: $data,
-        );
-    }
-
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function setTaskCompleteFailData(int $id): void
-    {
-        $this->setResponseData(
-            status: Response::HTTP_NOT_IMPLEMENTED,
-            message: __('task.market_done_fail', ['id' => $id]),
-            data: false,
         );
     }
 
@@ -76,20 +50,6 @@ trait ResponseSetters
     }
 
     /**
-     * @param int $id
-     * @param Task|null $data
-     * @return void
-     */
-    public function setTaskShowFailData(int $id, ?Task $data): void
-    {
-        $this->setResponseData(
-            status: Response::HTTP_NOT_IMPLEMENTED,
-            message: __('task.not_found', ['id' => $id]),
-            data: $data,
-        );
-    }
-
-    /**
      * @param bool|Task $data
      * @return void
      */
@@ -99,19 +59,6 @@ trait ResponseSetters
             status: Response::HTTP_OK,
             message: __('task.update'),
             data: $data,
-        );
-    }
-
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function setTaskUpdateFailData(int $id): void
-    {
-        $this->setResponseData(
-            status: Response::HTTP_NOT_ACCEPTABLE,
-            message: __('task.not_found', ['id' => $id]),
-            data: 0,
         );
     }
 
@@ -130,29 +77,14 @@ trait ResponseSetters
 
     /**
      * @param int $id
-     * @param bool $data
      * @return void
      */
-    public function setTaskDeleteData(int $id, bool $data): void
+    public function setTaskDeleteData(int $id): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
             message: __('task.delete_success', ['id' => $id]),
-            data: $data,
-        );
-    }
-
-    /**
-     * @param int $id
-     * @param Task|null $data
-     * @return void
-     */
-    public function setTaskDeleteFailData(int $id, ?Task $data): void
-    {
-        $this->setResponseData(
-            status: Response::HTTP_NOT_IMPLEMENTED,
-            message: __('task.delete_fail', ['id' => $id]),
-            data: $data,
+            data: true,
         );
     }
 }

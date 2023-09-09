@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Data\Request\TaskIndexData;
+use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
 
 class TaskIndexService
@@ -19,6 +20,7 @@ class TaskIndexService
     /**
      * @param TaskIndexData $data
      * @return ResponseService
+     * @throws ProcessingException
      */
     public function index(TaskIndexData $data): ResponseService
     {
@@ -29,10 +31,13 @@ class TaskIndexService
             default => $this->repository->get($data),
         };
 
-        ($data->isEmpty())
-            ? $this->response->setTaskIndexFailData($data)
-            : $this->response->setTaskIndexData($data);
-
+        if (($data->isEmpty())) {
+            throw new ProcessingException(
+                message: __('task.index_filter_fail'),
+            );
+        } else {
+            $this->response->setTaskIndexData($data);
+        }
         return $this->response;
     }
 

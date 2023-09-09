@@ -3,8 +3,9 @@
 return [
     'show' => "Task ID :id.",
     'not_found' => "Task ID :id not found.",
-    'update' => "Task was updated successfully.",
-    'create' => "Task was created successfully.",
+    'update' => "The task was updated successfully.",
+    'create' => "The task was created successfully.",
+    'create_fail' => "Task not created.",
     'delete_not_exist' => "The task is not exist.",
     'delete_fail' => "Task ID :id status: 'done'. Please select another task.",
     'delete_success' => "Task ID :id was deleted successfully.",

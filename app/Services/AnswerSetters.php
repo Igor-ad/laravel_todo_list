@@ -25,7 +25,7 @@ trait AnswerSetters
     protected function eFormatter(Exception $e): Collection
     {
         return collect([
-            'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+            'status' => Response::HTTP_NOT_IMPLEMENTED,
             'message' => $e->getMessage(),
             'data' => null,
             'code' => $e->getCode(),
