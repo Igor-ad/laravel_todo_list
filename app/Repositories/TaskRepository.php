@@ -6,8 +6,8 @@ use App\Data\Request\TaskIndexData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Models\User;
-use App\Services\TaskFilterService;
-use App\Services\TaskOrderService;
+use App\Services\Task\FilterService;
+use App\Services\Task\OrderService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,12 +16,12 @@ class TaskRepository
 {
 
     /**
-     * @param TaskFilterService $filterService
-     * @param TaskOrderService $orderService
+     * @param FilterService $filterService
+     * @param OrderService $orderService
      */
     public function __construct(
-        protected TaskFilterService $filterService,
-        protected TaskOrderService  $orderService,
+        protected FilterService $filterService,
+        protected OrderService  $orderService,
     )
     {
     }

@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\AnswerService;
-use App\Services\TaskCompleteService;
-use Exception;
+use App\Services\Task\CompleteService;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
 class TaskCompleteController extends Controller
 {
     /**
-     * @param TaskCompleteService $completeService
+     * @param CompleteService $completeService
      * @param AnswerService $answerService
      */
     public function __construct(
-        protected TaskCompleteService $completeService,
-        protected AnswerService       $answerService,
+        protected CompleteService $completeService,
+        protected AnswerService   $answerService,
     )
     {
     }

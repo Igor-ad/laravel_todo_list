@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Task;
 
 use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
+use App\Services\ResponseService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class TaskCompleteService
+class CompleteService
 {
-
     /**
      * @param TaskRepository $repository
      * @param ResponseService $response

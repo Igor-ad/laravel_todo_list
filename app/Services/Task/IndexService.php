@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Task;
 
-use App\Data\Request\TaskIndexData;
+use App\Data\Request\Factories\TaskDataFactory;
 use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
+use App\Services\ResponseService;
 
-class TaskIndexService
+class IndexService
 {
-
     public function __construct(
         protected TaskRepository  $repository,
-        protected TaskIndexData   $taskIndexData,
         protected ResponseService $response,
+        protected TaskDataFactory $dataFactory,
     )
     {
     }
 
     /**
-     * @param TaskIndexData $data
      * @return ResponseService
      * @throws ProcessingException
      */
-    public function index(TaskIndexData $data): ResponseService
+    public function index(): ResponseService
     {
+        $data = $this->dataFactory->getValidData();
+
         $data = match (true) {
             $data->hasSort() && !$data->hasTxtFilter() => $this->repository->getOrder($data),
             !$data->hasSort() && $data->hasTxtFilter() => $this->repository->getAllFilter($data),

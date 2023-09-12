@@ -3,17 +3,21 @@
 namespace App\Data\Request\Factories;
 
 use App\Data\Request\TaskCreateData;
-use App\Http\Requests\Api\ApiRequestInterface;
 use App\Http\Requests\Api\TaskRequest;
 
 class TaskCreateDataFactory implements RequestDataFactoryInterface
 {
+    public function __construct(
+        protected TaskRequest $request,
+    )
+    {
+    }
+
     /**
-     * @param TaskRequest|ApiRequestInterface $request
      * @return TaskCreateData
      */
-    public function getValidData(TaskRequest|ApiRequestInterface $request): TaskCreateData
+    public function getValidData(): TaskCreateData
     {
-        return new TaskCreateData(...$request->validated());
+        return new TaskCreateData(...$this->request->validated());
     }
 }

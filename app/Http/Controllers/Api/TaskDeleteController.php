@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\AnswerService;
-use App\Services\Task\IndexService;
+use App\Services\Task\DeleteService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
-class TaskIndexController extends Controller
+class TaskDeleteController
 {
     /**
-     * @param IndexService $indexService
+     * @param DeleteService $deleteService
      * @param AnswerService $answerService
      */
     public function __construct(
-        protected IndexService  $indexService,
+        protected DeleteService $deleteService,
         protected AnswerService $answerService,
     )
     {
     }
 
     /**
+     * @param int $id
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public
+    function delete(int $id): JsonResponse
     {
         try {
-            $response = $this->indexService->index();
+            $response = $this->deleteService->delete($id);
 
             $this->answerService->setAnswer($response);
 
@@ -36,5 +37,4 @@ class TaskIndexController extends Controller
         }
         return $this->answerService->getJsonResponse();
     }
-
 }

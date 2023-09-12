@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Task;
 
 use App\Data\Request\TaskIndexData;
 use App\Enums\FilterEnum;
 
-class TaskFilterService
+class FilterService
 {
     private array $where = [];
 

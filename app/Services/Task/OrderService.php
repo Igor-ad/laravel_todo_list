@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Task;
 
 use App\Data\Request\TaskIndexData;
 use App\Enums\SortOrderEnum;
 use App\Enums\SortEnum;
 
-class TaskOrderService
+class OrderService
 {
 
     private array $orderDirection = [];

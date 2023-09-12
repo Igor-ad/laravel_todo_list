@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\AnswerService;
-use App\Services\Task\IndexService;
+use App\Services\Task\CreateService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
-class TaskIndexController extends Controller
+class TaskCreateController
 {
-    /**
-     * @param IndexService $indexService
-     * @param AnswerService $answerService
-     */
     public function __construct(
-        protected IndexService  $indexService,
+        protected CreateService $taskService,
         protected AnswerService $answerService,
     )
     {
@@ -24,10 +19,10 @@ class TaskIndexController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function create(): JsonResponse
     {
         try {
-            $response = $this->indexService->index();
+            $response = $this->taskService->create();
 
             $this->answerService->setAnswer($response);
 
@@ -36,5 +31,4 @@ class TaskIndexController extends Controller
         }
         return $this->answerService->getJsonResponse();
     }
-
 }
