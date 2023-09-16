@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\CreateService;
 use Illuminate\Http\JsonResponse;
-use Exception;
 
-class TaskCreateController
+class TaskCreateController extends Controller
 {
+    use ServiceMapper;
+
+    /**
+     * @param CreateService $createService
+     * @param AnswerService $answerService
+     */
     public function __construct(
-        protected CreateService $taskService,
+        protected CreateService $createService,
         protected AnswerService $answerService,
     )
     {
@@ -21,14 +28,8 @@ class TaskCreateController
      */
     public function create(): JsonResponse
     {
-        try {
-            $response = $this->taskService->create();
+        $this->answerService = $this->getAnswer($this->createService, 'create');
 
-            $this->answerService->setAnswer($response);
-
-        } catch (Exception $e) {
-            $this->answerService->setExceptionAnswer($e);
-        }
         return $this->answerService->getJsonResponse();
     }
 }

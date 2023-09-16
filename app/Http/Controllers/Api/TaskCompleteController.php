@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\CompleteService;
 use Illuminate\Http\JsonResponse;
-use Exception;
 
 class TaskCompleteController extends Controller
 {
+    use ServiceMapper;
+
     /**
      * @param CompleteService $completeService
      * @param AnswerService $answerService
@@ -27,15 +29,8 @@ class TaskCompleteController extends Controller
      */
     public function complete(int $id): JsonResponse
     {
-        try {
-            $response = $this->completeService->complete($id);
+        $this->answerService = $this->getAnswer($this->completeService, 'complete', $id);
 
-            $this->answerService->setAnswer($response);
-
-        } catch (Exception $e) {
-            $this->answerService->setExceptionAnswer($e);
-        }
         return $this->answerService->getJsonResponse();
     }
-
 }

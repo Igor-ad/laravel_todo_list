@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\IndexService;
 use Illuminate\Http\JsonResponse;
-use Exception;
 
 class TaskIndexController extends Controller
 {
+    use ServiceMapper;
+
     /**
      * @param IndexService $indexService
      * @param AnswerService $answerService
@@ -26,15 +28,8 @@ class TaskIndexController extends Controller
      */
     public function index(): JsonResponse
     {
-        try {
-            $response = $this->indexService->index();
+        $this->answerService = $this->getAnswer($this->indexService, 'index');
 
-            $this->answerService->setAnswer($response);
-
-        } catch (Exception $e) {
-            $this->answerService->setExceptionAnswer($e);
-        }
         return $this->answerService->getJsonResponse();
     }
-
 }

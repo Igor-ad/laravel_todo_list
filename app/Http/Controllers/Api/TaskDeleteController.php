@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\DeleteService;
 use Illuminate\Http\JsonResponse;
-use Exception;
 
-class TaskDeleteController
+class TaskDeleteController extends Controller
 {
+    use ServiceMapper;
+
     /**
      * @param DeleteService $deleteService
      * @param AnswerService $answerService
@@ -27,14 +30,8 @@ class TaskDeleteController
     public
     function delete(int $id): JsonResponse
     {
-        try {
-            $response = $this->deleteService->delete($id);
+        $this->answerService = $this->getAnswer($this->deleteService, 'delete', $id);
 
-            $this->answerService->setAnswer($response);
-
-        } catch (Exception $e) {
-            $this->answerService->setExceptionAnswer($e);
-        }
         return $this->answerService->getJsonResponse();
     }
 }

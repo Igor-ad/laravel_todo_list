@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\ShowService;
 use Illuminate\Http\JsonResponse;
-use Exception;
 
 class TaskShowController extends Controller
 {
+    use ServiceMapper;
+
     /**
      * @param ShowService $showService
      * @param AnswerService $answerService
@@ -21,21 +23,10 @@ class TaskShowController extends Controller
     {
     }
 
-    /**
-     * @param int $id
-     * @return JsonResponse
-     */
-    public
-    function show(int $id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        try {
-            $response = $this->showService->show($id);
+        $this->answerService = $this->getAnswer($this->showService, 'show', $id);
 
-            $this->answerService->setAnswer($response);
-
-        } catch (Exception $e) {
-            $this->answerService->setExceptionAnswer($e);
-        }
         return $this->answerService->getJsonResponse();
     }
 }
