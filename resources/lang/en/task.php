@@ -11,6 +11,6 @@ return [
     'delete_success' => "Task ID :id was deleted successfully.",
     'index_filter_fail' => "Your repo doesn't have any tasks with this properties.",
     'index' => "All tasks are selected according to the set filter.",
-    'market_done' => "Task ID :id was marked 'done' successfully.",
-    'market_done_fail' => "One or more children of Task ID :id have status 'todo'.",
+    'complete' => "Task ID :id was marked 'done' successfully.",
+    'complete_fail' => "One or more children of Task ID :id have status 'todo'.",
 ];
