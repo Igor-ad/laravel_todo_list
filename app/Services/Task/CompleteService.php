@@ -59,11 +59,13 @@ class CompleteService
         DB::beginTransaction();
         try {
             $result = $this->repository->complete($id);
+
             if (!$result) {
                 throw new RuntimeException(
                     message: __('task.not_found', ['id' => $id]),
                 );
             }
+
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

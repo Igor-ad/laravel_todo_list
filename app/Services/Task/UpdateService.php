@@ -3,9 +3,8 @@
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskUpdateDataFactory;
+use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use RuntimeException;
@@ -15,6 +14,7 @@ class UpdateService
     public function __construct(
         protected TaskUpdateDataFactory $updateDataFactory,
         protected ResponseService       $response,
+        protected TaskRepository        $repository,
     )
     {
     }
@@ -30,9 +30,7 @@ class UpdateService
         try {
             $data = $this->updateDataFactory->getValidData();
 
-            $result = User::find(Auth::id())->tasks()
-                ->where('id', $data->getId())
-                ->update($data->getData()->toArray());
+            $result = $this->repository->updateById($data);
 
             if (!$result) {
                 throw new RuntimeException(
@@ -40,9 +38,7 @@ class UpdateService
                 );
             }
 
-            $result = User::find(Auth::id())->tasks()
-                ->where('id', $data->getId())
-                ->first();
+            $result = $this->repository->getById($data->getId());
 
             $this->response->setTaskUpdateData($result);
 

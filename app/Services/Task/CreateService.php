@@ -3,9 +3,8 @@
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskCreateDataFactory;
-use App\Models\Task;
+use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use RuntimeException;
@@ -15,6 +14,7 @@ class CreateService
     public function __construct(
         protected TaskCreateDataFactory $createDataFactory,
         protected ResponseService       $response,
+        protected TaskRepository        $repository,
     )
     {
     }
@@ -29,10 +29,7 @@ class CreateService
         try {
             $data = $this->createDataFactory->getValidData();
 
-            $result = Task::create(array_merge(
-                ['user_id' => Auth::id()],
-                $data->getData()->toArray()),
-            );
+            $result = $this->repository->create($data);
 
             if (!$result) {
                 throw new RuntimeException(

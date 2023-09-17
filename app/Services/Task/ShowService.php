@@ -2,10 +2,8 @@
 
 namespace App\Services\Task;
 
-use App\Models\User;
 use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\Auth;
 use RuntimeException;
 
 class ShowService
@@ -24,9 +22,8 @@ class ShowService
      */
     public function show(int $id): ResponseService
     {
-        $result = User::find(Auth::id())->tasks()
-            ->where('id', $id)
-            ->first();
+        $result = $this->repository->getById($id);
+
         if ($result) {
             $this->response->setTaskShowData($id, $result);
         } else {

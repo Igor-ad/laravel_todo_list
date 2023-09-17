@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Data\Request\TaskCreateData;
 use App\Data\Request\TaskIndexData;
+use App\Data\Request\TaskUpdateData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Models\User;
@@ -27,16 +29,44 @@ class TaskRepository
     }
 
     /**
+     * @param int $id
+     * @return Task|null
+     */
+    public function getById(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()
+            ->where('id', $id)
+            ->first();
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getTask(): ?Collection
+    {
+        return User::find(Auth::id())->tasks()->get();
+    }
+
+    /**
+     * @param TaskIndexData $data
+     * @return Collection|null
+     */
+    public function getByFilter(TaskIndexData $data): ?Collection
+    {
+        return User::find(Auth::id())->tasks()
+            ->where($this->filterService->filter($data))
+            ->get();
+    }
+
+    /**
      * @param TaskIndexData $data
      * @return Collection|null
      */
     public function get(TaskIndexData $data): ?Collection
     {
         return $data->hasFilter()
-            ? User::find(Auth::id())->tasks()
-                ->where($this->filterService->filter($data))
-                ->get()
-            : User::find(Auth::id())->tasks()->get();
+            ? $this->getByFilter($data)
+            : $this->getTask();
     }
 
     /**
@@ -77,6 +107,29 @@ class TaskRepository
     }
 
     /**
+     * @param TaskUpdateData $data
+     * @return bool|null
+     */
+    public function updateById(TaskUpdateData $data): ?bool
+    {
+        return User::find(Auth::id())->tasks()
+            ->where('id', $data->getId())
+            ->update($data->getData()->toArray());
+    }
+
+    /**
+     * @param TaskCreateData $data
+     * @return Task|null
+     */
+    public function create(TaskCreateData $data): ?Task
+    {
+        return Task::create(array_merge(
+            ['user_id' => Auth::id()],
+            $data->getData()->toArray()),
+        );
+    }
+
+    /**
      * @param int $id
      * @return Task|null
      */
@@ -95,7 +148,7 @@ class TaskRepository
     public function delete(int $id): bool
     {
         return User::find(Auth::id())->tasks()
-            ->where('id',$id)
+            ->where('id', $id)
             ->delete();
     }
 
@@ -106,7 +159,7 @@ class TaskRepository
     public function complete(int $id): ?bool
     {
         return User::find(Auth::id())->tasks()
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),
