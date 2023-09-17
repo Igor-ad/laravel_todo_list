@@ -3,9 +3,9 @@
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskDataFactory;
-use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
+use RuntimeException;
 
 class IndexService
 {
@@ -19,7 +19,7 @@ class IndexService
 
     /**
      * @return ResponseService
-     * @throws ProcessingException
+     * @throws RuntimeException
      */
     public function index(): ResponseService
     {
@@ -33,7 +33,7 @@ class IndexService
         };
 
         if (($data->isEmpty())) {
-            throw new ProcessingException(
+            throw new RuntimeException(
                 message: __('task.index_filter_fail'),
             );
         } else {

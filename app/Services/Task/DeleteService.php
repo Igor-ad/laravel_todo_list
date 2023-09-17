@@ -2,11 +2,11 @@
 
 namespace App\Services\Task;
 
-use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use RuntimeException;
 
 class DeleteService
 {
@@ -29,14 +29,14 @@ class DeleteService
             $doneStatus = $this->repository->doneStatus($id);
 
             if ($doneStatus) {
-                throw new ProcessingException(
+                throw new RuntimeException(
                     message: __('task.delete_fail', ['id' => $id]),
                 );
             }
             $result = $this->repository->delete($id);
 
             if (!$result) {
-                throw new ProcessingException(
+                throw new RuntimeException(
                     message: __('task.not_found', ['id' => $id])
                 );
             }

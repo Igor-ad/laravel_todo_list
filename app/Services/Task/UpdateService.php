@@ -4,11 +4,11 @@ namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskUpdateDataFactory;
 use App\Services\ResponseService;
-use App\Exceptions\ProcessingException;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use RuntimeException;
 
 class UpdateService
 {
@@ -35,7 +35,7 @@ class UpdateService
                 ->update($data->getData()->toArray());
 
             if (!$result) {
-                throw new ProcessingException(
+                throw new RuntimeException(
                     message: __('task.not_found', ['id' => $data->getId()]),
                 );
             }

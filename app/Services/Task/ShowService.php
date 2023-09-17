@@ -2,11 +2,11 @@
 
 namespace App\Services\Task;
 
-use App\Exceptions\ProcessingException;
 use App\Models\User;
 use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Auth;
+use RuntimeException;
 
 class ShowService
 {
@@ -20,7 +20,7 @@ class ShowService
     /**
      * @param int $id
      * @return ResponseService
-     * @throws ProcessingException
+     * @throws RuntimeException
      */
     public function show(int $id): ResponseService
     {
@@ -30,7 +30,7 @@ class ShowService
         if ($result) {
             $this->response->setTaskShowData($id, $result);
         } else {
-            throw new ProcessingException(
+            throw new RuntimeException(
                 message: __('task.not_found', ['id' => $id]),
             );
         }

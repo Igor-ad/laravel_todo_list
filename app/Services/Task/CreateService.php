@@ -3,12 +3,12 @@
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskCreateDataFactory;
-use App\Exceptions\ProcessingException;
 use App\Models\Task;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use RuntimeException;
 
 class CreateService
 {
@@ -35,7 +35,7 @@ class CreateService
             );
 
             if (!$result) {
-                throw new ProcessingException(
+                throw new RuntimeException(
                     message: __('task.create_fail')
                 );
             }

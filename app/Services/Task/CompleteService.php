@@ -2,11 +2,11 @@
 
 namespace App\Services\Task;
 
-use App\Exceptions\ProcessingException;
 use App\Repositories\TaskRepository;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 class CompleteService
 {
@@ -33,8 +33,8 @@ class CompleteService
                 $id, $this->setCompleteStatus($id)
             );
         } else {
-            throw new ProcessingException(
-                message: __('task.market_done_fail', ['id' => $id]),
+            throw new RuntimeException(
+                message: __('task.complete_fail', ['id' => $id]),
             );
         }
         return $this->response;
@@ -60,7 +60,7 @@ class CompleteService
         try {
             $result = $this->repository->complete($id);
             if (!$result) {
-                throw new ProcessingException(
+                throw new RuntimeException(
                     message: __('task.not_found', ['id' => $id]),
                 );
             }
