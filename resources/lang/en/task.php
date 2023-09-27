@@ -9,7 +9,9 @@ return [
     'delete_not_exist' => "The task is not exist.",
     'delete_success' => "Task ID :id was deleted successfully.",
     'help' => [
-        'index' => "All tasks.",
+        'index' => "All tasks",
+        'create' => "Create new task",
+        'status_select' => "Status select",
     ],
     'index' => "All tasks are selected according to the set filter.",
     'index_filter_fail' => "Your repo doesn't have any tasks with this properties.",

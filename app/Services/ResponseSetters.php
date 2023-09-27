@@ -30,7 +30,7 @@ trait ResponseSetters
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
-            message: __('task.complete', ['id' => $id]),
+            message: __('task.web.empty', ['id' => $id]),
             data: $data,
         );
     }

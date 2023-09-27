@@ -22,7 +22,7 @@ class TaskRequest extends ApiFormRequest implements ApiRequestInterface
     public function rules(): array
     {
         return [
-            'parent_id' => ['integer'],
+            'parent_id' => ['integer', 'nullable'],
             'status' => ['required', 'string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['required', 'integer', 'min:1', 'max:5'],
             'title' => ['required', 'string', 'max:255', 'min:3'],

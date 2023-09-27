@@ -35,6 +35,22 @@ class AnswerData implements ResponseDataInterface
     }
 
     /**
+     * @return array|bool|object|null
+     */
+    public function getPropData(): array|bool|null|object
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
      * @return int
      */
     public function getStatus(): int

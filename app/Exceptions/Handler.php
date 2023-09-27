@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -48,7 +49,7 @@ class Handler extends ExceptionHandler
                 );
             }
 
-            if ($request->is('api/*') && !($e->getMessage() === 'Unauthenticated.')) {
+            if ($request->is('api/*') && ($e instanceof NotFoundHttpException)) {
                 return response()->json(
                     data: [
                         'status' => Response::HTTP_NOT_FOUND,
