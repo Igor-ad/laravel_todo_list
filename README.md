@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Laravel TODO List REST API
+## Laravel TODO List REST API / and WEB
 
 #### Required version: `PHP 8.1 or later`
 
@@ -17,22 +17,37 @@ Make Backup Database 'testing', please!</span>
 Implemented:
 
 - Model "Task",
-- Controller "\API\TaskController",
+- Controller "\API\TaskShowController",
 - Controller "\API\TaskIndexController",
 - Controller "\API\TaskCompleteController",
-- Data validation rules "\Requests\Api\TaskRequest".
-- Data validation rules "\Requests\Api\TaskIndexRequest".
+- Controller "\API\TaskCreateController",
+- Controller "\API\TaskUpdateController",
+- Controller "\API\TaskDeleteController",
+- Controller "\Web\TaskAddController.php"
+- Controller "\Web\TaskCompleteController"
+- Controller "\Web\TaskCreateController"
+- Controller "\Web\TaskDeleteController"
+- Controller "\Web\TaskEditController"
+- Controller "\Web\TaskIndexController"
+- Controller "\Web\TaskShowController"
+- Controller "\Web\TaskUpdateController"
+- Data validation rules "\Requests\Api\TaskRequest"
+- Data validation rules "\Requests\Api\TaskOrderRequest"
+- Data validation rules "\Requests\Api\TaskIndexRequest"
+- Data validation rules "\Requests\Api\TaskUpdateRequest"
 - Class return json response for all errors of requests validation "\Requests\Api\ApiFormRequest".
-- ENUMs system.
 - TaskPathEnum consists all system paths.
 - English and Ukrainian localization files.
 - Feature tests.
-- Few Unit tests.
+- Unit tests.
 - Implemented boolean full-text searches using the IN BOOLEAN MODE modifier ('title' field).
+- Request & Response DTO
+- Enums & Services
+- View blade patterns
 
 Migration creates:
 
-- table "tasks".
+- table "tasks",
 - row "api_token" into "users" table.
 - table "testing.tasks" & "testing.users".
 
@@ -41,6 +56,8 @@ But in future the query must migrate to stored procedure.
 
 Do not implement:
 
+- Pagination
+- Web user authentication
 - Recursive delete tasks and children if parent task was deleted.
 
 ### Task searching filters and ordering expressions.
@@ -302,6 +319,16 @@ Access-Control-Allow-Origin: *`
 add branch dev
 
 ===============
+
+##### Examples of web pages
+
+![image](public/img/index.png)
+![image](public/img/create.png)
+![image](public/img/view.png)
+![image](public/img/edit.png)
+
+If you find any errors, please email admin@autodoctor.od.ua
+
 
 ## About Laravel`
 
