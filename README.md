@@ -322,6 +322,9 @@ add branch dev
 
 ##### Examples of web pages
 
+![image](public/img/create_m.jpg)
+![image](public/img/view_m.jpg)
+![image](public/img/edit_m.jpg)
 ![image](public/img/index.png)
 ![image](public/img/create.png)
 ![image](public/img/view.png)
