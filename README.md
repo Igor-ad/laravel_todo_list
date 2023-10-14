@@ -36,7 +36,7 @@ Implemented:
 - Data validation rules "\Requests\Api\TaskIndexRequest"
 - Data validation rules "\Requests\Api\TaskUpdateRequest"
 - Class return json response for all errors of requests validation "\Requests\Api\ApiFormRequest".
-- TaskPathEnum consists all system paths.
+- TaskPathEnum this file contains all system paths.
 - English and Ukrainian localization files.
 - Feature tests.
 - Unit tests.
