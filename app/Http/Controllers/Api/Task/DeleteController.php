@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
@@ -8,14 +10,10 @@ use App\Services\AnswerService;
 use App\Services\Task\DeleteService;
 use Illuminate\Http\JsonResponse;
 
-class TaskDeleteController extends Controller
+class DeleteController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param DeleteService $deleteService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected DeleteService $deleteService,
         protected AnswerService $answerService,
@@ -23,10 +21,6 @@ class TaskDeleteController extends Controller
     {
     }
 
-    /**
-     * @param int $id
-     * @return JsonResponse
-     */
     public
     function delete(int $id): JsonResponse
     {

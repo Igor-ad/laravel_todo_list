@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Data\Response\ResponseData;
 use App\Data\Response\Factories\ResponseDataFactory;
 use PHPUnit\Framework\TestCase;

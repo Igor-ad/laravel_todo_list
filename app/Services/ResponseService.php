@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Data\Response\ResponseData;
-Use App\Data\Response\Factories\ResponseDataFactory;
+use App\Data\Response\Factories\ResponseDataFactory;
 
 class ResponseService
 {
@@ -11,12 +13,6 @@ class ResponseService
 
     public ResponseData $responseData;
 
-    /**
-     * @param int $status
-     * @param string $message
-     * @param bool|object|null $data
-     * @return void
-     */
     public function setResponseData(
         int              $status,
         string           $message,

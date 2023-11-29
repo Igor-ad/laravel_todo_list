@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Data;
 
 use App\Data\Request\TaskIndexData;
@@ -7,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TaskIndexDataTest extends TestCase
 {
-    /**
-     * @return TaskIndexData
-     */
     public function testGetTaskIndexData(): TaskIndexData
     {
         $indexData = new TaskIndexData(
@@ -25,11 +24,7 @@ class TaskIndexDataTest extends TestCase
         return $indexData;
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function test__construct()
+    public function test__construct(): void
     {
         $indexData = $this->testGetTaskIndexData();
 
@@ -40,11 +35,7 @@ class TaskIndexDataTest extends TestCase
         $this->assertObjectHasProperty('completedSort', $indexData);
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->assertEquals(
             expected: collect([
@@ -58,11 +49,7 @@ class TaskIndexDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testGetFilter()
+    public function testGetFilter(): void
     {
         $this->assertEquals(
             expected: collect([
@@ -73,11 +60,7 @@ class TaskIndexDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testGetSort()
+    public function testGetSort(): void
     {
         $this->assertEquals(
             expected: collect([
@@ -89,11 +72,7 @@ class TaskIndexDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testGetTitle()
+    public function testGetTitle(): void
     {
         $this->assertEquals(
             expected: 'test',
@@ -101,29 +80,17 @@ class TaskIndexDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testHasSort()
+    public function testHasSort(): void
     {
         $this->assertTrue($this->testGetTaskIndexData()->hasSort());
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testHasTxtFilter()
+    public function testHasTxtFilter(): void
     {
         $this->assertTrue($this->testGetTaskIndexData()->hasTxtFilter());
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskIndexData
-     */
-    public function testHasFilter()
+    public function testHasFilter(): void
     {
         $this->assertTrue($this->testGetTaskIndexData()->hasFilter());
     }

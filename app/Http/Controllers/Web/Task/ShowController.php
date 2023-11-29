@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Web\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
@@ -8,14 +10,10 @@ use App\Services\AnswerService;
 use App\Services\Task\ShowService;
 use Illuminate\View\View;
 
-class TaskShowController extends Controller
+class ShowController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param ShowService $showService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected ShowService   $showService,
         protected AnswerService $answerService,
@@ -23,10 +21,6 @@ class TaskShowController extends Controller
     {
     }
 
-    /**
-     * @param int $id
-     * @return View
-     */
     public function show(int $id): View
     {
         $this->answerService = $this->getAnswer($this->showService, 'show', $id);

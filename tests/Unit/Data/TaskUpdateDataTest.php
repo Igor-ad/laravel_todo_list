@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Data;
 
 use App\Data\Request\TaskUpdateData;
@@ -7,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TaskUpdateDataTest extends TestCase
 {
-    /**
-     * @return TaskUpdateData
-     */
     public function testGetUpdateDataClass(): TaskUpdateData
     {
         $updateData = new TaskUpdateData(
@@ -26,11 +25,7 @@ class TaskUpdateDataTest extends TestCase
         return $updateData;
     }
 
-    /**
-     * @return void
-     * @depends testGetUpdateDataClass
-     */
-    public function test__construct()
+    public function test__construct(): void
     {
         $updateData = $this->testGetUpdateDataClass();
 
@@ -42,11 +37,7 @@ class TaskUpdateDataTest extends TestCase
         $this->assertObjectHasProperty('description', $updateData);
     }
 
-    /**
-     * @return void
-     * @depends testGetUpdateDataClass
-     */
-    public function testGetId()
+    public function testGetId(): void
     {
         $this->assertEquals(
             expected: 10,
@@ -54,11 +45,7 @@ class TaskUpdateDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetUpdateDataClass
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->assertEquals(
             expected: collect([

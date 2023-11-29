@@ -1,19 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Request;
 
 use Illuminate\Support\Collection;
 
 class TaskUpdateData implements RequestDataInterface
 {
-    /**
-     * @param int $id
-     * @param int|null $parent_id
-     * @param string|null $status
-     * @param int|null $priority
-     * @param string|null $title
-     * @param string|null $description
-     */
     public function __construct(
         private readonly int     $id,
         private readonly ?int    $parent_id = null,
@@ -25,17 +19,11 @@ class TaskUpdateData implements RequestDataInterface
     {
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection
-     */
     public function getData(): Collection
     {
         return collect([

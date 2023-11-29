@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
 
-use App\Enums\TaskPathEnum;
+namespace App\Http\Controllers\Web\Task;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\UpdateService;
 use Illuminate\Http\RedirectResponse;
 
-class TaskUpdateController extends Controller
+class UpdateController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param UpdateService $taskService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected UpdateService $taskService,
         protected AnswerService $answerService,
@@ -26,9 +23,8 @@ class TaskUpdateController extends Controller
 
     public function update(int $id): RedirectResponse
     {
-
         $this->answerService = $this->getAnswer($this->taskService, 'update');
 
-        return redirect(TaskPathEnum::show->value . $id);
+        return redirect(route('web.show', ['task' => $id]));
     }
 }

@@ -13,9 +13,6 @@ class TaskCreateDataFactory implements RequestDataFactoryInterface
     {
     }
 
-    /**
-     * @return TaskCreateData
-     */
     public function getValidData(): TaskCreateData
     {
         return new TaskCreateData(...$this->request->validated());

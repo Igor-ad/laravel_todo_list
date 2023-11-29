@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Task;
@@ -8,10 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseSetters
 {
-    /**
-     * @param Collection $data
-     * @return void
-     */
     public function setTaskIndexData(Collection $data): void
     {
         $this->setResponseData(
@@ -21,11 +19,6 @@ trait ResponseSetters
         );
     }
 
-    /**
-     * @param int $id
-     * @param bool $data
-     * @return void
-     */
     public function setTaskCompleteData(int $id, bool $data): void
     {
         $this->setResponseData(
@@ -35,11 +28,6 @@ trait ResponseSetters
         );
     }
 
-    /**
-     * @param int $id
-     * @param Task|null $data
-     * @return void
-     */
     public function setTaskShowData(int $id, ?Task $data): void
     {
         $this->setResponseData(
@@ -49,10 +37,6 @@ trait ResponseSetters
         );
     }
 
-    /**
-     * @param bool|Task $data
-     * @return void
-     */
     public function setTaskUpdateData(bool|Task $data): void
     {
         $this->setResponseData(
@@ -62,10 +46,6 @@ trait ResponseSetters
         );
     }
 
-    /**
-     * @param bool|Task $data
-     * @return void
-     */
     public function setTaskCreateData(bool|Task $data): void
     {
         $this->setResponseData(
@@ -75,10 +55,6 @@ trait ResponseSetters
         );
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
     public function setTaskDeleteData(int $id): void
     {
         $this->setResponseData(

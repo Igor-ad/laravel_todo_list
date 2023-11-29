@@ -1,19 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Request;
 
 use Illuminate\Support\Collection;
 
 class TaskIndexData implements RequestDataInterface
 {
-    /**
-     * @param string|null $status
-     * @param int|null $priority
-     * @param string|null $title
-     * @param string|null $prioritySort
-     * @param string|null $createdSort
-     * @param string|null $completedSort
-     */
     public function __construct(
         private readonly ?string $status = null,
         private readonly ?int    $priority = null,
@@ -25,9 +19,6 @@ class TaskIndexData implements RequestDataInterface
     {
     }
 
-    /**
-     * @return bool
-     */
     public function hasSort(): bool
     {
         return isset($this->prioritySort)
@@ -35,34 +26,22 @@ class TaskIndexData implements RequestDataInterface
             || isset($this->completedSort);
     }
 
-    /**
-     * @return bool
-     */
     public function hasFilter(): bool
     {
         return isset($this->status)
             || isset($this->priority);
     }
 
-    /**
-     * @return bool
-     */
     public function hasTxtFilter(): bool
     {
         return isset($this->title);
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @return Collection
-     */
     public function getData(): Collection
     {
         return collect([
@@ -74,9 +53,6 @@ class TaskIndexData implements RequestDataInterface
         ])->whereNotNull();
     }
 
-    /**
-     * @return Collection
-     */
     public function getSort(): Collection
     {
         return $this->getData()->only([
@@ -86,9 +62,6 @@ class TaskIndexData implements RequestDataInterface
         ]);
     }
 
-    /**
-     * @return Collection
-     */
     public function getFilter(): Collection
     {
         return $this->getData()->only([

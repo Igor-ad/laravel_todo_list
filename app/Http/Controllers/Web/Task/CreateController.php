@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
 
-use App\Enums\TaskPathEnum;
+namespace App\Http\Controllers\Web\Task;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\CreateService;
 use Illuminate\Http\RedirectResponse;
 
-class TaskCreateController extends Controller
+class CreateController extends Controller
 {
     use ServiceMapper;
 
@@ -20,13 +21,10 @@ class TaskCreateController extends Controller
     {
     }
 
-    /**
-     * @return RedirectResponse
-     */
     public function create(): RedirectResponse
     {
         $this->answerService = $this->getAnswer($this->taskService, 'create');
 
-        return redirect(TaskPathEnum::index->value);
+        return redirect(route('web.index'));
     }
 }

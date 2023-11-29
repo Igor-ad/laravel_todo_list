@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Data\Request\TaskIndexData;
@@ -9,10 +11,6 @@ class FilterService
 {
     private array $where = [];
 
-    /**
-     * @param TaskIndexData $data
-     * @return array
-     */
     public function filter(TaskIndexData $data): array
     {
         foreach (FilterEnum::cases() as $case) {
@@ -24,9 +22,6 @@ class FilterService
         return $this->where;
     }
 
-    /**
-     * @return string
-     */
     public function fullTextFilter(): string
     {
         return 'MATCH (`title`) AGAINST (+? IN BOOLEAN MODE)';

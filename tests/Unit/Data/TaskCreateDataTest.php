@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Data;
 
 use App\Data\Request\TaskCreateData;
@@ -7,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class TaskCreateDataTest extends TestCase
 {
-    /**
-     * @return TaskCreateData
-     */
     public function testGetTaskCreateDataClass(): TaskCreateData
     {
         $taskCreateData = new TaskCreateData(
@@ -26,11 +25,7 @@ class TaskCreateDataTest extends TestCase
 
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskCreateDataClass
-     */
-    public function test__construct()
+    public function test__construct(): void
     {
         $taskCreateData = $this->testGetTaskCreateDataClass();
 
@@ -41,11 +36,7 @@ class TaskCreateDataTest extends TestCase
         $this->assertObjectHasProperty('parent_id', $taskCreateData);
     }
 
-    /**
-     * @return void
-     * @depends testGetTaskCreateDataClass
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->assertEquals(
             expected: collect([

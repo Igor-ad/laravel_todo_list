@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskDataFactory;
@@ -17,10 +19,6 @@ class IndexService
     {
     }
 
-    /**
-     * @return ResponseService
-     * @throws RuntimeException
-     */
     public function index(): ResponseService
     {
         $data = $this->dataFactory->getValidData();
@@ -41,5 +39,4 @@ class IndexService
         }
         return $this->response;
     }
-
 }

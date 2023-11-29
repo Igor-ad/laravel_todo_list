@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Web\Task;
 
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\ShowService;
 use Illuminate\View\View;
 
-class TaskEditController
+class EditController
 {
     use ServiceMapper;
 
@@ -19,10 +21,6 @@ class TaskEditController
     {
     }
 
-    /**
-     * @param int $id
-     * @return View
-     */
     public function edit(int $id): View
     {
         $this->answerService = $this->getAnswer($this->showService, 'show', $id);

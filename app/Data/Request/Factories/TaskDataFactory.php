@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Request\Factories;
 
 use App\Data\Request\TaskIndexData;
@@ -13,9 +15,6 @@ class TaskDataFactory implements RequestDataFactoryInterface
     {
     }
 
-    /**
-     * @return TaskIndexData
-     */
     public function getValidData(): TaskIndexData
     {
         return new TaskIndexData(...$this->request->validated());

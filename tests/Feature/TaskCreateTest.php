@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -13,9 +15,6 @@ class TaskCreateTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_the_task_sample_created_successfully
-     */
     public function test_the_task_sample_created_successfully(): void
     {
         $this->userInit();
@@ -36,9 +35,6 @@ class TaskCreateTest extends TestCase
         $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
 
-    /**
-     * test_the_root_task_sample_created_successfully_without_parent_id
-     */
     public function test_the_root_task_sample_created_successfully_without_parent_id(): void
     {
         $this->userInit();
@@ -58,9 +54,6 @@ class TaskCreateTest extends TestCase
         $this->deleteTask(Task::all()->last()->getAttribute('id'));
     }
 
-    /**
-     * test_the_task_sample_does_not_created_with_the_wrong_field
-     */
     public function test_the_task_sample_does_not_created_with_the_wrong_field(): void
     {
         $this->userInit();

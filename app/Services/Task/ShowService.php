@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Repositories\TaskRepository;
@@ -15,11 +17,6 @@ class ShowService
     {
     }
 
-    /**
-     * @param int $id
-     * @return ResponseService
-     * @throws RuntimeException
-     */
     public function show(int $id): ResponseService
     {
         $result = $this->repository->getById($id);

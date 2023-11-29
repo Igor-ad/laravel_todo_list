@@ -1,18 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Request;
 
 use Illuminate\Support\Collection;
 
 class TaskCreateData implements RequestDataInterface
 {
-    /**
-     * @param string $status
-     * @param int $priority
-     * @param string $title
-     * @param string $description
-     * @param int|null $parent_id
-     */
     public function __construct(
         private readonly string $status,
         private readonly int    $priority,
@@ -24,9 +19,6 @@ class TaskCreateData implements RequestDataInterface
     {
     }
 
-    /**
-     * @return Collection
-     */
     public function getData(): Collection
     {
         return collect([

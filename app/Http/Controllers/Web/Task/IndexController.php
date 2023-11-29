@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Web\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\IndexService;
-use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
-class TaskIndexController extends Controller
+class IndexController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param IndexService $indexService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected IndexService  $indexService,
         protected AnswerService $answerService,
@@ -23,13 +21,14 @@ class TaskIndexController extends Controller
     {
     }
 
-    /**
-     * @return JsonResponse
-     */
-    public function index(): JsonResponse
+    public function index(): View
     {
         $this->answerService = $this->getAnswer($this->indexService, 'index');
 
-        return $this->answerService->getJsonResponse();
+        $title = __('task.web.index');
+        $help = $this->answerService->answerData->getMessage();
+        $tasks = $this->answerService->answerData->getPropData();
+
+        return view('tasks.tasks', compact('tasks', 'help', 'title'));
     }
 }

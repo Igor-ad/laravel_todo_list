@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Data;
 
 use App\Data\Response\AnswerData;
@@ -7,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class AnswerDataTest extends TestCase
 {
-    /**
-     * @return AnswerData
-     */
     public function testGetAnswerDataClass(): AnswerData
     {
         $answerData = new AnswerData(
@@ -21,11 +20,7 @@ class AnswerDataTest extends TestCase
         return $answerData;
     }
 
-    /**
-     * @return void
-     * @depends testGetAnswerDataClass
-     */
-    public function test__construct()
+    public function test__construct(): void
     {
         $answerData = $this->testGetAnswerDataClass();
 
@@ -35,11 +30,7 @@ class AnswerDataTest extends TestCase
         $this->assertObjectHasProperty('code', $answerData);
     }
 
-    /**
-     * @return void
-     * @depends testGetAnswerDataClass
-     */
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->assertEquals(
             expected: collect([
@@ -52,11 +43,7 @@ class AnswerDataTest extends TestCase
         );
     }
 
-    /**
-     * @return void
-     * @depends testGetAnswerDataClass
-     */
-    public function testGetStatus()
+    public function testGetStatus(): void
     {
         $this->assertEquals(
             expected: 200,

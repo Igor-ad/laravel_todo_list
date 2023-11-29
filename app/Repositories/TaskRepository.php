@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Data\Request\TaskCreateData;
@@ -16,11 +18,6 @@ use Illuminate\Support\Facades\DB;
 
 class TaskRepository
 {
-
-    /**
-     * @param FilterService $filterService
-     * @param OrderService $orderService
-     */
     public function __construct(
         protected FilterService $filterService,
         protected OrderService  $orderService,
@@ -28,10 +25,6 @@ class TaskRepository
     {
     }
 
-    /**
-     * @param int $id
-     * @return Task|null
-     */
     public function getById(int $id): ?Task
     {
         return User::find(Auth::id())->tasks()
@@ -39,18 +32,11 @@ class TaskRepository
             ->first();
     }
 
-    /**
-     * @return Collection|null
-     */
     public function getTask(): ?Collection
     {
         return User::find(Auth::id())->tasks()->get();
     }
 
-    /**
-     * @param TaskIndexData $data
-     * @return Collection|null
-     */
     public function getByFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
@@ -58,10 +44,6 @@ class TaskRepository
             ->get();
     }
 
-    /**
-     * @param TaskIndexData $data
-     * @return Collection|null
-     */
     public function get(TaskIndexData $data): ?Collection
     {
         return $data->hasFilter()
@@ -69,10 +51,6 @@ class TaskRepository
             : $this->getTask();
     }
 
-    /**
-     * @param TaskIndexData $data
-     * @return Collection|null
-     */
     public function getOrder(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
@@ -81,10 +59,6 @@ class TaskRepository
             ->get();
     }
 
-    /**
-     * @param TaskIndexData $data
-     * @return Collection|null
-     */
     public function getAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
@@ -93,11 +67,7 @@ class TaskRepository
             ->get();
     }
 
-    /**
-     * @param TaskIndexData $data
-     * @return Collection|null
-     */
-    public function getOrderAllFilter(TaskIndexData $data): ?Collection
+     public function getOrderAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filterService->filter($data))
@@ -106,10 +76,6 @@ class TaskRepository
             ->get();
     }
 
-    /**
-     * @param TaskUpdateData $data
-     * @return bool|null
-     */
     public function updateById(TaskUpdateData $data): ?bool
     {
         return User::find(Auth::id())->tasks()
@@ -117,10 +83,6 @@ class TaskRepository
             ->update($data->getData()->toArray());
     }
 
-    /**
-     * @param TaskCreateData $data
-     * @return Task|null
-     */
     public function create(TaskCreateData $data): ?Task
     {
         return Task::create(array_merge(
@@ -129,10 +91,6 @@ class TaskRepository
         );
     }
 
-    /**
-     * @param int $id
-     * @return Task|null
-     */
     public function doneStatus(int $id): ?Task
     {
         return User::find(Auth::id())->tasks()
@@ -141,10 +99,6 @@ class TaskRepository
             ->first();
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     */
     public function delete(int $id): bool
     {
         return User::find(Auth::id())->tasks()
@@ -152,10 +106,6 @@ class TaskRepository
             ->delete();
     }
 
-    /**
-     * @param int $id
-     * @return bool|null
-     */
     public function complete(int $id): ?bool
     {
         return User::find(Auth::id())->tasks()
@@ -166,10 +116,6 @@ class TaskRepository
             ]);
     }
 
-    /**
-     * @param array $parentId
-     * @return array
-     */
     public function getTaskChildStatus(array $parentId): array
     {
         $sql = "
@@ -186,5 +132,4 @@ class TaskRepository
         ";
         return DB::select($sql, $parentId);
     }
-
 }

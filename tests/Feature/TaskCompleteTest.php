@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -13,9 +15,6 @@ class TaskCompleteTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_the_task_status_set_complete_successfully
-     */
     public function test_the_task_status_set_complete_successfully(): void
     {
         $this->init();
@@ -28,12 +27,9 @@ class TaskCompleteTest extends TestCase
             Path::API->value . Path::complete->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(Response::HTTP_OK);
+        ))->assertOk();
     }
 
-    /**
-     * test_attempt_to_set_task_status_to_complete_if_task_does_not_exist
-     */
     public function test_attempt_to_set_task_status_to_complete_if_task_does_not_exist(): void
     {
         $this->userInit();
@@ -48,9 +44,6 @@ class TaskCompleteTest extends TestCase
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 
-    /**
-     * test_attempt_to_set_task_status_to_complete_if_children_are_status_todo
-     */
     public function test_attempt_to_set_task_status_to_complete_if_children_are_status_todo(): void
     {
         $this->init();

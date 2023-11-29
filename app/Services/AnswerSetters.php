@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Exception;
@@ -9,19 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait AnswerSetters
 {
-    /**
-     * @param Exception $e
-     * @return void
-     */
     public function setExceptionAnswer(Exception $e): void
     {
         $this->setAnswerData($this->eFormatter($e));
     }
 
-    /**
-     * @param Exception $e
-     * @return Collection
-     */
     protected function eFormatter(Exception $e): Collection
     {
         return collect([
@@ -32,9 +26,6 @@ trait AnswerSetters
         ]);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function getJsonResponse(): JsonResponse
     {
         return response()->json(

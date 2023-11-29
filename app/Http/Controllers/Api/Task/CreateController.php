@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
@@ -8,14 +10,10 @@ use App\Services\AnswerService;
 use App\Services\Task\CreateService;
 use Illuminate\Http\JsonResponse;
 
-class TaskCreateController extends Controller
+class CreateController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param CreateService $createService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected CreateService $createService,
         protected AnswerService $answerService,
@@ -23,9 +21,6 @@ class TaskCreateController extends Controller
     {
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function create(): JsonResponse
     {
         $this->answerService = $this->getAnswer($this->createService, 'create');

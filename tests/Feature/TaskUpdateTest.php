@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -11,9 +13,6 @@ class TaskUpdateTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_attempt_updated_the_task_with_wrong_id
-     */
     public function test_attempt_updated_the_task_with_wrong_id(): void
     {
         $this->init();
@@ -30,9 +29,6 @@ class TaskUpdateTest extends TestCase
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 
-    /**
-     * test_the_task_was_updated_successfully
-     */
     public function test_the_task_was_updated_successfully(): void
     {
         $this->init();
@@ -46,12 +42,9 @@ class TaskUpdateTest extends TestCase
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             fake()->jobTitle
-        ))->assertStatus(Response::HTTP_OK);
+        ))->assertOk();
     }
 
-    /**
-     * test_attempt_updated_the_task_with_wrong_field
-     */
     public function test_attempt_updated_the_task_with_wrong_field(): void
     {
         $this->init();

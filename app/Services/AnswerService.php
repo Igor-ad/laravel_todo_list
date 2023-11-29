@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Data\Response\AnswerData;
@@ -12,19 +14,11 @@ class AnswerService
 
     public AnswerData $answerData;
 
-    /**
-     * @param Collection $data
-     * @return void
-     */
     public function setAnswerData(Collection $data): void
     {
         $this->answerData = AnswerDataFactory::getDTO($data);
     }
 
-    /**
-     * @param ResponseService $responseService
-     * @return void
-     */
     public function setAnswer(ResponseService $responseService): void
     {
         $this->answerData = AnswerDataFactory::getDTO(

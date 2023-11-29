@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
 
-use App\Enums\TaskPathEnum;
+namespace App\Http\Controllers\Web\Task;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
 use App\Services\Task\CompleteService;
 use Illuminate\Http\RedirectResponse;
 
-class TaskCompleteController extends Controller
+class CompleteController extends Controller
 {
     use ServiceMapper;
 
-    /**
-     * @param CompleteService $completeService
-     * @param AnswerService $answerService
-     */
     public function __construct(
         protected CompleteService $completeService,
         protected AnswerService   $answerService,
@@ -24,14 +21,10 @@ class TaskCompleteController extends Controller
     {
     }
 
-    /**
-     * @param int $id
-     * @return RedirectResponse
-     */
     public function complete(int $id): RedirectResponse
     {
         $this->answerService = $this->getAnswer($this->completeService, 'complete', $id);
 
-        return redirect(TaskPathEnum::show->value . $id);
+        return redirect(route('web.show', ['task' => $id]));
     }
 }

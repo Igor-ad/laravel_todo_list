@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Repositories\TaskRepository;
@@ -17,12 +19,7 @@ class DeleteService
     {
     }
 
-    /**
-     * @param int $id
-     * @return ResponseService
-     * @throws Exception
-     */
-    public function delete(int $id): ResponseService
+      public function delete(int $id): ResponseService
     {
         DB::beginTransaction();
         try {

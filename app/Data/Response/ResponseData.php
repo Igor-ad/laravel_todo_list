@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Response;
 
 use Illuminate\Support\Collection;
@@ -9,11 +11,6 @@ use Illuminate\Support\Collection;
  */
 class ResponseData implements ResponseDataInterface
 {
-    /**
-     * @param int $status
-     * @param string $message
-     * @param bool|object|null $data
-     */
     public function __construct(
         private readonly int              $status,
         private readonly string           $message,
@@ -22,9 +19,6 @@ class ResponseData implements ResponseDataInterface
     {
     }
 
-    /**
-     * @return Collection
-     */
     public function getData(): Collection
     {
         return collect([
@@ -34,10 +28,6 @@ class ResponseData implements ResponseDataInterface
         ]);
     }
 
-    /**
-     * @param ResponseData $anotherOne
-     * @return bool
-     */
     public function equals(self $anotherOne): bool
     {
         return $this->getData()->toArray() === $anotherOne->getData()->toArray();

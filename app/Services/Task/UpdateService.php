@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskUpdateDataFactory;
@@ -19,10 +21,6 @@ class UpdateService
     {
     }
 
-    /**
-     * @return ResponseService
-     * @throws Exception
-     */
     public function update(): ResponseService
     {
         DB::beginTransaction();

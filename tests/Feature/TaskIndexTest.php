@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -11,9 +13,6 @@ class TaskIndexTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_successful_access_to_task_index_path
-     */
     public function test_successful_access_to_task_index_path(): void
     {
         $this->init();
@@ -27,12 +26,9 @@ class TaskIndexTest extends TestCase
             $this->user->getAttribute('api_token'),
         ));
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertOk();
     }
 
-    /**
-     * test_attempt_to_access_to_the_wrong_path
-     */
     public function test_attempt_to_access_to_the_wrong_path(): void
     {
         $this->userInit();
@@ -48,9 +44,6 @@ class TaskIndexTest extends TestCase
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * test_attempt_unauthorized_access_to_task_index_path
-     */
     public function test_attempt_unauthorized_access_to_the_task_index_path(): void
     {
         $this->userInit();

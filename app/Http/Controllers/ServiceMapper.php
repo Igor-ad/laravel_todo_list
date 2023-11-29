@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Services\AnswerService;
@@ -8,23 +10,11 @@ use Exception;
 
 trait ServiceMapper
 {
-    /**
-     * @param $service
-     * @param $method
-     * @param $id
-     * @return ResponseService
-     */
     private function getService($service, $method, $id = null): ResponseService
     {
         return $service->$method($id);
     }
 
-    /**
-     * @param $service
-     * @param $method
-     * @param $id
-     * @return AnswerService
-     */
     protected function getAnswer($service, $method, $id = null): AnswerService
     {
         try {

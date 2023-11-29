@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -11,9 +13,6 @@ class TaskShowTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_the_task_was_shown_successfully
-     */
     public function test_the_task_was_shown_successfully(): void
     {
         $this->init();
@@ -26,12 +25,9 @@ class TaskShowTest extends TestCase
             Path::API->value . Path::show->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(Response::HTTP_OK);
+        ))->assertOk();
     }
 
-    /**
-     * test_the_task_id_is_not_found_in_the_system
-     */
     public function test_the_task_id_is_not_found_in_the_system(): void
     {
         $this->userInit();

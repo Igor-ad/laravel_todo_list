@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Web\Task;
 
 use Illuminate\View\View;
 
-class TaskAddController
+class AddController
 {
-    /**
-     * @return View
-     */
     public function add(): View
     {
         $title = __('task.web.create');

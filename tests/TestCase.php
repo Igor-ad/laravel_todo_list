@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function setUp(): void
     {
-//        parent::setUp();
+        parent::setUp();
 //        Artisan::call('migrate');
 //        Artisan::call('db:seed');
     }

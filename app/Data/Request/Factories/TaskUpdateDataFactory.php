@@ -13,9 +13,6 @@ class TaskUpdateDataFactory implements RequestDataFactoryInterface
     {
     }
 
-    /**
-     * @return TaskUpdateData
-     */
     public function getValidData(): TaskUpdateData
     {
         return new TaskUpdateData(...$this->request->validated());

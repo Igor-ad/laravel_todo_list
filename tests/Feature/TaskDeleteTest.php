@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\TaskPathEnum as Path;
@@ -13,9 +15,6 @@ class TaskDeleteTest extends TestCase
 {
     use TaskTestHelper;
 
-    /**
-     * test_the_task_was_deleted_successfully
-     */
     public function test_the_task_was_deleted_successfully(): void
     {
         $this->init();
@@ -28,12 +27,9 @@ class TaskDeleteTest extends TestCase
             Path::API->value . Path::delete->value,
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
-        ))->assertStatus(Response::HTTP_OK);
+        ))->assertOk();
     }
 
-    /**
-     * test_attempt_to_delete_task_if_task_does_not_exist
-     */
     public function test_attempt_to_delete_task_if_task_does_not_exist(): void
     {
         $this->init();
@@ -49,9 +45,6 @@ class TaskDeleteTest extends TestCase
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
     }
 
-    /**
-     * test_attempt_to_delete_task_with_its_status_is_complete
-     */
     public function test_attempt_to_delete_task_with_its_status_is_complete(): void
     {
         $this->userInit();
