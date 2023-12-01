@@ -1,6 +1,4 @@
-@php use App\Enums\TaskPathEnum; @endphp
-
-<form class="d-flex" method="post" action="{{ TaskPathEnum::update->value . $task->id }}">
+<form class="d-flex" method="post" action="{{ route('web.update', [$task->id]) }}">
     @csrf
     <div class="row">
         <div class="row">

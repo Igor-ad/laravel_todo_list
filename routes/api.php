@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\PathEnum;
-use App\Enums\TaskPathEnum as Path;
 use App\Http\Controllers\Api\Task\CompleteController;
 use App\Http\Controllers\Api\Task\CreateController;
 use App\Http\Controllers\Api\Task\DeleteController;
@@ -22,15 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:api'])->group(callback: function () {
-    Route::get(Path::index->value, [IndexController::class, 'index'])->name('api.tasks');
-    Route::get(Path::show->value . '{task}', [ShowController::class, 'show'])->name('api.show');
-    Route::put(Path::complete->value . '{task}', [CompleteController::class, 'complete'])->name('api.complete');
-    Route::post(Path::create->value, [CreateController::class, 'create'])->name('api.create');
-    Route::put(Path::update->value, [UpdateController::class, 'update'])->name('api.update');
-    Route::delete(Path::delete->value . '{task}', [DeleteController::class, 'delete'])->name('api.delete');
+    Route::get('/tasks', [IndexController::class, 'index'])->name('api.index');
+    Route::get('/tasks/show/{task}', [ShowController::class, 'show'])->name('api.show');
+    Route::put('/tasks/complete/{task}', [CompleteController::class, 'complete'])->name('api.complete');
+    Route::post('/tasks/create', [CreateController::class, 'create'])->name('api.create');
+    Route::put('/tasks/update', [UpdateController::class, 'update'])->name('api.update');
+    Route::delete('/tasks/delete/{task}', [DeleteController::class, 'delete'])->name('api.delete');
 });
 
-Route::get(PathEnum::login->value, function () {
+Route::get('/login', function () {
     return response()->json(
         data: [
             'status' => 200,
@@ -40,6 +38,6 @@ Route::get(PathEnum::login->value, function () {
         status: 200,
         options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
     );
-});
+})->name('api.login');
 
-Route::post(PathEnum::login->value, ['as' => 'login']);
+Route::post('/login', ['as' => 'login']);

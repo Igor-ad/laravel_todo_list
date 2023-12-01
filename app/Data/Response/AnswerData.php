@@ -9,10 +9,10 @@ use Illuminate\Support\Collection;
 class AnswerData implements ResponseDataInterface
 {
     public function __construct(
-        private readonly int                    $status,
-        private readonly string                 $message,
-        private readonly object|array|bool|null $data = null,
-        private readonly int|string|null        $code = null,
+        private readonly int                   $status,
+        private readonly string                $message,
+        private readonly object|array|int|null $data = null,
+        private readonly int|string|null       $code = null,
     )
     {
     }

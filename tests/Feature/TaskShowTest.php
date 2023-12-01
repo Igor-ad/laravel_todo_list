@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
@@ -22,7 +21,7 @@ class TaskShowTest extends TestCase
 
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::API->value . Path::show->value,
+            '/api/tasks/show/',
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertOk();
@@ -36,7 +35,7 @@ class TaskShowTest extends TestCase
 
         $this->get(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::API->value . Path::show->value,
+            '/api/tasks/show/',
             0,
             $this->user->getAttribute('api_token'),
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);

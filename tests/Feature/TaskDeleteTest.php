@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,7 @@ class TaskDeleteTest extends TestCase
 
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::API->value . Path::delete->value,
+            '/api/tasks/delete/',
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertOk();
@@ -39,7 +38,7 @@ class TaskDeleteTest extends TestCase
 
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::API->value . Path::delete->value,
+            '/api/tasks/delete/',
             0,
             $this->user->getAttribute('api_token'),
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
@@ -60,7 +59,7 @@ class TaskDeleteTest extends TestCase
 
         $this->delete(uri: sprintf(
             '%s%d?api_token=%s',
-            Path::API->value . Path::delete->value,
+            '/api/tasks/delete/',
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);

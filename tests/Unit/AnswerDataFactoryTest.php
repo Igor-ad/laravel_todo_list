@@ -12,11 +12,11 @@ class AnswerDataFactoryTest extends TestCase
     public function testAnswerDataFactoryTest(): void
     {
         $testAnswerData = new AnswerData(
-            status: Response::HTTP_OK, message: 'test', data: true, code: 'error_code'
+            status: Response::HTTP_OK, message: 'test', data: 1, code: 'error_code'
         );
 
         $answerData = AnswerDataFactory::getDTO(
-            collect([Response::HTTP_OK, 'test', true, 'error_code',])
+            collect([Response::HTTP_OK, 'test', 1, 'error_code',])
         );
 
         $this->assertObjectEquals($answerData, $testAnswerData);

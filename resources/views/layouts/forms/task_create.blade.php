@@ -1,6 +1,4 @@
-@php use App\Enums\TaskPathEnum; @endphp
-
-<form class="d-flex" method="post" action="{{ TaskPathEnum::create->value }}">
+<form class="d-flex" method="post" action="{{ route('web.create') }}">
     @csrf
     <div class="row">
         <div class="row">

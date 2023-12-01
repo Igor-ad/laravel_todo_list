@@ -38,7 +38,7 @@ class CompleteService
         return $this->repository->getTaskChildStatus([$id, $id]);
     }
 
-    protected function setCompleteStatus(int $id): bool
+    protected function setCompleteStatus(int $id): int
     {
         DB::beginTransaction();
         try {

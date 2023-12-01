@@ -19,7 +19,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskCompleteData(int $id, bool $data): void
+    public function setTaskCompleteData(int $id, int $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
@@ -60,7 +60,7 @@ trait ResponseSetters
         $this->setResponseData(
             status: Response::HTTP_OK,
             message: __('task.delete_success', ['id' => $id]),
-            data: true,
+            data: 1,
         );
     }
 }

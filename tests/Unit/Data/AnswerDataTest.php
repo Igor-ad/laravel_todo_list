@@ -12,7 +12,7 @@ class AnswerDataTest extends TestCase
     public function testGetAnswerDataClass(): AnswerData
     {
         $answerData = new AnswerData(
-            status: 200, message: 'test', data: true, code: 'code=987'
+            status: 200, message: 'test', data: 1, code: 'code=987'
         );
 
         $this->assertTrue(is_a($answerData, 'App\Data\Response\AnswerData'));
@@ -36,7 +36,7 @@ class AnswerDataTest extends TestCase
             expected: collect([
                 'status' => 200,
                 'message' => 'test',
-                'data' => true,
+                'data' => 1,
                 'code' => 'code=987'
             ]),
             actual: $this->testGetAnswerDataClass()->getData(),

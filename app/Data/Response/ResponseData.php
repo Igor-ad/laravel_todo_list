@@ -12,9 +12,9 @@ use Illuminate\Support\Collection;
 class ResponseData implements ResponseDataInterface
 {
     public function __construct(
-        private readonly int              $status,
-        private readonly string           $message,
-        private readonly bool|object|null $data = null,
+        private readonly int             $status,
+        private readonly string          $message,
+        private readonly int|object|null $data = null,
     )
     {
     }

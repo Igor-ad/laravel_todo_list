@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,7 @@ class TaskCompleteTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::API->value . Path::complete->value,
+            '/api/tasks/complete/',
             $this->task->getAttribute('id'),
             $this->user->getAttribute('api_token'),
         ))->assertOk();
@@ -38,7 +37,7 @@ class TaskCompleteTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::API->value . Path::complete->value,
+            '/api/tasks/complete/',
             0,
             $this->user->getAttribute('api_token'),
         ))->assertStatus(Response::HTTP_NOT_IMPLEMENTED);
@@ -61,7 +60,7 @@ class TaskCompleteTest extends TestCase
 
         $response = $this->put(uri: sprintf(
             "%s%d?api_token=%s",
-            Path::API->value . Path::complete->value,
+            '/api/tasks/complete/',
             $taskId,
             $this->user->getAttribute('api_token'),
         ));

@@ -9,18 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseDataFactoryTest extends TestCase
 {
-
-    /**
-     * @return void
-     */
     public function testResponseDataFactoryTest()
     {
         $testResponseData = new ResponseData(
-            status: Response::HTTP_CREATED, message: 'test', data: true
+            status: Response::HTTP_CREATED, message: 'test', data: 1
         );
 
         $responseData = ResponseDataFactory::getDTO(
-            collect([Response::HTTP_CREATED, 'test', true,])
+            collect([Response::HTTP_CREATED, 'test', 1,])
         );
 
         $this->assertObjectEquals($testResponseData, $responseData);

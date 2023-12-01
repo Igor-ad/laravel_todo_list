@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class TaskCreateTest extends TestCase
 
         $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',
-            Path::API->value . Path::create->value,
+            route('api.create'),
             $this->user->getAttribute('api_token'),
             1,
             TaskStatusEnum::TODO->value,
@@ -43,7 +42,7 @@ class TaskCreateTest extends TestCase
 
         $this->post(uri: sprintf(
             '%s?api_token=%s&status=%s&priority=%d&title=%s&description=%s',
-            Path::API->value . Path::create->value,
+            route('api.create'),
             $this->user->getAttribute('api_token'),
             TaskStatusEnum::TODO->value,
             rand(1, 5),
@@ -62,7 +61,7 @@ class TaskCreateTest extends TestCase
 
         $this->post(uri: sprintf(
             '%s?api_token=%s&parent_id=%d&status=%s&priority=%d&title=%s&description=%s',
-            Path::API->value . Path::create->value,
+            route('api.create'),
             $this->user->getAttribute('api_token'),
             1,
             TaskStatusEnum::TODO->value,

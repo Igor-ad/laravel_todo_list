@@ -1,5 +1,3 @@
-@php use App\Enums\TaskPathEnum; @endphp
-
 <table id="t1" class="table table-condensed table-striped">
     <thead>
     <tr>
@@ -30,14 +28,14 @@
             <td>{{ $task->completed_at }}</td>
             <td>
                 <a type="button" class="btn btn-primary"
-                   href="{{ TaskPathEnum::edit->value . $task->id }}">&Delta;</a>
+                   href="{{ route('web.edit', [$task->id]) }}">&Delta;</a>
                 <a type="button" class="btn btn-primary"
-                   href="{{ TaskPathEnum::show->value . $task->id }}">&Theta;</a>
+                   href="{{ route('web.show', [$task->id]) }}">&Theta;</a>
                 <a type="button" class="btn btn-primary
 @if($task->status == 'done') disabled @endif"
-                   href="{{ TaskPathEnum::complete->value . $task->id }}">&oplus;</a>
+                   href="{{ route('web.complete', [$task->id]) }}">&oplus;</a>
                 <a type="button" class="btn btn-secondary"
-                   href="{{ TaskPathEnum::delete->value . $task->id }}">&otimes;</a>
+                   href="{{ route('web.delete', [$task->id]) }}">&otimes;</a>
             </td>
         </tr>
 @empty

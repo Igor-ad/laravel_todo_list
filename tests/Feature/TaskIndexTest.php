@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
@@ -20,13 +19,11 @@ class TaskIndexTest extends TestCase
         $this->assertDatabaseHas('tasks', $this->task->toArray());
         $this->assertDatabaseHas('users', $this->user->toArray());
 
-        $response = $this->get(uri: sprintf(
+        $this->get(uri: sprintf(
             "%s?api_token=%s",
-            Path::API->value . Path::index->value,
+            route('api.index'),
             $this->user->getAttribute('api_token'),
-        ));
-
-        $response->assertOk();
+        ))->assertOk();
     }
 
     public function test_attempt_to_access_to_the_wrong_path(): void
@@ -35,13 +32,11 @@ class TaskIndexTest extends TestCase
 
         $this->assertDatabaseHas('users', $this->user->toArray());
 
-        $response = $this->get(uri: sprintf(
+        $this->get(uri: sprintf(
             "%s?api_token=%s",
             '/api/tasks/wrong_path/',
             $this->user->getAttribute('api_token'),
-        ));
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        ))->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
     public function test_attempt_unauthorized_access_to_the_task_index_path(): void
@@ -50,12 +45,10 @@ class TaskIndexTest extends TestCase
 
         $this->assertDatabaseHas('users', $this->user->toArray());
 
-        $response = $this->get(uri: sprintf(
+        $this->get(uri: sprintf(
             "%s?api_token=%s",
-            Path::API->value . Path::index->value,
+            route('api.index'),
             '**********'
-        ));
-
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        ))->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 }

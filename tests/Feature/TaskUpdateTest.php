@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Enums\TaskPathEnum as Path;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TaskTestHelper;
 use Tests\TestCase;
@@ -22,7 +21,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
-            Path::API->value . Path::update->value,
+            route('api.update'),
             $this->user->getAttribute('api_token'),
             0,
             fake()->jobTitle
@@ -38,7 +37,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&title=%s",
-            Path::API->value . Path::update->value,
+            route('api.update'),
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             fake()->jobTitle
@@ -54,7 +53,7 @@ class TaskUpdateTest extends TestCase
 
         $this->put(uri: sprintf(
             "%s?api_token=%s&id=%d&status=%s",
-            Path::API->value . Path::update->value,
+            route('api.update'),
             $this->user->getAttribute('api_token'),
             $this->task->getAttribute('id'),
             'OK'
