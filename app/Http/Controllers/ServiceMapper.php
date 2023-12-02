@@ -33,13 +33,7 @@ trait ServiceMapper
 
                 throw new MethodNotAllowedException(
                     $allowedMethods,
-                    __('exception.not_allowed_method', [
-                        'method' => $method,
-                        'class' => class_basename($service)
-                    ]) .
-                    __('exception.allowed_methods', [
-                        'methods' => implode(', ', $allowedMethods)
-                    ]),
+                    $this->notAllowedMethodMessage($service, $method, $allowedMethods),
                 );
             }
 
@@ -47,5 +41,21 @@ trait ServiceMapper
             $this->answerService->setExceptionAnswer($e);
         }
         return $this->answerService;
+    }
+
+    private function notAllowedMethodMessage(object $service, string $method, array $allowedMethods): string
+    {
+        return __('exception.not_allowed_method', [
+            'method' => $method,
+            'class' => class_basename($service)
+        ]) .
+        __('exception.allowed_methods', [
+            'methods' => $this->arrayToString($allowedMethods)
+        ]);
+    }
+
+    protected function arrayToString(array $methods): string
+    {
+        return implode(', ', $methods);
     }
 }
