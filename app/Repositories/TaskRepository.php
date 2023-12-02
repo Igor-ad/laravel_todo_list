@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\DB;
 class TaskRepository
 {
     public function __construct(
-        protected FilterService $filterService,
-        protected OrderService  $orderService,
+        protected FilterService $filter,
+        protected OrderService  $order,
     )
     {
     }
@@ -40,7 +40,7 @@ class TaskRepository
     public function getByFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filterService->filter($data))
+            ->where($this->filter->filter($data))
             ->get();
     }
 
@@ -54,29 +54,29 @@ class TaskRepository
     public function getOrder(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filterService->filter($data))
-            ->orderByRaw($this->orderService->orderExpression($data))
+            ->where($this->filter->filter($data))
+            ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
 
     public function getAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filterService->filter($data))
-            ->whereRaw($this->filterService->fullTextFilter(), [$data->getTitle()])
+            ->where($this->filter->filter($data))
+            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->get();
     }
 
      public function getOrderAllFilter(TaskIndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
-            ->where($this->filterService->filter($data))
-            ->whereRaw($this->filterService->fullTextFilter(), [$data->getTitle()])
-            ->orderByRaw($this->orderService->orderExpression($data))
+            ->where($this->filter->filter($data))
+            ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
+            ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
 
-    public function updateById(TaskUpdateData $data): ?bool
+    public function updateById(TaskUpdateData $data): ?int
     {
         return User::find(Auth::id())->tasks()
             ->where('id', $data->getId())
@@ -99,14 +99,14 @@ class TaskRepository
             ->first();
     }
 
-    public function delete(int $id): bool
+    public function delete(int $id): ?int
     {
         return User::find(Auth::id())->tasks()
             ->where('id', $id)
             ->delete();
     }
 
-    public function complete(int $id): ?bool
+    public function complete(int $id): ?int
     {
         return User::find(Auth::id())->tasks()
             ->where('id', $id)

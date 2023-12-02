@@ -13,7 +13,7 @@ use RuntimeException;
 class DeleteService
 {
     public function __construct(
-        protected TaskRepository  $repository,
+        protected TaskRepository  $task,
         protected ResponseService $response,
     )
     {
@@ -23,14 +23,14 @@ class DeleteService
     {
         DB::beginTransaction();
         try {
-            $doneStatus = $this->repository->doneStatus($id);
+            $doneStatus = $this->task->doneStatus($id);
 
             if ($doneStatus) {
                 throw new RuntimeException(
                     message: __('task.delete_fail', ['id' => $id]),
                 );
             }
-            $result = $this->repository->delete($id);
+            $result = $this->task->delete($id);
 
             if (!$result) {
                 throw new RuntimeException(

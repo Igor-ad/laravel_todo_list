@@ -16,7 +16,7 @@ class CreateService
     public function __construct(
         protected TaskCreateDataFactory $createDataFactory,
         protected ResponseService       $response,
-        protected TaskRepository        $repository,
+        protected TaskRepository        $task,
     )
     {
     }
@@ -27,7 +27,7 @@ class CreateService
         try {
             $data = $this->createDataFactory->getValidData();
 
-            $result = $this->repository->create($data);
+            $result = $this->task->create($data);
 
             if (!$result) {
                 throw new RuntimeException(

@@ -11,7 +11,7 @@ use RuntimeException;
 class ShowService
 {
     public function __construct(
-        protected TaskRepository  $repository,
+        protected TaskRepository  $task,
         protected ResponseService $response,
     )
     {
@@ -19,7 +19,7 @@ class ShowService
 
     public function show(int $id): ResponseService
     {
-        $result = $this->repository->getById($id);
+        $result = $this->task->getById($id);
 
         if ($result) {
             $this->response->setTaskShowData($id, $result);

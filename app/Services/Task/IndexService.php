@@ -12,7 +12,7 @@ use RuntimeException;
 class IndexService
 {
     public function __construct(
-        protected TaskRepository  $repository,
+        protected TaskRepository  $task,
         protected ResponseService $response,
         protected TaskDataFactory $dataFactory,
     )
@@ -24,10 +24,10 @@ class IndexService
         $data = $this->dataFactory->getValidData();
 
         $data = match (true) {
-            $data->hasSort() && !$data->hasTxtFilter() => $this->repository->getOrder($data),
-            !$data->hasSort() && $data->hasTxtFilter() => $this->repository->getAllFilter($data),
-            $data->hasSort() && $data->hasTxtFilter() => $this->repository->getOrderAllFilter($data),
-            default => $this->repository->get($data),
+            $data->hasSort() && !$data->hasTxtFilter() => $this->task->getOrder($data),
+            !$data->hasSort() && $data->hasTxtFilter() => $this->task->getAllFilter($data),
+            $data->hasSort() && $data->hasTxtFilter() => $this->task->getOrderAllFilter($data),
+            default => $this->task->get($data),
         };
 
         if (($data->isEmpty())) {

@@ -13,7 +13,7 @@ use RuntimeException;
 class CompleteService
 {
     public function __construct(
-        protected TaskRepository  $repository,
+        protected TaskRepository  $task,
         protected ResponseService $response,
     )
     {
@@ -35,14 +35,14 @@ class CompleteService
 
     protected function childStatus(int $id): array
     {
-        return $this->repository->getTaskChildStatus([$id, $id]);
+        return $this->task->getTaskChildStatus([$id, $id]);
     }
 
     protected function setCompleteStatus(int $id): int
     {
         DB::beginTransaction();
         try {
-            $result = $this->repository->complete($id);
+            $result = $this->task->complete($id);
 
             if (!$result) {
                 throw new RuntimeException(

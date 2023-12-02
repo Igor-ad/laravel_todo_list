@@ -16,7 +16,7 @@ class UpdateService
     public function __construct(
         protected TaskUpdateDataFactory $updateDataFactory,
         protected ResponseService       $response,
-        protected TaskRepository        $repository,
+        protected TaskRepository        $task,
     )
     {
     }
@@ -28,7 +28,7 @@ class UpdateService
         try {
             $data = $this->updateDataFactory->getValidData();
 
-            $result = $this->repository->updateById($data);
+            $result = $this->task->updateById($data);
 
             if (!$result) {
                 throw new RuntimeException(
@@ -36,7 +36,7 @@ class UpdateService
                 );
             }
 
-            $result = $this->repository->getById($data->getId());
+            $result = $this->task->getById($data->getId());
 
             $this->response->setTaskUpdateData($result);
 
