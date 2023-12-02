@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Repositories\TaskRepository;
+use App\Services\AbstractService;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
-class CompleteService
+class CompleteService extends AbstractService
 {
     public function __construct(
         protected TaskRepository  $task,

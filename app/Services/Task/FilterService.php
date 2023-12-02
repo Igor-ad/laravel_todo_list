@@ -6,8 +6,9 @@ namespace App\Services\Task;
 
 use App\Data\Request\TaskIndexData;
 use App\Enums\FilterEnum;
+use App\Services\AbstractService;
 
-class FilterService
+class FilterService extends AbstractService
 {
     private array $where = [];
 

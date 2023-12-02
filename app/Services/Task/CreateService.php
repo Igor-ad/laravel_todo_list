@@ -6,12 +6,13 @@ namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskCreateDataFactory;
 use App\Repositories\TaskRepository;
+use App\Services\AbstractService;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use RuntimeException;
 
-class CreateService
+class CreateService extends AbstractService
 {
     public function __construct(
         protected TaskCreateDataFactory $createDataFactory,

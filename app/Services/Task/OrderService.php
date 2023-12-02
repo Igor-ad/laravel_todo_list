@@ -7,8 +7,9 @@ namespace App\Services\Task;
 use App\Data\Request\TaskIndexData;
 use App\Enums\SortOrderEnum;
 use App\Enums\SortEnum;
+use App\Services\AbstractService;
 
-class OrderService
+class OrderService extends AbstractService
 {
     private array $orderDirection = [];
 

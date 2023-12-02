@@ -6,12 +6,13 @@ namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskUpdateDataFactory;
 use App\Repositories\TaskRepository;
+use App\Services\AbstractService;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use RuntimeException;
 
-class UpdateService
+class UpdateService extends AbstractService
 {
     public function __construct(
         protected TaskUpdateDataFactory $updateDataFactory,

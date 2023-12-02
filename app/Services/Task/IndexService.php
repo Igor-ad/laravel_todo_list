@@ -6,10 +6,11 @@ namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskDataFactory;
 use App\Repositories\TaskRepository;
+use App\Services\AbstractService;
 use App\Services\ResponseService;
 use RuntimeException;
 
-class IndexService
+class IndexService extends AbstractService
 {
     public function __construct(
         protected TaskRepository  $task,
