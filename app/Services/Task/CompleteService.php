@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
+use App\Exceptions\Task\TaskServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
 
 class CompleteService extends AbstractService
 {
@@ -27,7 +27,7 @@ class CompleteService extends AbstractService
                 $id, $this->setCompleteStatus($id)
             );
         } else {
-            throw new RuntimeException(
+            throw new TaskServiceException(
                 message: __('task.complete_fail', ['id' => $id]),
             );
         }
@@ -46,7 +46,7 @@ class CompleteService extends AbstractService
             $result = $this->task->complete($id);
 
             if (!$result) {
-                throw new RuntimeException(
+                throw new TaskServiceException(
                     message: __('task.not_found', ['id' => $id]),
                 );
             }

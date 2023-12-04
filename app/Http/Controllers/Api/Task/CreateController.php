@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Task;
 
+use App\Facades\Task\Create as Creator;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
-use App\Services\Task\CreateService;
 use Illuminate\Http\JsonResponse;
 
 class CreateController extends Controller
@@ -15,7 +15,6 @@ class CreateController extends Controller
     use ServiceMapper;
 
     public function __construct(
-        protected CreateService $createService,
         protected AnswerService $answerService,
     )
     {
@@ -23,7 +22,7 @@ class CreateController extends Controller
 
     public function create(): JsonResponse
     {
-        $this->answerService = $this->getAnswer($this->createService, 'create');
+        $this->answerService->setAnswer(Creator::create());
 
         return $this->answerService->getJsonResponse();
     }

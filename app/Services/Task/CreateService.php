@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskCreateDataFactory;
+use App\Exceptions\Task\TaskServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\DB;
 use Exception;
-use RuntimeException;
+use Illuminate\Support\Facades\DB;
 
 class CreateService extends AbstractService
 {
     public function __construct(
         protected TaskCreateDataFactory $createDataFactory,
-        protected ResponseService       $response,
         protected TaskRepository        $task,
+        protected ResponseService       $response,
     )
     {
     }
@@ -31,7 +31,7 @@ class CreateService extends AbstractService
             $result = $this->task->create($data);
 
             if (!$result) {
-                throw new RuntimeException(
+                throw new TaskServiceException(
                     message: __('task.create_fail')
                 );
             }

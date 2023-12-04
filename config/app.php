@@ -17,6 +17,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'alias' => env('APP_ALIAS', 'My Tasks Manager'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +43,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +169,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TaskServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -182,7 +184,12 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'Completer' => App\Services\Task\CompleteService::class,
+        'Creator' => App\Services\Task\CreateService::class,
+        'Eraser' => App\Services\Task\DeleteService::class,
+        'Indexer' => App\Services\Task\IndexService::class,
+        'Show' => App\Services\Task\ShowService::class,
+        'Updater' => App\Services\Task\UpdateService::class,
     ])->toArray(),
 
 

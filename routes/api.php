@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\Task\CompleteController;
 use App\Http\Controllers\Api\Task\CreateController;
 use App\Http\Controllers\Api\Task\DeleteController;
@@ -28,16 +29,6 @@ Route::middleware(['auth:api'])->group(callback: function () {
     Route::delete('/tasks/delete/{task}', [DeleteController::class, 'delete'])->name('api.delete');
 });
 
-Route::get('/login', function () {
-    return response()->json(
-        data: [
-            'status' => 200,
-            'message' => __('auth.api_login'),
-            'help' => __('exception.help'),
-        ],
-        status: 200,
-        options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
-    );
-})->name('api.login');
+Route::get('/login', [ApiAuthController::class, 'login'])->name('api.login');
 
 Route::post('/login', ['as' => 'login']);

@@ -26,7 +26,7 @@ class AbstractService
         );
     }
 
-    public static function badMethodMessage(string $className, string $method): string
+    private static function badMethodMessage(string $className, string $method): string
     {
         return __('exception.not_allowed_method', [
             'method' => $method,

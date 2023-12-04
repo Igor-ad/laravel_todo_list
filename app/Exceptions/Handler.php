@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Task\Task404Exception;
+use App\Exceptions\Task\TaskAuthException;
+use App\Exceptions\Task\TaskServiceException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -31,35 +33,16 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e, $request) {
+            if ($e instanceof TaskServiceException) {
+                throw new TaskServiceException($e->getMessage());
+            }
 
-            if ($e instanceof AuthenticationException) {
-                $e = new AuthenticationException($e->getMessage(), []);
-                return response()->json(
-                    data: [
-                        'status' => Response::HTTP_UNAUTHORIZED,
-                        'message' => sprintf(
-                            "%s 'eMsg: %s'",
-                            __('exception.unauthenticated'), $e->getMessage()
-                        ),
-                        'help' => __('exception.help'),
-                        'code' => $e->getCode(),
-                    ],
-                    status: Response::HTTP_UNAUTHORIZED,
-                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
-                );
+            if ($request->is('api/*') && $e instanceof AuthenticationException) {
+                throw new TaskAuthException($e->getMessage());
             }
 
             if ($request->is('api/*') && ($e instanceof NotFoundHttpException)) {
-                return response()->json(
-                    data: [
-                        'status' => Response::HTTP_NOT_FOUND,
-                        'message' => __('exception.404', ['message' => $e->getMessage()]),
-                        'help' => __('exception.help'),
-                        'code' => $e->getCode(),
-                    ],
-                    status: Response::HTTP_NOT_FOUND,
-                    options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
-                );
+                throw new Task404Exception($e->getMessage());
             }
         });
     }

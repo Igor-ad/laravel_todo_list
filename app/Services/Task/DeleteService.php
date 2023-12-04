@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
+use App\Exceptions\Task\TaskServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use Illuminate\Support\Facades\DB;
 use Exception;
-use RuntimeException;
+use Illuminate\Support\Facades\DB;
 
 class DeleteService extends AbstractService
 {
@@ -27,14 +27,14 @@ class DeleteService extends AbstractService
             $doneStatus = $this->task->doneStatus($id);
 
             if ($doneStatus) {
-                throw new RuntimeException(
+                throw new TaskServiceException(
                     message: __('task.delete_fail', ['id' => $id]),
                 );
             }
             $result = $this->task->delete($id);
 
             if (!$result) {
-                throw new RuntimeException(
+                throw new TaskServiceException(
                     message: __('task.not_found', ['id' => $id])
                 );
             }

@@ -7,15 +7,14 @@ namespace App\Http\Controllers\Api\Task;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
-use App\Services\Task\IndexService;
 use Illuminate\Http\JsonResponse;
+use App\Facades\Task\Index as Indexer;
 
 class IndexController extends Controller
 {
     use ServiceMapper;
 
     public function __construct(
-        protected IndexService  $indexService,
         protected AnswerService $answerService,
     )
     {
@@ -23,7 +22,7 @@ class IndexController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->answerService = $this->getAnswer($this->indexService, 'index');
+        $this->answerService->setAnswer(Indexer::index());
 
         return $this->answerService->getJsonResponse();
     }

@@ -21,8 +21,6 @@ class AnswerService
 
     public function setAnswer(ResponseService $responseService): void
     {
-        $this->answerData = AnswerDataFactory::getDTO(
-            $responseService->responseData->getData()
-        );
+        $this->setAnswerData($responseService->responseData->getData());
     }
 }

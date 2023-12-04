@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Task;
 
+use App\Facades\Task\Update as Updater;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
 use App\Services\AnswerService;
-use App\Services\Task\UpdateService;
 use Illuminate\Http\JsonResponse;
 
 class UpdateController extends Controller
@@ -15,7 +15,6 @@ class UpdateController extends Controller
     use ServiceMapper;
 
     public function __construct(
-        protected UpdateService $updateService,
         protected AnswerService $answerService,
     )
     {
@@ -23,7 +22,7 @@ class UpdateController extends Controller
 
     public function update(): JsonResponse
     {
-        $this->answerService = $this->getAnswer($this->updateService, 'update');
+        $this->answerService->setAnswer(Updater::update());
 
         return $this->answerService->getJsonResponse();
     }

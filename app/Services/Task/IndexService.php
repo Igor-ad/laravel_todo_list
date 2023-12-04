@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskDataFactory;
+use App\Exceptions\Task\TaskServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use RuntimeException;
 
-class IndexService extends AbstractService
+class  IndexService extends AbstractService
 {
     public function __construct(
+        protected TaskDataFactory $dataFactory,
         protected TaskRepository  $task,
         protected ResponseService $response,
-        protected TaskDataFactory $dataFactory,
     )
     {
     }
@@ -32,7 +32,7 @@ class IndexService extends AbstractService
         };
 
         if (($data->isEmpty())) {
-            throw new RuntimeException(
+            throw new TaskServiceException(
                 message: __('task.index_filter_fail'),
             );
         } else {
