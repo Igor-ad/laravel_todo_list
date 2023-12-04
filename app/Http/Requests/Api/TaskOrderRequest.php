@@ -4,8 +4,9 @@ namespace App\Http\Requests\Api;
 
 use App\Enums\SortEnum;
 use App\Enums\SortOrderEnum;
+use Illuminate\Foundation\Http\FormRequest;
 
-class TaskOrderRequest extends ApiFormRequest implements ApiRequestInterface
+class TaskOrderRequest extends FormRequest implements ApiRequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.

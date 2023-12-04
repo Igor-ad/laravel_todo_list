@@ -5,8 +5,10 @@ namespace App\Exceptions;
 use App\Exceptions\Task\Task404Exception;
 use App\Exceptions\Task\TaskAuthException;
 use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\TaskValidationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -33,6 +35,11 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e, $request) {
+
+            if ($request->is('api/*') && $e instanceof ValidationException) {
+                throw new TaskValidationException($e->validator);
+            }
+
             if ($e instanceof TaskServiceException) {
                 throw new TaskServiceException($e->getMessage());
             }
