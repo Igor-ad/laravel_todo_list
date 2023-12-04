@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Task404Exception extends TaskException
+class NotFoundException extends TaskException
 {
     public function render(Request $request): JsonResponse
     {

@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TaskAuthException extends TaskException
+class AuthException extends TaskException
 {
     public function render(Request $request): JsonResponse
     {

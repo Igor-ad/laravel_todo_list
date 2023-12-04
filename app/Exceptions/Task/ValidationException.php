@@ -4,10 +4,10 @@ namespace App\Exceptions\Task;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\ValidationException as ValidatorException;
 use \Symfony\Component\HttpFoundation\Response;
 
-class TaskValidationException extends ValidationException
+class ValidationException extends ValidatorException
 {
     public function render(Request $request): JsonResponse
     {
