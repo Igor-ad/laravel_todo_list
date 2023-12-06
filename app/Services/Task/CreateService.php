@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskCreateDataFactory;
-use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class CreateService extends AbstractService
 {
@@ -24,25 +22,15 @@ class CreateService extends AbstractService
 
     public function create(): ResponseService
     {
-        DB::beginTransaction();
-        try {
-            $data = $this->createDataFactory->getValidData();
+        $data = $this->createDataFactory->getValidData();
 
-            $result = $this->task->create($data);
+        $result = $this->task->create($data);
 
-            if (!$result) {
-                throw new TaskServiceException(
-                    message: __('task.create_fail')
-                );
-            }
-
-            $this->response->setTaskCreateData($result);
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+        if (!$result) {
+            throw new ServiceException(__('task.create_fail'));
         }
-        DB::commit();
+
+        $this->response->setTaskCreateData($result);
 
         return $this->response;
     }

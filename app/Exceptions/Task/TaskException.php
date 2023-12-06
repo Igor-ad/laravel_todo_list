@@ -44,14 +44,7 @@ class TaskException extends Exception
 
     public function setData(): void
     {
-        $this->data = [
-            'status' => $this->getStatusCode(),
-            'message' => [
-                'error' => $this->getCustomMessage(),
-            ],
-            'help' => __('exception.help'),
-            'code' => $this->getCode(),
-        ];
+        $this->data = $this->toArray();
     }
 
     public function getData(): array
@@ -66,5 +59,17 @@ class TaskException extends Exception
     public function getStatusCode(): int
     {
         return $this->statusCode;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'status' => $this->getStatusCode(),
+            'message' => [
+                'error' => $this->getCustomMessage(),
+            ],
+            'help' => __('exception.help'),
+            'code' => $this->getCode(),
+        ];
     }
 }

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class CompleteService extends AbstractService
 {
@@ -20,16 +18,14 @@ class CompleteService extends AbstractService
     {
     }
 
-     public function complete(int $id): ?ResponseService
+    public function complete(int $id): ?ResponseService
     {
         if (empty($this->childStatus($id))) {
             $this->response->setTaskCompleteData(
                 $id, $this->setCompleteStatus($id)
             );
         } else {
-            throw new TaskServiceException(
-                message: __('task.complete_fail', ['id' => $id]),
-            );
+            throw new ServiceException(__('task.complete_fail', ['id' => $id]),);
         }
         return $this->response;
     }
@@ -41,21 +37,11 @@ class CompleteService extends AbstractService
 
     protected function setCompleteStatus(int $id): int
     {
-        DB::beginTransaction();
-        try {
-            $result = $this->task->complete($id);
+        $result = $this->task->complete($id);
 
-            if (!$result) {
-                throw new TaskServiceException(
-                    message: __('task.not_found', ['id' => $id]),
-                );
-            }
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+        if (!$result) {
+            throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }
-        DB::commit();
         return $result;
     }
 }

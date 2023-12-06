@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseSetters
 {
-    public function setTaskIndexData(Collection $data): void
+    public function setIndexData(Collection $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,

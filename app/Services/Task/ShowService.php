@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
@@ -25,9 +25,7 @@ class ShowService extends AbstractService
         if ($result) {
             $this->response->setTaskShowData($id, $result);
         } else {
-            throw new TaskServiceException(
-                message: __('task.not_found', ['id' => $id]),
-            );
+            throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }
         return $this->response;
     }

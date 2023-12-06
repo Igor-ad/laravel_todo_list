@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Data\Request\Factories\TaskDataFactory;
-use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
@@ -32,11 +32,9 @@ class  IndexService extends AbstractService
         };
 
         if (($data->isEmpty())) {
-            throw new TaskServiceException(
-                message: __('task.index_filter_fail'),
-            );
+            throw new ServiceException(__('task.index_filter_fail'),);
         } else {
-            $this->response->setTaskIndexData($data);
+            $this->response->setIndexData($data);
         }
         return $this->response;
     }

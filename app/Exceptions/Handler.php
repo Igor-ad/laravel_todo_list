@@ -36,21 +36,22 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e, $request) {
 
-            if ($request->is('api/*') && $e instanceof ValidatorException) {
-                throw new ValidationException($e->validator);
-            }
+            return match (true) {
+                $e instanceof ValidatorException && $request->is('api/*')
+                => throw new ValidationException($e->validator),
 
-            if ($e instanceof ServiceException) {
-                throw new ServiceException($e->getMessage());
-            }
+                $e instanceof ServiceException
+                => throw new ServiceException($e->getMessage()),
 
-            if ($request->is('api/*') && $e instanceof AuthenticationException) {
-                throw new AuthException($e->getMessage());
-            }
+                $e instanceof AuthenticationException && $request->is('api/*')
+                => throw new AuthException($e->getMessage()),
 
-            if ($request->is('api/*') && ($e instanceof NotFoundHttpException)) {
-                throw new NotFoundException($e->getMessage());
-            }
+                $e instanceof NotFoundHttpException && $request->is('api/*')
+                => throw new NotFoundException($e->getMessage()),
+
+                default => false,
+            };
+
         });
     }
 }

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Exceptions\Task\TaskServiceException;
+use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
 use App\Services\ResponseService;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class DeleteService extends AbstractService
 {
@@ -20,30 +18,21 @@ class DeleteService extends AbstractService
     {
     }
 
-      public function delete(int $id): ResponseService
+    public function delete(int $id): ResponseService
     {
-        DB::beginTransaction();
-        try {
-            $doneStatus = $this->task->doneStatus($id);
+        $doneStatus = $this->task->doneStatus($id);
 
-            if ($doneStatus) {
-                throw new TaskServiceException(
-                    message: __('task.delete_fail', ['id' => $id]),
-                );
-            }
-            $result = $this->task->delete($id);
-
-            if (!$result) {
-                throw new TaskServiceException(
-                    message: __('task.not_found', ['id' => $id])
-                );
-            }
-            $this->response->setTaskDeleteData($id);
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+        if ($doneStatus) {
+            throw new ServiceException(__('task.delete_fail', ['id' => $id]),);
         }
-        DB::commit();
+
+        $result = $this->task->delete($id);
+
+        if (!$result) {
+            throw new ServiceException(__('task.not_found', ['id' => $id]));
+        }
+
+        $this->response->setTaskDeleteData($id);
 
         return $this->response;
     }
