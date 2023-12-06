@@ -6,11 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthException extends TaskException
 {
-    public function setStatus(): void
-    {
-        $this->status = (Response::HTTP_UNAUTHORIZED);
-    }
-
     public function setCustomMessage(): void
     {
         $this->customMessage = (
@@ -18,5 +13,10 @@ class AuthException extends TaskException
             __('exception.unauthenticated'),
             $this->getMessage()
         ));
+    }
+
+    public function setStatusCode(): void
+    {
+        $this->statusCode = (Response::HTTP_UNAUTHORIZED);
     }
 }

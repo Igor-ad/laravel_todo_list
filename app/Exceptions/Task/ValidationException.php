@@ -11,16 +11,18 @@ class ValidationException extends ValidatorException
 {
     public function render(Request $request): JsonResponse
     {
+        $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+
         return response()->json(
             data: [
-                'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                'status' => $statusCode,
                 'message' => [
                     'errors' => $this->validator->errors()
                 ],
                 'help' => __('exception.help'),
                 'code' => $this->getCode(),
             ],
-            status: Response::HTTP_UNPROCESSABLE_ENTITY,
+            status: $statusCode,
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }

@@ -9,18 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TaskException extends Exception
 {
+    protected ?string $customMessage = null;
+
     protected array $data = [];
 
-    protected int $status = Response::HTTP_NOT_IMPLEMENTED;
-
-    protected ?string $customMessage = null;
+    protected int $statusCode = Response::HTTP_NOT_IMPLEMENTED;
 
     public function __construct(string $message)
     {
         parent::__construct($message);
 
-        $this->setStatus();
         $this->setCustomMessage();
+        $this->setStatusCode();
         $this->setData();
     }
 
@@ -28,25 +28,9 @@ class TaskException extends Exception
     {
         return response()->json(
             data: $this->getData(),
-            status: $this->getStatus(),
+            status: $this->getStatusCode(),
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
-    }
-
-    public function setData(): void
-    {
-        $this->data = [
-            'status' => $this->getStatus(),
-            'message' => [
-                'error' => $this->getCustomMessage(),
-                ],
-            'help' => __('exception.help'),
-            'code' => $this->getCode(),
-        ];
-    }
-
-    public function setStatus(): void
-    {
     }
 
     public function setCustomMessage(): void
@@ -58,13 +42,29 @@ class TaskException extends Exception
         return $this->customMessage ?? $this->getMessage();
     }
 
+    public function setData(): void
+    {
+        $this->data = [
+            'status' => $this->getStatusCode(),
+            'message' => [
+                'error' => $this->getCustomMessage(),
+            ],
+            'help' => __('exception.help'),
+            'code' => $this->getCode(),
+        ];
+    }
+
     public function getData(): array
     {
         return $this->data;
     }
 
-    public function getStatus(): int
+    public function setStatusCode(): void
     {
-        return $this->status;
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 }
