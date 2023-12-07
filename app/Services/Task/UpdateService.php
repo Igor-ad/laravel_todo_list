@@ -31,7 +31,7 @@ class UpdateService extends AbstractService
         }
         $result = $this->task->getById($data->getId());
 
-        $this->response->setTaskUpdateData($result);
+        $this->response->setUpdateData($result);
 
         return $this->response;
     }

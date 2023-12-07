@@ -32,7 +32,7 @@ class DeleteService extends AbstractService
             throw new ServiceException(__('task.not_found', ['id' => $id]));
         }
 
-        $this->response->setTaskDeleteData($id);
+        $this->response->setDeleteData($id);
 
         return $this->response;
     }

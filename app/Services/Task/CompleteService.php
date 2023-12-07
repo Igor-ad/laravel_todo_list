@@ -21,7 +21,7 @@ class CompleteService extends AbstractService
     public function complete(int $id): ?ResponseService
     {
         if (empty($this->childStatus($id))) {
-            $this->response->setTaskCompleteData(
+            $this->response->setCompleteData(
                 $id, $this->setCompleteStatus($id)
             );
         } else {

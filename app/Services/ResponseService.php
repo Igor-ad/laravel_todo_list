@@ -14,9 +14,9 @@ class ResponseService
     public ResponseData $responseData;
 
     public function setResponseData(
-        int              $status,
-        string           $message,
-        int|object|null $data
+        int             $status,
+        string          $message,
+        int|object|null $data,
     ): void
     {
         $this->responseData = ResponseDataFactory::getDTO(collect([

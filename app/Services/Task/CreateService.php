@@ -30,7 +30,7 @@ class CreateService extends AbstractService
             throw new ServiceException(__('task.create_fail'));
         }
 
-        $this->response->setTaskCreateData($result);
+        $this->response->setCreateData($result);
 
         return $this->response;
     }

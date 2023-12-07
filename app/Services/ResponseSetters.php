@@ -19,7 +19,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskCompleteData(int $id, int $data): void
+    public function setCompleteData(int $id, int $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
@@ -28,7 +28,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskShowData(int $id, ?Task $data): void
+    public function setShowData(int $id, ?Task $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
@@ -37,7 +37,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskUpdateData(bool|Task $data): void
+    public function setUpdateData(bool|Task $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,
@@ -46,7 +46,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskCreateData(bool|Task $data): void
+    public function setCreateData(bool|Task $data): void
     {
         $this->setResponseData(
             status: Response::HTTP_CREATED,
@@ -55,7 +55,7 @@ trait ResponseSetters
         );
     }
 
-    public function setTaskDeleteData(int $id): void
+    public function setDeleteData(int $id): void
     {
         $this->setResponseData(
             status: Response::HTTP_OK,

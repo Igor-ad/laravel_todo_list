@@ -23,7 +23,7 @@ class ShowService extends AbstractService
         $result = $this->task->getById($id);
 
         if ($result) {
-            $this->response->setTaskShowData($id, $result);
+            $this->response->setShowData($id, $result);
         } else {
             throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }
