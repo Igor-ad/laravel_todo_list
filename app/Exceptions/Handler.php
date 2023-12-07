@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use App\Exceptions\Task\NotFoundException;
 use App\Exceptions\Task\AuthException;
-use App\Exceptions\Task\ServiceException;
 use App\Exceptions\Task\ValidationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -39,9 +38,6 @@ class Handler extends ExceptionHandler
             return match (true) {
                 $e instanceof ValidatorException && $request->is('api/*')
                 => throw new ValidationException($e->validator),
-
-                $e instanceof ServiceException
-                => throw new ServiceException($e->getMessage()),
 
                 $e instanceof AuthenticationException && $request->is('api/*')
                 => throw new AuthException($e->getMessage()),

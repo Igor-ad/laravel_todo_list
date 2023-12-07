@@ -7,6 +7,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ *  API-rendering of "Task Services" exceptions
+ */
 class TaskException extends Exception
 {
     protected ?string $customMessage = null;
@@ -27,8 +30,8 @@ class TaskException extends Exception
     public function render(Request $request): JsonResponse
     {
         return response()->json(
-            data: $this->getData(),
-            status: $this->getStatusCode(),
+            data: $this->data,
+            status: $this->statusCode,
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }
@@ -47,24 +50,14 @@ class TaskException extends Exception
         $this->data = $this->toArray();
     }
 
-    public function getData(): array
-    {
-        return $this->data;
-    }
-
     public function setStatusCode(): void
     {
-    }
-
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
     }
 
     public function toArray(): array
     {
         return [
-            'status' => $this->getStatusCode(),
+            'status' => $this->statusCode,
             'message' => [
                 'error' => $this->getCustomMessage(),
             ],
