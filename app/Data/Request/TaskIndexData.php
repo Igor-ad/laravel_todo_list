@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Data\Request;
 
+use App\Enums\FilterEnum;
+use App\Enums\SortEnum;
 use Illuminate\Support\Collection;
 
 class TaskIndexData implements RequestDataInterface
@@ -55,18 +57,11 @@ class TaskIndexData implements RequestDataInterface
 
     public function getSort(): Collection
     {
-        return $this->getData()->only([
-            'prioritySort',
-            'createdSort',
-            'completedSort'
-        ]);
+        return $this->getData()->only(SortEnum::toArray());
     }
 
     public function getFilter(): Collection
     {
-        return $this->getData()->only([
-            'status',
-            'priority'
-        ]);
+        return $this->getData()->only(FilterEnum::nameToArray());
     }
 }
