@@ -1,3 +1,4 @@
+@include('layouts.messages.error_show')
 <form class="d-flex" method="post" action="{{ route('web.update', [$task->id]) }}">
     @csrf
     <div class="row">
@@ -56,4 +57,3 @@
         @include('layouts.buttons.save_task_button')
     </div>
 </form>
-@include('layouts.messages.error_show')

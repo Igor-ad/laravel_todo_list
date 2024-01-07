@@ -5,5 +5,6 @@
             @include('layouts.buttons.new_task_button')
         </div>
     </div>
+    @include('layouts.messages.error_show')
     @include('layouts.tables.task_table')
 @endsection
