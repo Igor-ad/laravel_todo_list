@@ -18,13 +18,14 @@ return new class extends Migration {
             $table->smallInteger('priority')->default(1);
             $table->string('title');
             $table->longText('description');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->timestamp('completed_at')->default(null);
+            $table->timestamps();
+            $table->timestamp('completed_at')->nullable();
             $table->index('user_id');
             $table->index('priority');
             $table->index('parent_id');
-            $table->fullText('title');
+            $table->fullText(['title', 'description']);
+            $table->foreign('parent_id')->references('id')
+                ->on('tasks')->onUpdate('cascade')->onDelete('cascade');
             $table->engine = 'InnoDB';
         });
     }

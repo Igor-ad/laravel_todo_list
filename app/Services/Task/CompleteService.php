@@ -18,6 +18,9 @@ class CompleteService extends AbstractService
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function complete(int $id): ?ResponseService
     {
         if (empty($this->childStatus($id))) {
@@ -35,7 +38,10 @@ class CompleteService extends AbstractService
         return $this->task->getTaskChildStatus([$id, $id]);
     }
 
-    protected function setCompleteStatus(int $id): int
+    /**
+     * @throws ServiceException
+     */
+    public function setCompleteStatus(int $id): int
     {
         $result = $this->task->complete($id);
 

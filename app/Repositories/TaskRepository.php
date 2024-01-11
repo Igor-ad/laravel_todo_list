@@ -32,6 +32,35 @@ class TaskRepository
             ->first();
     }
 
+
+    public function getByIdWithBranches(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()->with(['branches'])
+            ->where('id', $id)
+            ->first();
+    }
+
+    public function getByIdWithChildren(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()->with(['children'])
+            ->where('id', $id)
+            ->first();
+    }
+
+    public function getByIdWithParent(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()->with(['parent'])
+            ->where('id', $id)
+            ->first();
+    }
+
+    public function getByIdWithParents(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()->with(['parents'])
+            ->where('id', $id)
+            ->first();
+    }
+
     public function getTask(): ?Collection
     {
         return User::find(Auth::id())->tasks()->get();

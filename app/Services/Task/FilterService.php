@@ -25,6 +25,6 @@ class FilterService extends AbstractService
 
     public function fullTextFilter(): string
     {
-        return 'MATCH (`title`) AGAINST (+? IN BOOLEAN MODE)';
+        return 'MATCH (`title`, `description`) AGAINST (+? IN BOOLEAN MODE)';
     }
 }

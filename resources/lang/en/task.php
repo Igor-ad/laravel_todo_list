@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'breadcrumbs' => [
+        'children' => 'Children:',
+        'parents' => 'Parents:',
+    ],
     'complete' => "Task ID :id was marked 'done' successfully.",
     'complete_fail' => "One or more children of Task ID :id have status 'todo'.",
     'create' => "The task was created successfully.",
