@@ -25,8 +25,8 @@ class TaskUpdateRequest extends TaskRequest implements ApiRequestInterface
             'id' => ['required', 'integer'],
             'status' => ['string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['integer', 'min:1', 'max:5'],
-            'title' => ['string', 'max:255', 'min:3'],
-            'description' => ['string', 'max:2048', 'min:8'],
+            'title' => ['string', 'min:3', 'max:255'],
+            'description' => ['string', 'min:8', 'max:2048'],
         ];
 
         return array_merge(parent::rules(), $subRules);

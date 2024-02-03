@@ -25,11 +25,9 @@ class ShowService extends AbstractService
      */
     public function show(int $id): ResponseService
     {
-        $result = $this->task->getById($id);
-
-        $this->setOrException($result, $id);
-
-        return $this->response;
+        return $this->setOrException(
+            $this->task->getById($id), $id
+        );
     }
 
     /**
@@ -37,11 +35,9 @@ class ShowService extends AbstractService
      */
     public function showWithBranches(int $id): ResponseService
     {
-        $result = $this->task->getByIdWithBranches($id);
-
-        $this->setOrException($result, $id);
-
-        return $this->response;
+        return $this->setOrException(
+            $this->task->getByIdWithBranches($id), $id
+        );
     }
 
     /**
@@ -49,11 +45,9 @@ class ShowService extends AbstractService
      */
     public function showWithChildren(int $id): ResponseService
     {
-        $result = $this->task->getByIdWithChildren($id);
-
-        $this->setOrException($result, $id);
-
-        return $this->response;
+        return $this->setOrException(
+            $this->task->getByIdWithChildren($id), $id
+        );
     }
 
     /**
@@ -61,11 +55,9 @@ class ShowService extends AbstractService
      */
     public function showWithParent(int $id): ResponseService
     {
-        $result = $this->task->getByIdWithParent($id);
-
-        $this->setOrException($result, $id);
-
-        return $this->response;
+        return $this->setOrException(
+            $this->task->getByIdWithParent($id), $id
+        );
     }
 
     /**
@@ -73,55 +65,47 @@ class ShowService extends AbstractService
      */
     public function showWithParents(int $id): ResponseService
     {
-        $result = $this->task->getByIdWithParents($id);
-
-        $this->setOrException($result, $id);
-
-        return $this->response;
+        return $this->setOrException(
+            $this->task->getByIdWithParents($id), $id
+        );
     }
 
     /**
      * @throws ServiceException
      */
-    public function getChildrenId(object $result, string $relation): ResponseService
+    public function getChildrenId(object $collect, string $relation): ResponseService
     {
-        $relateId = [];
-
-        foreach ($result->$relation as $children) {
-            $relateId[] = $children->id;
-        }
-        $collect = collect($relateId);
-        $this->setOrException($collect, $result->id);
-
-        return $this->response;
+        return $this->setOrException(
+            $collect->$relation->pluck('id'), $collect->id
+        );
     }
 
     /**
      * @throws ServiceException
      */
-    public function getRelationId(object $result, string $relation): ResponseService
+    public function getRelationId(object $model, string $relation): ResponseService
     {
-        $relateId = [];
-        if ($relation == 'children') {
-            dd($result);
-        }
-        while ($result->$relation) {
-            $relateId[] = $result->$relation->id;
-            $result = $result->$relation;
-        }
-        $collect = collect($relateId);
-        $this->setOrException($collect, $result->id);
+        $relateId = collect();
 
-        return $this->response;
+        while ($model->$relation) {
+            $relateId->push($model->$relation->id);
+            $model = $model->$relation;
+        }
+
+        return $this->setOrException(
+            $relateId, $model->id
+        );
     }
 
     /**
      * @throws ServiceException
      */
-    private function setOrException(null|Collection|Task $result, int $id): void
+    private function setOrException(null|Collection|Task $result, int $id): ResponseService
     {
         if ($result) {
             $this->response->setShowData($id, $result);
+
+            return $this->response;
         } else {
             throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }

@@ -19,7 +19,7 @@ class IndexController extends Controller
 
         $title = __('task.web.index');
         $help = $this->answerService->answerData->getMessage();
-        $tasks = $this->answerService->answerData->getPropData();
+        $tasks = $this->answerService->answerData->getData();
 
         return view('tasks.tasks', compact('tasks', 'help', 'title'));
     }

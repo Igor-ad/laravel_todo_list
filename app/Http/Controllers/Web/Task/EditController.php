@@ -18,7 +18,7 @@ class EditController
 
         $title = __('task.web.edit');
         $help = __('task.show', ['id' => $id]);
-        $task = $this->answerService->answerData->getPropData();
+        $task = $this->answerService->answerData->getData();
 
         return view('tasks.task_edit', compact('task', 'help', 'title'));
     }

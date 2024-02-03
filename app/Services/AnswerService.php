@@ -21,6 +21,6 @@ class AnswerService
 
     public function setAnswer(ResponseService $responseService): void
     {
-        $this->setAnswerData($responseService->responseData->getData());
+        $this->setAnswerData($responseService->responseData->toCollect());
     }
 }

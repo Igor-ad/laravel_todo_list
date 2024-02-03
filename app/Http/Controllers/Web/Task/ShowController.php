@@ -19,13 +19,10 @@ class ShowController extends Controller
 
         $title = __('task.web.show_');
         $help = __('task.show', ['id' => $id]);
-        $task = $this->answerService->answerData->getPropData();
+        $task = $this->answerService->answerData->getData();
 
         $this->answerService->setAnswer(Show::getRelationId($task, 'parents'));
         $relationId = $this->answerService->answerData->getData();
-
-        $this->answerService->setAnswer(Show::showWithChildren($id));
-        $task = $this->answerService->answerData->getData();
 
         $this->answerService->setAnswer(Show::getChildrenId($task, 'children'));
         $childrenId = $this->answerService->answerData->getData();
