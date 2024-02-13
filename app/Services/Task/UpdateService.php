@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\Factories\TaskUpdateDataFactory;
+use App\Data\Request\Factories\Task\UpdateDataFactory;
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
@@ -13,9 +13,9 @@ use App\Services\ResponseService;
 class UpdateService extends AbstractService
 {
     public function __construct(
-        protected TaskUpdateDataFactory $updateDataFactory,
-        protected TaskRepository        $task,
-        protected ResponseService       $response,
+        protected UpdateDataFactory $updateDataFactory,
+        protected TaskRepository    $task,
+        protected ResponseService   $response,
     )
     {
     }

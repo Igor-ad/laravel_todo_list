@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Api;
+declare(strict_types=1);
+
+namespace App\Http\Requests\Task;
 
 use App\Enums\TaskStatusEnum as Status;
+use App\Http\Requests\RequestInterface;
 
-class TaskUpdateRequest extends TaskRequest implements ApiRequestInterface
+class IndexRequest extends OrderRequest implements RequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +25,10 @@ class TaskUpdateRequest extends TaskRequest implements ApiRequestInterface
     public function rules(): array
     {
         $subRules = [
-            'id' => ['required', 'integer'],
             'status' => ['string', sprintf('in:%s,%s', Status::DONE->value, Status::TODO->value)],
             'priority' => ['integer', 'min:1', 'max:5'],
-            'title' => ['string', 'min:3', 'max:255'],
-            'description' => ['string', 'min:8', 'max:2048'],
+            'title' => ['string', 'max:255', 'min:3'],
         ];
-
         return array_merge(parent::rules(), $subRules);
     }
 }

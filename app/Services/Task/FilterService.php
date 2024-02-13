@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\TaskIndexData;
+use App\Data\Request\TaskDTO\IndexData;
 use App\Enums\FilterEnum;
 use App\Services\AbstractService;
 
@@ -12,7 +12,7 @@ class FilterService extends AbstractService
 {
     private array $where = [];
 
-    public function filter(TaskIndexData $data): array
+    public function filter(IndexData $data): array
     {
         foreach (FilterEnum::cases() as $case) {
             if (isset($data->getFilter()[$case->name])) {

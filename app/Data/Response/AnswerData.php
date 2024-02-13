@@ -6,7 +6,7 @@ namespace App\Data\Response;
 
 use Illuminate\Support\Collection;
 
-class AnswerData implements ResponseDataInterface
+final class AnswerData implements ResponseDataInterface
 {
     public function __construct(
         private readonly int                   $status,
@@ -17,17 +17,23 @@ class AnswerData implements ResponseDataInterface
     {
     }
 
-    public function getData(): Collection
+    public function toCollect(): Collection
     {
         return collect([
             'status' => $this->status,
             'message' => $this->message,
-            'data' => $this->data,
+            'count' => $this->data->count(),
             'code' => $this->code,
-        ])->whereNotNull();
+            'data' => $this->data,
+        ]);
     }
 
-    public function getPropData(): array|bool|null|object
+    public function getCode(): int|string|null
+    {
+        return $this->code;
+    }
+
+    public function getData(): array|bool|null|object
     {
         return $this->data;
     }
@@ -44,6 +50,6 @@ class AnswerData implements ResponseDataInterface
 
     public function equals(self $anotherOne): bool
     {
-        return $this->getData()->toArray() === $anotherOne->getData()->toArray();
+        return $this->toCollect()->toArray() === $anotherOne->toCollect()->toArray();
     }
 }

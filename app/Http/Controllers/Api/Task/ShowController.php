@@ -15,7 +15,7 @@ class ShowController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $this->answerService->setAnswer(Show::show($id));
+        $this->answerService->setAnswer(Show::showWithParents($id));
 
         return $this->answerService->getJsonResponse();
     }

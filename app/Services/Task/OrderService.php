@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\TaskIndexData;
+use App\Data\Request\TaskDTO\IndexData;
 use App\Enums\SortOrderEnum;
 use App\Enums\SortEnum;
 use App\Services\AbstractService;
@@ -13,7 +13,7 @@ class OrderService extends AbstractService
 {
     private array $orderDirection = [];
 
-    private function orderDirection(TaskIndexData $data): ?array
+    private function orderDirection(IndexData $data): ?array
     {
         foreach ($data->getSort() as $key => $value) {
             $this->orderDirection[] = $this->orderString(
@@ -29,7 +29,7 @@ class OrderService extends AbstractService
         return $key . ' ' . $direction;
     }
 
-    public function orderExpression(TaskIndexData $data): string
+    public function orderExpression(IndexData $data): string
     {
         return implode(', ', $this->orderDirection($data));
     }

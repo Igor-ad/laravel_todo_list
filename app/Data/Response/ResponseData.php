@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 /**
  * Response DTO
  */
-class ResponseData implements ResponseDataInterface
+final class ResponseData implements ResponseDataInterface
 {
     public function __construct(
         private readonly int             $status,
@@ -19,7 +19,7 @@ class ResponseData implements ResponseDataInterface
     {
     }
 
-    public function getData(): Collection
+    public function toCollect(): Collection
     {
         return collect([
             'status' => $this->status,
@@ -30,6 +30,6 @@ class ResponseData implements ResponseDataInterface
 
     public function equals(self $anotherOne): bool
     {
-        return $this->getData()->toArray() === $anotherOne->getData()->toArray();
+        return $this->toCollect()->toArray() === $anotherOne->toCollect()->toArray();
     }
 }

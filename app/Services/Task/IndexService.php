@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\Factories\TaskDataFactory;
+use App\Data\Request\Factories\Task\IndexDataFactory;
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\AbstractService;
@@ -13,9 +13,9 @@ use App\Services\ResponseService;
 class  IndexService extends AbstractService
 {
     public function __construct(
-        protected TaskDataFactory $dataFactory,
-        protected TaskRepository  $task,
-        protected ResponseService $response,
+        protected IndexDataFactory $dataFactory,
+        protected TaskRepository   $task,
+        protected ResponseService  $response,
     )
     {
     }

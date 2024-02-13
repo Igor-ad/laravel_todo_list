@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Data\Request\TaskCreateData;
-use App\Data\Request\TaskIndexData;
-use App\Data\Request\TaskUpdateData;
+use App\Data\Request\TaskDTO\CreateData;
+use App\Data\Request\TaskDTO\IndexData;
+use App\Data\Request\TaskDTO\UpdateData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
 use App\Models\User;
@@ -31,7 +31,6 @@ class TaskRepository
             ->where('id', $id)
             ->first();
     }
-
 
     public function getByIdWithBranches(int $id): ?Task
     {
@@ -66,21 +65,21 @@ class TaskRepository
         return User::find(Auth::id())->tasks()->get();
     }
 
-    public function getByFilter(TaskIndexData $data): ?Collection
+    public function getByFilter(IndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->filter($data))
             ->get();
     }
 
-    public function get(TaskIndexData $data): ?Collection
+    public function get(IndexData $data): ?Collection
     {
         return $data->hasFilter()
             ? $this->getByFilter($data)
             : $this->getTask();
     }
 
-    public function getOrder(TaskIndexData $data): ?Collection
+    public function getOrder(IndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->filter($data))
@@ -88,7 +87,7 @@ class TaskRepository
             ->get();
     }
 
-    public function getAllFilter(TaskIndexData $data): ?Collection
+    public function getAllFilter(IndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->filter($data))
@@ -96,7 +95,7 @@ class TaskRepository
             ->get();
     }
 
-     public function getOrderAllFilter(TaskIndexData $data): ?Collection
+     public function getOrderAllFilter(IndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->filter($data))
@@ -105,14 +104,14 @@ class TaskRepository
             ->get();
     }
 
-    public function updateById(TaskUpdateData $data): ?int
+    public function updateById(UpdateData $data): ?int
     {
         return User::find(Auth::id())->tasks()
             ->where('id', $data->getId())
             ->update($data->getData()->toArray());
     }
 
-    public function create(TaskCreateData $data): ?Task
+    public function create(CreateData $data): ?Task
     {
         return Task::create(array_merge(
             ['user_id' => Auth::id()],
@@ -132,6 +131,7 @@ class TaskRepository
     {
         return User::find(Auth::id())->tasks()
             ->where('id', $id)
+            ->where('status', TaskStatusEnum::TODO->value)
             ->delete();
     }
 

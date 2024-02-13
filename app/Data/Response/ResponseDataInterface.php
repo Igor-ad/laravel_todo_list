@@ -8,5 +8,5 @@ use Illuminate\Support\Collection;
 
 interface ResponseDataInterface
 {
-    public function getData(): Collection;
+    public function toCollect(): Collection;
 }

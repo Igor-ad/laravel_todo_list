@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Api;
+declare(strict_types=1);
+
+namespace App\Http\Requests\Task;
 
 use App\Enums\TaskStatusEnum as Status;
+use App\Http\Requests\RequestInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest implements ApiRequestInterface
+class CreateRequest extends FormRequest implements RequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.
