@@ -58,9 +58,7 @@ class TaskException extends Exception
     {
         return [
             'status' => $this->statusCode,
-            'message' => [
-                'error' => $this->getCustomMessage(),
-            ],
+            'errors' => $this->getCustomMessage(),
             'help' => __('exception.help'),
             'code' => $this->getCode(),
         ];

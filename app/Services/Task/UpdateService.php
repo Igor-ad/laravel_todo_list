@@ -7,10 +7,10 @@ namespace App\Services\Task;
 use App\Data\Request\Factories\Task\UpdateDataFactory;
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
-use App\Services\AbstractService;
+use App\Services\CommonService;
 use App\Services\ResponseService;
 
-class UpdateService extends AbstractService
+class UpdateService extends CommonService
 {
     public function __construct(
         protected UpdateDataFactory $updateDataFactory,

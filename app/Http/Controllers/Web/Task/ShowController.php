@@ -15,20 +15,19 @@ class ShowController extends Controller
 
     public function show(int $id): View
     {
-        $this->answerService->setAnswer(Show::showWithParents($id));
+        $this->answer()->setAnswer(Show::showWithParents($id));
 
-        $title = __('task.web.show_');
-        $help = __('task.show', ['id' => $id]);
-        $task = $this->answerService->answerData->getData();
+        $viewData = collect();
+        $viewData->put('title', __('task.web.show_'));
+        $viewData->put('help', __('task.show', ['id' => $id]));
+        $viewData->put('task', $this->serviceLayerData());
 
-        $this->answerService->setAnswer(Show::getRelationId($task, 'parents'));
-        $relationId = $this->answerService->answerData->getData();
+        $this->answer()->setAnswer(Show::getRelationId($viewData['task'], 'parents'));
+        $viewData->put('relationId', $this->serviceLayerData());
 
-        $this->answerService->setAnswer(Show::getChildrenId($task, 'children'));
-        $childrenId = $this->answerService->answerData->getData();
+        $this->answer()->setAnswer(Show::getChildrenId($viewData['task'], 'children'));
+        $viewData->put('childrenId', $this->serviceLayerData());
 
-        return view('tasks.task_show', compact(
-            'task', 'relationId', 'childrenId', 'help', 'title'
-        ));
+        return view('tasks.task_show', compact('viewData'));
     }
 }

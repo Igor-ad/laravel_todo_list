@@ -15,12 +15,13 @@ class IndexController extends Controller
 
     public function index(): View
     {
-        $this->answerService->setAnswer(Indexer::index());
+        $this->answer()->setAnswer(Indexer::index());
 
-        $title = __('task.web.index');
-        $help = $this->answerService->answerData->getMessage();
-        $tasks = $this->answerService->answerData->getData();
+        $viewData = collect();
+        $viewData->put('title', __('task.web.index'));
+        $viewData->put('help', $this->serviceLayerMsg());
+        $viewData->put('tasks', $this->serviceLayerData());
 
-        return view('tasks.tasks', compact('tasks', 'help', 'title'));
+        return view('tasks.tasks', compact('viewData'));
     }
 }

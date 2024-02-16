@@ -15,7 +15,7 @@ class CreateController extends Controller
 
     public function create(): RedirectResponse
     {
-        $this->answerService->setAnswer(Creator::create());
+        $this->answer()->setAnswer(Creator::create());
 
         return redirect(route('web.index'));
     }

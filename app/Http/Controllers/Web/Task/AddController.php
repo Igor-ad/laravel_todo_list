@@ -10,9 +10,10 @@ class AddController
 {
     public function add(): View
     {
-        $title = __('task.web.create');
-        $help = __('task.help.create');
+        $viewData = collect();
+        $viewData->put('title', __('task.web.create'));
+        $viewData->put('help', __('task.help.create'));
 
-        return view('tasks.task_add', compact('title', 'help'));
+        return view('tasks.task_add', compact('viewData'));
     }
 }

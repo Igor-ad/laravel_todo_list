@@ -7,10 +7,10 @@ namespace App\Services\Task;
 use App\Data\Request\Factories\Task\IndexDataFactory;
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
-use App\Services\AbstractService;
+use App\Services\CommonService;
 use App\Services\ResponseService;
 
-class  IndexService extends AbstractService
+class  IndexService extends CommonService
 {
     public function __construct(
         protected IndexDataFactory $dataFactory,

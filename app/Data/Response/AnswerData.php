@@ -22,7 +22,6 @@ final class AnswerData implements ResponseDataInterface
         return collect([
             'status' => $this->status,
             'message' => $this->message,
-            'count' => $this->data->count(),
             'code' => $this->code,
             'data' => $this->data,
         ]);

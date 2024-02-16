@@ -15,7 +15,7 @@ class DeleteController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
-        $this->answerService->setAnswer(Eraser::delete($id));
+        $this->answer()->setAnswer(Eraser::delete($id));
 
         return redirect(route('web.index'));
     }

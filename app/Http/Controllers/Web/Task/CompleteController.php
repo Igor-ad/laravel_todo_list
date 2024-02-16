@@ -15,7 +15,7 @@ class CompleteController extends Controller
 
     public function complete(int $id): RedirectResponse
     {
-        $this->answerService->setAnswer(Complete::complete($id));
+        $this->answer()->setAnswer(Complete::complete($id));
 
         return redirect(route('web.show', ['task' => $id]));
     }

@@ -15,7 +15,7 @@ class UpdateController extends Controller
 
     public function update(int $id): RedirectResponse
     {
-        $this->answerService->setAnswer(Updater::update($id));
+        $this->answer()->setAnswer(Updater::update($id));
 
         return redirect(route('web.show', ['task' => $id]));
     }

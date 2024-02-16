@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Exceptions\Task\ServiceException;
-use App\Models\Task;
 use App\Repositories\TaskRepository;
-use App\Services\AbstractService;
+use App\Services\CommonService;
 use App\Services\ResponseService;
-use Illuminate\Support\Collection;
 
-class ShowService extends AbstractService
+class ShowService extends CommonService
 {
     public function __construct(
         protected TaskRepository  $task,
@@ -100,10 +98,10 @@ class ShowService extends AbstractService
     /**
      * @throws ServiceException
      */
-    private function setOrException(null|Collection|Task $result, int $id): ResponseService
+    private function setOrException(mixed $data, int $id): ResponseService
     {
-        if ($result) {
-            $this->response->setShowData($id, $result);
+        if ($data) {
+            $this->response->setShowData($id, $data);
 
             return $this->response;
         } else {

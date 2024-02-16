@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-@forelse($tasks as $task)
+@forelse($viewData['tasks'] as $task)
         <tr>
             <td>{{ $task->id }}</td>
             <td>{{ $task->parent_id }}</td>

@@ -27,7 +27,7 @@ trait ResponseSetters
         );
     }
 
-    public function setShowData(int $id, null|Collect|Task $data): void
+    public function setShowData(int $id, mixed $data): void
     {
         $this->setResponseData(
             message: __('task.show', ['id' => $id]),

@@ -14,12 +14,13 @@ class EditController
 
     public function edit(int $id): View
     {
-        $this->answerService->setAnswer(Show::show($id));
+        $this->answer()->setAnswer(Show::show($id));
 
-        $title = __('task.web.edit');
-        $help = __('task.show', ['id' => $id]);
-        $task = $this->answerService->answerData->getData();
+        $viewData = collect();
+        $viewData->put('title', __('task.web.edit'));
+        $viewData->put('help', __('task.show', ['id' => $id]));
+        $viewData->put('task', $this->serviceLayerData());
 
-        return view('tasks.task_edit', compact('task', 'help', 'title'));
+        return view('tasks.task_edit', compact('viewData'));
     }
 }

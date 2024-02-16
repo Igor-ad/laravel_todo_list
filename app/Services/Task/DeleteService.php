@@ -6,10 +6,10 @@ namespace App\Services\Task;
 
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
-use App\Services\AbstractService;
+use App\Services\CommonService;
 use App\Services\ResponseService;
 
-class DeleteService extends AbstractService
+class DeleteService extends CommonService
 {
     public function __construct(
         protected TaskRepository  $task,

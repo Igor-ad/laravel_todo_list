@@ -19,6 +19,11 @@ final class ResponseData implements ResponseDataInterface
     {
     }
 
+    public function getData(): object|int|null
+    {
+        return $this->data;
+    }
+
     public function toCollect(): Collection
     {
         return collect([

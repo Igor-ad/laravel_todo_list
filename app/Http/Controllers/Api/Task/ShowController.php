@@ -6,17 +6,18 @@ namespace App\Http\Controllers\Api\Task;
 
 use App\Facades\Task\Show;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseTrait;
 use App\Http\Controllers\ServiceMapper;
 use Illuminate\Http\JsonResponse;
 
 class ShowController extends Controller
 {
-    use ServiceMapper;
+    use ServiceMapper, ResponseTrait;
 
     public function show(int $id): JsonResponse
     {
-        $this->answerService->setAnswer(Show::showWithParents($id));
+        $this->answer()->setAnswer(Show::showWithBranches($id));
 
-        return $this->answerService->getJsonResponse();
+        return $this->getJsonResponse();
     }
 }

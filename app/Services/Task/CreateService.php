@@ -7,10 +7,10 @@ namespace App\Services\Task;
 use App\Data\Request\Factories\Task\CreateDataFactory;
 use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
-use App\Services\AbstractService;
+use App\Services\CommonService;
 use App\Services\ResponseService;
 
-class CreateService extends AbstractService
+class CreateService extends CommonService
 {
     public function __construct(
         protected CreateDataFactory $createDataFactory,
