@@ -18,6 +18,6 @@ class IndexDataFactory implements RequestDataFactoryInterface
 
     public function getValidData(): IndexData
     {
-        return new IndexData(...$this->request->validated());
+        return IndexData::fromArray($this->request->validated());
     }
 }

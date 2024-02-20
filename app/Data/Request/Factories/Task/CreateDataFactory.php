@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Request\Factories\Task;
 
 use App\Data\Request\Factories\RequestDataFactoryInterface;
@@ -16,6 +18,6 @@ class CreateDataFactory implements RequestDataFactoryInterface
 
     public function getValidData(): CreateData
     {
-        return new CreateData(...$this->request->validated());
+        return CreateData::fromArray($this->request->validated());
     }
 }

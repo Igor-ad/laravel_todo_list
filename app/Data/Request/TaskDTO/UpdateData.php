@@ -20,6 +20,18 @@ class UpdateData implements RequestDataInterface
     {
     }
 
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            id: (int)data_get($data, 'id'),
+            parent_id: (int)data_get($data, 'parent_id'),
+            status: data_get($data, 'status'),
+            priority: (int)data_get($data, 'priority'),
+            title: data_get($data, 'title'),
+            description: data_get($data, 'description'),
+        );
+    }
+
     public function getId(): int
     {
         return $this->id;

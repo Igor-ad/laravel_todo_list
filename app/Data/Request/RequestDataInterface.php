@@ -8,5 +8,7 @@ use Illuminate\Support\Collection;
 
 interface RequestDataInterface
 {
+    public static function fromArray(array $data): self;
+
     public function getData(): Collection;
 }

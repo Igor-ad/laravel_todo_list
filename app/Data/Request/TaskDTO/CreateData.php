@@ -20,6 +20,17 @@ class CreateData implements RequestDataInterface
     {
     }
 
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            status: data_get($data, 'status'),
+            priority: (int)data_get($data, 'priority'),
+            title: data_get($data, 'title'),
+            description: data_get($data, 'description'),
+            parent_id: (int)data_get($data, 'parent_id'),
+        );
+    }
+
     public function getData(): Collection
     {
         return collect([
