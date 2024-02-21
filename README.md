@@ -16,31 +16,64 @@ Make Backup Database 'testing', please!</span>
 
 Implemented:
 
-- Model "Task",
-- Controller "\API\TaskShowController",
-- Controller "\API\TaskIndexController",
-- Controller "\API\TaskCompleteController",
-- Controller "\API\TaskCreateController",
-- Controller "\API\TaskUpdateController",
-- Controller "\API\TaskDeleteController",
-- Controller "\Web\TaskAddController.php"
-- Controller "\Web\TaskCompleteController"
-- Controller "\Web\TaskCreateController"
-- Controller "\Web\TaskDeleteController"
-- Controller "\Web\TaskEditController"
-- Controller "\Web\TaskIndexController"
-- Controller "\Web\TaskShowController"
-- Controller "\Web\TaskUpdateController"
-- Data validation rules "\Requests\Api\TaskRequest"
-- Data validation rules "\Requests\Api\TaskOrderRequest"
-- Data validation rules "\Requests\Api\TaskIndexRequest"
-- Data validation rules "\Requests\Api\TaskUpdateRequest"
+- Model "\Task",
+- Model "\User",
+- Enums "\FilterEnum"
+- Enums "\SortEnum"
+- Enums "\SortOrderEnum"
+- Enums "\TaskStatusEnum"
+- Facades "\Task\Complete"
+- Facades "\Task\Create"
+- Facades "\Task\Delete"
+- Facades "\Task\Index"
+- Facades "\Task\Show"
+- Facades "\Task\Update"
+- Exceptions "\Task\TaskException"
+- Exceptions "\Task\AuthException"
+- Exceptions "\Task\BadMethodCallException"
+- Exceptions "\Task\NotFoundException"
+- Exceptions "\Task\ServiceException"
+- Exceptions "\Task\ValidationException"
+- Controllers "\API\Task\ShowController",
+- Controllers "\API\Task\IndexController",
+- Controllers "\API\Task\CompleteController",
+- Controllers "\API\Task\CreateController",
+- Controllers "\API\Task\UpdateController",
+- Controllers "\API\Task\DeleteController",
+- Controllers "\API\ApiAuthController",
+- Controllers "\Web\Task\AddController.php"
+- Controllers "\Web\Task\CompleteController"
+- Controllers "\Web\Task\CreateController"
+- Controllers "\Web\Task\DeleteController"
+- Controllers "\Web\Task\EditController"
+- Controllers "\Web\Task\IndexController"
+- Controllers "\Web\Task\ShowController"
+- Controllers "\Web\Task\UpdateController"
+- Trait "\ResponseTrait"
+- Trait "\ServiceMapper"
+- Data validation rules "\Requests\Task\CreateRequest"
+- Data validation rules "\Requests\Task\IndexRequest"
+- Data validation rules "\Requests\Task\OrderRequest"
+- Data validation rules "\Requests\Task\UpdateRequest"
+- ApiResources "\TaskCollectionResources"
+- Providers "\TaskServiceProvider"
+- Repositories "\TaskRepository"
+- Services "\Task\CompleteService"
+- Services "\Task\CreateService"
+- Services "\Task\DeleteService"
+- Services "\Task\FilterService"
+- Services "\Task\IndexService"
+- Services "\Task\OrderService"
+- Services "\Task\UpdateService"
+- Services "\AnswerService"
+- Services "\CommonService"
+- Services "\ResponseService"
+- Services "\ResponseSetters"
 - English and Ukrainian localization files.
 - Feature tests.
 - Unit tests.
 - Implemented boolean full-text searches using the IN BOOLEAN MODE modifier ('title' field).
 - Request & Response DTO
-- Enums & Services
 - View blade patterns
 
 Migration creates:
@@ -89,24 +122,12 @@ Fields for ordering:
 Example GET query:
 
 ```
-GET http://my_tasks_manager.com:80/tasks/?api_token=**********&status=todo&priority=2&createdSort=up&prioritySort=dw
+GET http://my_tasks_manager.com:80/tasks/?status=todo&priority=2&createdSort=up&prioritySort=dw
 ```
 
 Show request
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 20:28:34 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 20:28:34 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "All tasks",
@@ -144,24 +165,12 @@ Access-Control-Allow-Origin: *
 Example GET query show task id=869:
 
 ```
-GET http://my_tasks_manager.com:80/api/tasks/show/869?api_token=**********
+GET http://my_tasks_manager.com:80/api/tasks/show/869
 ```
 
 Show request
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 15:48:42 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 15:48:42 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "Task ID 869.",
@@ -185,24 +194,12 @@ Access-Control-Allow-Origin: *
 Example PUT query sets status to 'done' task id=869:
 
 ```
-PUT http://my_tasks_manager.com:80/api/tasks/complete/869?api_token=**********
+PUT http://my_tasks_manager.com:80/api/tasks/complete/869
 ```
 
 Show request (all children have status 'todo')
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 11:04:63 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 11:04:63 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "Task ID 869 was marked 'done' successfully",
@@ -213,18 +210,6 @@ Access-Control-Allow-Origin: *
 Show request (children have status 'done')
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 11:04:63 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 11:04:63 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "One or more children of Task ID 1 have status 'done'.",
@@ -237,24 +222,12 @@ Access-Control-Allow-Origin: *
 Example DELETE Query, delete task id=883:
 
 ```
-DELETE http://my_tasks_manager.com:80/api/tasks/delete/883?api_token=**********
+DELETE http://my_tasks_manager.com:80/api/tasks/delete/883
 ```
 
 Show request (Task status is 'todo')
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 15:48:42 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 15:48:42 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "Task ID 883 was deleted successfully.",
@@ -265,18 +238,6 @@ Access-Control-Allow-Origin: *
 Show request (Task status is 'done')
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 16:48:42 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 16:48:42 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "Task ID 883 status: 'done'. Please select another task.",
@@ -300,24 +261,12 @@ Access-Control-Allow-Origin: *
 Example Update query:
 
 ```
-PUT http://my_tasks_manager.com:80/api/tasks/update/?api_token=**********&id=391&description=Start_new_project
+PUT http://my_tasks_manager.com:80/api/tasks/update/?id=391&description=Start_new_project
 ```
 
 Show request
 
 ```
-HTTP/1.1 200 OK
-Host: 127.0.0.1:80
-Date: Sun, 13 Aug 2123 12:00:10 GMT
-Connection: close
-X-Powered-By: PHP/8.2.8
-Cache-Control: no-cache, private
-Date: Sun, 13 Aug 2123 12:00:10 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "status": 200,
     "message": "Task was updated successfully.",
