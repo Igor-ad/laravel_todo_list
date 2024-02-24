@@ -299,6 +299,8 @@ add branch dev
 ![image](public/img/index.png)
 ![image](public/img/create.png)
 ![image](public/img/view.png)
+![image](public/img/view_not_found_task.png)
 ![image](public/img/edit.png)
+![image](public/img/edit_errors_of_validation.png)
 
 If you find any errors, please email admin@autodoctor.od.ua

@@ -19,7 +19,7 @@ return [
     ],
     'index' => "All tasks are selected according to the set filter.",
     'index_filter_fail' => "Your repo doesn't have any tasks with this properties.",
-    'not_found' => "Task ID :id not found.",
+    'not_found' => "Task ID :id was not found or you do not have permission to view it.",
     'prop' => [
         'id' => "ID",
         'parent_id' => "Parent ID",

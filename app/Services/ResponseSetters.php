@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Collection as Collect;
 use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseSetters
