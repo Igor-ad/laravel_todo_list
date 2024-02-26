@@ -81,12 +81,12 @@ class ShowService extends CommonService
     /**
      * @throws ServiceException
      */
-    public function getRelationId(object $model, string $relation): ResponseService
+    public function getRelationIdStatus(object $model, string $relation): ResponseService
     {
         $relateId = collect();
 
         while ($model->$relation) {
-            $relateId->push($model->$relation->id);
+            $relateId->put($model->$relation->id, $model->$relation->status);
             $model = $model->$relation;
         }
 

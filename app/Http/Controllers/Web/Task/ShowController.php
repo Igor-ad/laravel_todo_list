@@ -23,7 +23,7 @@ class ShowController extends Controller
         $viewData->put('help', __('task.show', ['id' => $id]));
         $viewData->put('task', $this->serviceLayerData());
 
-        $this->answer()->setAnswer(Show::getRelationId($viewData['task'], 'parents'));
+        $this->answer()->setAnswer(Show::getRelationIdStatus($viewData['task'], 'parents'));
         $viewData->put('relationId', $this->serviceLayerData());
 
         $this->answer()->setAnswer(Show::getChildrenIdStatus($viewData['task'], 'children'));

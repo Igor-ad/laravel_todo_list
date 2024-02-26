@@ -24,7 +24,7 @@ class UpdateData implements RequestDataInterface
     {
         return new self(
             id: (int)data_get($data, 'id'),
-            parent_id: (int)data_get($data, 'parent_id'),
+            parent_id: data_get($data, 'parent_id'),
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),
             title: data_get($data, 'title'),
