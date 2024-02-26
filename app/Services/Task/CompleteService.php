@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Task;
 
 use App\Exceptions\Task\ServiceException;
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\CommonService;
 use App\Services\ResponseService;
@@ -21,9 +22,9 @@ class CompleteService extends CommonService
     /**
      * @throws ServiceException
      */
-    public function complete(int $id): ?ResponseService
+    public function complete(int $id): ResponseService
     {
-        if (empty($this->childStatus($id))) {
+        if (!$this->checkChildrenStatus($id)->getAttribute('children_count')) {
             $this->response->setCompleteData(
                 $id, $this->setCompleteStatus($id)
             );
@@ -33,9 +34,17 @@ class CompleteService extends CommonService
         return $this->response;
     }
 
-    protected function childStatus(int $id): array
+    /**
+     * @throws ServiceException
+     */
+    public function checkChildrenStatus(int $id): ?Task
     {
-        return $this->task->getTaskChildStatus([$id, $id]);
+        $data = $this->task->hasChildrenStatusTodo($id);
+
+        if (!$data) {
+            throw new ServiceException(__('task.not_found', ['id' => $id]));
+        }
+        return $data;
     }
 
     /**
@@ -43,11 +52,11 @@ class CompleteService extends CommonService
      */
     public function setCompleteStatus(int $id): int
     {
-        $result = $this->task->complete($id);
+        $data = $this->task->complete($id);
 
-        if (!$result) {
+        if (!$data) {
             throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }
-        return $result;
+        return $data;
     }
 }

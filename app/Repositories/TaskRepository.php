@@ -14,7 +14,6 @@ use App\Services\Task\FilterService;
 use App\Services\Task\OrderService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TaskRepository
 {
@@ -35,6 +34,16 @@ class TaskRepository
     public function getByIdWithBranches(int $id): ?Task
     {
         return User::find(Auth::id())->tasks()->with(['branches'])
+            ->where('id', $id)
+            ->first();
+    }
+
+    public function hasChildrenStatusTodo(int $id): ?Task
+    {
+        return User::find(Auth::id())->tasks()
+            ->withCount(['children' => function ($q) {
+                $q->where('status', '=', 'todo');
+            }])
             ->where('id', $id)
             ->first();
     }
@@ -95,7 +104,7 @@ class TaskRepository
             ->get();
     }
 
-     public function getOrderAllFilter(IndexData $data): ?Collection
+    public function getOrderAllFilter(IndexData $data): ?Collection
     {
         return User::find(Auth::id())->tasks()
             ->where($this->filter->filter($data))
@@ -143,22 +152,5 @@ class TaskRepository
                 'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),
             ]);
-    }
-
-    public function getTaskChildStatus(array $parentId): array
-    {
-        $sql = "
-            WITH RECURSIVE t2 AS
-            (
-                SELECT `id`,`status`
-                FROM tasks WHERE id = ?
-                UNION ALL
-                SELECT t.`id`, t.`status`
-                FROM tasks t
-                JOIN t2 ON t2.`id` = t.`parent_id`
-            )
-            SELECT * FROM t2 WHERE t2.id != ?;
-        ";
-        return DB::select($sql, $parentId);
     }
 }
