@@ -71,10 +71,10 @@ class ShowService extends CommonService
     /**
      * @throws ServiceException
      */
-    public function getChildrenId(object $collect, string $relation): ResponseService
+    public function getChildrenIdStatus(object $collect, string $relation): ResponseService
     {
         return $this->setOrException(
-            $collect->$relation->pluck('id'), $collect->id
+            $collect->$relation->pluck('status', 'id'), $collect->id
         );
     }
 

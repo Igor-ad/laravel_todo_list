@@ -7,13 +7,16 @@ namespace App\Http\Controllers\Web\Task;
 use App\Facades\Task\Show;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ServiceMapper;
+use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ShowController extends Controller
 {
     use ServiceMapper;
 
-    public function show(int $id): View
+    public function show(int $id): View|RedirectResponse
     {
         $this->answer()->setAnswer(Show::showWithParents($id));
 
@@ -22,10 +25,10 @@ class ShowController extends Controller
         $viewData->put('help', __('task.show', ['id' => $id]));
         $viewData->put('task', $this->serviceLayerData());
 
-        $this->answer()->setAnswer(Show::getRelationId($viewData['task'], 'parents'));
+        $this->answer()->setAnswer(Show::getRelationIdStatus($viewData['task'], 'parents'));
         $viewData->put('relationId', $this->serviceLayerData());
 
-        $this->answer()->setAnswer(Show::getChildrenId($viewData['task'], 'children'));
+        $this->answer()->setAnswer(Show::getChildrenIdStatus($viewData['task'], 'children'));
         $viewData->put('childrenId', $this->serviceLayerData());
 
         return view('tasks.task_show', compact('viewData'));
