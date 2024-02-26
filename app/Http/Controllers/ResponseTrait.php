@@ -12,9 +12,11 @@ trait ResponseTrait
     public function getJsonResponse(): JsonResponse
     {
         return response()->json(
-            data: new TaskCollectionResource($this->answer()->answerData->toCollect()),
+            data: TaskCollectionResource::make($this->answer()->answerData->toCollect()),
             status: $this->answer()->answerData->getStatus(),
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }
+
+    
 }

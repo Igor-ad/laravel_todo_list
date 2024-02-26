@@ -14,8 +14,7 @@ class DeleteController extends Controller
 {
     use ServiceMapper, ResponseTrait;
 
-    public
-    function delete(int $id): JsonResponse
+    public function delete(int $id): JsonResponse
     {
         $this->answer()->setAnswer(Eraser::delete($id));
 
