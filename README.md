@@ -82,14 +82,10 @@ Migration creates:
 - row "api_token" into "users" table.
 - table "testing.tasks" & "testing.users".
 
-Recursive query for searching tasks children in code, unfortunately.
-But in future the query must migrate to stored procedure.
-
 Do not implement:
 
 - Pagination
 - Web user authentication
-- Recursive delete tasks and children if parent task was deleted.
 
 ### Task searching filters and ordering expressions.
 
