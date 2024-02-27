@@ -104,8 +104,7 @@ class ShowService extends CommonService
             $this->response->setShowData($id, $data);
 
             return $this->response;
-        } else {
-            throw new ServiceException(__('task.not_found', ['id' => $id]),);
         }
+        throw new ServiceException(__('task.not_found', ['id' => $id]),);
     }
 }

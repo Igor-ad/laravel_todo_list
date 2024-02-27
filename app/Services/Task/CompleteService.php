@@ -24,14 +24,20 @@ class CompleteService extends CommonService
      */
     public function complete(int $id): ResponseService
     {
-        if (!$this->checkChildrenStatus($id)->getAttribute('children_count')) {
-            $this->response->setCompleteData(
-                $id, $this->setCompleteStatus($id)
-            );
-        } else {
+        if ($this->hasChildrenStatusTodo($id)) {
             throw new ServiceException(__('task.complete_fail', ['id' => $id]),);
         }
+        $this->response->setCompleteData($id, $this->setCompleteStatus($id));
+
         return $this->response;
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    protected function hasChildrenStatusTodo(int $id): bool
+    {
+        return (bool)$this->checkChildrenStatus($id)->getAttribute('children_count');
     }
 
     /**
@@ -39,12 +45,9 @@ class CompleteService extends CommonService
      */
     public function checkChildrenStatus(int $id): ?Task
     {
-        $data = $this->task->hasChildrenStatusTodo($id);
-
-        if (!$data) {
-            throw new ServiceException(__('task.not_found', ['id' => $id]));
-        }
-        return $data;
+        return $this->checkOnException(
+            $this->task->hasChildrenStatusTodo($id), $id
+        );
     }
 
     /**
@@ -52,11 +55,19 @@ class CompleteService extends CommonService
      */
     public function setCompleteStatus(int $id): int
     {
-        $data = $this->task->complete($id);
+        return $this->checkOnException(
+            $this->task->complete($id), $id
+        );
+    }
 
-        if (!$data) {
-            throw new ServiceException(__('task.not_found', ['id' => $id]),);
+    /**
+     * @throws ServiceException
+     */
+    private function checkOnException(mixed $data, int $id): null|int|Task
+    {
+        if ($data) {
+            return $data;
         }
-        return $data;
+        throw new ServiceException(__('task.not_found', ['id' => $id]),);
     }
 }

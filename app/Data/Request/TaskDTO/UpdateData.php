@@ -20,11 +20,11 @@ class UpdateData implements RequestDataInterface
     {
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array|Collection $data): self
     {
         return new self(
             id: (int)data_get($data, 'id'),
-            parent_id: data_get($data, 'parent_id'),
+            parent_id: data_get($data, 'parent_id') ? (int)data_get($data, 'parent_id') : null,
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),
             title: data_get($data, 'title'),
@@ -46,6 +46,6 @@ class UpdateData implements RequestDataInterface
             'priority' => $this->priority,
             'title' => $this->title,
             'description' => $this->description,
-        ])->whereNotNull();
+        ]);
     }
 }

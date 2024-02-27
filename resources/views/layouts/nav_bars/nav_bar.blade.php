@@ -11,9 +11,6 @@
                     <a class="nav-link active" aria-current="page"
                        href="{{ route('web.index') }}">{{ __('task.web.index') }}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('web.add') }}">{{ __('task.web.create') }}</a>
-                </li>
 @if (Route::has('login'))
 @auth
                <li class="nav-item">
