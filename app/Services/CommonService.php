@@ -8,6 +8,9 @@ use App\Exceptions\Task\BadMethodCallException;
 
 class CommonService
 {
+    /**
+     * @throws BadMethodCallException
+     */
     public function __call(string $name, array $arguments)
     {
         $class = class_basename($this);
@@ -15,6 +18,9 @@ class CommonService
         throw new BadMethodCallException(self::badMethodMessage($class, $name),);
     }
 
+    /**
+     * @throws BadMethodCallException
+     */
     public static function __callStatic(string $name, array $arguments)
     {
         $class = class_basename(static::class);

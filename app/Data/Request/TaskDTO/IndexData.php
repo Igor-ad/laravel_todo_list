@@ -12,12 +12,12 @@ use Illuminate\Support\Collection;
 class IndexData implements RequestDataInterface
 {
     public function __construct(
-        private readonly ?string $status = null,
-        private readonly ?int    $priority = null,
-        private readonly ?string $title = null,
-        private readonly ?string $prioritySort = null,
-        private readonly ?string $createdSort = null,
-        private readonly ?string $completedSort = null,
+        private readonly ?string $status,
+        private readonly ?int    $priority,
+        private readonly ?string $title,
+        private readonly ?string $prioritySort,
+        private readonly ?string $createdSort,
+        private readonly ?string $completedSort,
     )
     {
     }
@@ -26,7 +26,7 @@ class IndexData implements RequestDataInterface
     {
         return new self(
             status: data_get($data, 'status'),
-            priority: data_get($data, 'priority'),
+            priority: (int)data_get($data, 'priority'),
             title: data_get($data, 'title'),
             prioritySort: data_get($data, 'prioritySort'),
             createdSort: data_get($data, 'createdSort'),

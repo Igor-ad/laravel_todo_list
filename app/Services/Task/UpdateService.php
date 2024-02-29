@@ -20,19 +20,18 @@ class UpdateService extends CommonService
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function update(): ResponseService
     {
         $data = $this->updateDataFactory->getValidData();
 
-        $result = $this->task->updateById($data);
+        if ($this->task->updateById($data)) {
+            $result = $this->task->getById($data->getId());
 
-        if (!$result) {
-            throw new ServiceException(__('task.not_found', ['id' => $data->getId()]),);
+            return $this->response->setUpdateData($result);
         }
-        $result = $this->task->getById($data->getId());
-
-        $this->response->setUpdateData($result);
-
-        return $this->response;
+        throw new ServiceException(__('task.update_fail', ['id' => $data->getId()]),);
     }
 }

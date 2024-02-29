@@ -18,22 +18,16 @@ class DeleteService extends CommonService
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function delete(int $id): ResponseService
     {
-        $doneStatus = $this->task->doneStatus($id);
-
-        if ($doneStatus) {
+        if ($this->task->hasStatusDone($id)) {
             throw new ServiceException(__('task.delete_fail', ['id' => $id]),);
         }
+        $this->task->delete($id);
 
-        $result = $this->task->delete($id);
-
-        if (!$result) {
-            throw new ServiceException(__('task.not_found', ['id' => $id]));
-        }
-
-        $this->response->setDeleteData($id);
-
-        return $this->response;
+        return $this->response->setDeleteData($id);
     }
 }

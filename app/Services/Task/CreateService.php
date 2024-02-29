@@ -20,18 +20,17 @@ class CreateService extends CommonService
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function create(): ResponseService
     {
         $data = $this->createDataFactory->getValidData();
-
         $result = $this->task->create($data);
 
-        if (!$result) {
-            throw new ServiceException(__('task.create_fail'));
+        if ($result) {
+            return $this->response->setCreateData($result);
         }
-
-        $this->response->setCreateData($result);
-
-        return $this->response;
+        throw new ServiceException(__('task.create_fail'));
     }
 }

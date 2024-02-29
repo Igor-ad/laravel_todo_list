@@ -14,9 +14,18 @@ final class ResponseData implements ResponseDataInterface
     public function __construct(
         private readonly int             $status,
         private readonly string          $message,
-        private readonly int|object|null $data = null,
+        private readonly int|object|null $data,
     )
     {
+    }
+
+    public static function fromCollect(array|Collection $collection): self
+    {
+        return new self(
+            status: data_get($collection, 'status'),
+            message: data_get($collection, 'message'),
+            data: data_get($collection, 'data'),
+        );
     }
 
     public function getData(): object|int|null

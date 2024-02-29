@@ -20,6 +20,9 @@ class  IndexService extends CommonService
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function index(): ResponseService
     {
         $data = $this->dataFactory->getValidData();
@@ -33,9 +36,7 @@ class  IndexService extends CommonService
 
         if (($data->isEmpty())) {
             throw new ServiceException(__('task.index_filter_fail'),);
-        } else {
-            $this->response->setIndexData($data);
         }
-        return $this->response;
+        return $this->response->setIndexData($data);
     }
 }

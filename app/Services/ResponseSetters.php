@@ -10,50 +10,50 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseSetters
 {
-    public function setIndexData(Collection $data): void
+    public function setIndexData(Collection $data): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.index'),
             data: $data,
         );
     }
 
-    public function setCompleteData(int $id, int $data): void
+    public function setCompleteData(int $id, int $data): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.web.empty', ['id' => $id]),
             data: $data,
         );
     }
 
-    public function setShowData(int $id, mixed $data): void
+    public function setShowData(int $id, mixed $data): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.show', ['id' => $id]),
             data: $data,
         );
     }
 
-    public function setUpdateData(bool|Task $data): void
+    public function setUpdateData(bool|Task $data): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.update'),
             data: $data,
         );
     }
 
-    public function setCreateData(bool|Task $data): void
+    public function setCreateData(bool|Task $data): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.create'),
             data: $data,
             status: Response::HTTP_CREATED,
         );
     }
 
-    public function setDeleteData(int $id): void
+    public function setDeleteData(int $id): self
     {
-        $this->setResponseData(
+        return $this->setResponseData(
             message: __('task.delete_success', ['id' => $id]),
             data: 1,
         );

@@ -14,7 +14,7 @@ class CreateData implements RequestDataInterface
         private readonly int    $priority,
         private readonly string $title,
         private readonly string $description,
-        private readonly ?int   $parent_id = null,
+        private readonly ?int   $parent_id,
 
     )
     {

@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Data\Response\ResponseData;
 use App\Data\Response\Factories\ResponseDataFactory;
-use Symfony\Component\HttpFoundation\Response;
 
 class ResponseService
 {
@@ -17,12 +16,12 @@ class ResponseService
     public function setResponseData(
         string          $message,
         int|object|null $data,
-        int             $status = Response::HTTP_OK,
-    ): void
+        ?int            $status = 200,
+    ): self
     {
-        $this->responseData = ResponseDataFactory::getDTO(collect([
-            $status, $message, $data
-        ]));
+        $this->responseData = ResponseDataFactory::getDTO(collect(
+            compact('status', 'message', 'data')
+        ));
+        return $this;
     }
-
 }

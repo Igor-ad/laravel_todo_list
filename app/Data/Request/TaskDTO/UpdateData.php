@@ -10,12 +10,12 @@ use Illuminate\Support\Collection;
 class UpdateData implements RequestDataInterface
 {
     public function __construct(
-        private readonly int     $id,
-        private readonly ?int    $parent_id = null,
-        private readonly ?string $status = null,
-        private readonly ?int    $priority = null,
-        private readonly ?string $title = null,
-        private readonly ?string $description = null,
+        private readonly int    $id,
+        private readonly string $status,
+        private readonly int    $priority,
+        private readonly string $title,
+        private readonly string $description,
+        private readonly ?int   $parent_id,
     )
     {
     }
@@ -24,11 +24,11 @@ class UpdateData implements RequestDataInterface
     {
         return new self(
             id: (int)data_get($data, 'id'),
-            parent_id: data_get($data, 'parent_id') ? (int)data_get($data, 'parent_id') : null,
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),
             title: data_get($data, 'title'),
             description: data_get($data, 'description'),
+            parent_id: data_get($data, 'parent_id') ? (int)data_get($data, 'parent_id') : null,
         );
     }
 

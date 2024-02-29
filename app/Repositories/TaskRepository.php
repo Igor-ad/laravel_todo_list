@@ -24,98 +24,98 @@ class TaskRepository
     {
     }
 
-    public function getById(int $id): ?Task
+    public function getById(int $id): Task
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function getByIdWithBranches(int $id): ?Task
+    public function getByIdWithBranches(int $id): Task
     {
-        return User::find(Auth::id())->tasks()->with(['branches'])
+        return User::findOrFail(Auth::id())->tasks()->with(['branches'])
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function hasChildrenStatusTodo(int $id): ?Task
+    public function hasChildrenStatusTodo(int $id): Task
     {
-        return User::find(Auth::id())->tasks()
-            ->withCount(['children' => function ($q) {
-                $q->where('status', '=', 'todo');
+        return User::findOrFail(Auth::id())->tasks()
+            ->withCount(['children' => function ($query) {
+                $query->where('status', '=', 'todo');
             }])
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function getByIdWithChildren(int $id): ?Task
+    public function getByIdWithChildren(int $id): Task
     {
-        return User::find(Auth::id())->tasks()->with(['children'])
+        return User::findOrFail(Auth::id())->tasks()->with(['children'])
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function getByIdWithParent(int $id): ?Task
+    public function getByIdWithParent(int $id): Task
     {
-        return User::find(Auth::id())->tasks()->with(['parent'])
+        return User::findOrFail(Auth::id())->tasks()->with(['parent'])
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function getByIdWithParents(int $id): ?Task
+    public function getByIdWithParents(int $id): Task
     {
-        return User::find(Auth::id())->tasks()->with(['parents'])
+        return User::findOrFail(Auth::id())->tasks()->with(['parents'])
             ->where('id', $id)
-            ->first();
+            ->firstOrFail();
     }
 
-    public function getTask(): ?Collection
+    public function getTask(): Collection
     {
-        return User::find(Auth::id())->tasks()->get();
+        return User::findOrFail(Auth::id())->tasks()->get();
     }
 
-    public function getByFilter(IndexData $data): ?Collection
+    public function getByFilter(IndexData $data): Collection
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where($this->filter->filter($data))
             ->get();
     }
 
-    public function get(IndexData $data): ?Collection
+    public function get(IndexData $data): Collection
     {
         return $data->hasFilter()
             ? $this->getByFilter($data)
             : $this->getTask();
     }
 
-    public function getOrder(IndexData $data): ?Collection
+    public function getOrder(IndexData $data): Collection
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where($this->filter->filter($data))
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
 
-    public function getAllFilter(IndexData $data): ?Collection
+    public function getAllFilter(IndexData $data): Collection
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where($this->filter->filter($data))
             ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->get();
     }
 
-    public function getOrderAllFilter(IndexData $data): ?Collection
+    public function getOrderAllFilter(IndexData $data): Collection
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where($this->filter->filter($data))
             ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
 
-    public function updateById(UpdateData $data): ?int
+    public function updateById(UpdateData $data): int
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where('id', $data->getId())
             ->update($data->getData()->toArray());
     }
@@ -128,25 +128,25 @@ class TaskRepository
         );
     }
 
-    public function doneStatus(int $id): ?Task
+    public function hasStatusDone(int $id): ?Task
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where('id', $id)
             ->where('status', TaskStatusEnum::DONE->value)
             ->first();
     }
 
-    public function delete(int $id): ?int
+    public function delete(int $id): int
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where('id', $id)
             ->where('status', TaskStatusEnum::TODO->value)
             ->delete();
     }
 
-    public function complete(int $id): ?int
+    public function complete(int $id): int
     {
-        return User::find(Auth::id())->tasks()
+        return User::findOrFail(Auth::id())->tasks()
             ->where('id', $id)
             ->update([
                 'status' => TaskStatusEnum::DONE->value,

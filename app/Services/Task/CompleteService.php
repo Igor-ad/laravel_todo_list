@@ -27,47 +27,23 @@ class CompleteService extends CommonService
         if ($this->hasChildrenStatusTodo($id)) {
             throw new ServiceException(__('task.complete_fail', ['id' => $id]),);
         }
-        $this->response->setCompleteData($id, $this->setCompleteStatus($id));
-
-        return $this->response;
+        return $this->response->setCompleteData(
+            $id, $this->setCompleteStatus($id)
+        );
     }
 
-    /**
-     * @throws ServiceException
-     */
     protected function hasChildrenStatusTodo(int $id): bool
     {
         return (bool)$this->checkChildrenStatus($id)->getAttribute('children_count');
     }
 
-    /**
-     * @throws ServiceException
-     */
-    public function checkChildrenStatus(int $id): ?Task
+    public function checkChildrenStatus(int $id): Task
     {
-        return $this->checkOnException(
-            $this->task->hasChildrenStatusTodo($id), $id
-        );
+        return $this->task->hasChildrenStatusTodo($id);
     }
 
-    /**
-     * @throws ServiceException
-     */
     public function setCompleteStatus(int $id): int
     {
-        return $this->checkOnException(
-            $this->task->complete($id), $id
-        );
-    }
-
-    /**
-     * @throws ServiceException
-     */
-    private function checkOnException(mixed $data, int $id): null|int|Task
-    {
-        if ($data) {
-            return $data;
-        }
-        throw new ServiceException(__('task.not_found', ['id' => $id]),);
+       return $this->task->complete($id);
     }
 }

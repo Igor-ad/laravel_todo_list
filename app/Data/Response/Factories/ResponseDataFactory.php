@@ -11,6 +11,6 @@ class ResponseDataFactory implements ResponseDataFactoryInterface
 {
     public static function getDTO(Collection $collection): ResponseData
     {
-        return new ResponseData(...$collection);
+        return ResponseData::fromCollect($collection);
     }
 }

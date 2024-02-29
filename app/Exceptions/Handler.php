@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
                 $e instanceof AuthenticationException && $request->is('api/*')
                 => throw new AuthException($e->getMessage()),
 
-                $e instanceof NotFoundHttpException && $request->is('api/*')
+                $e instanceof NotFoundHttpException
                 => throw new NotFoundException($e->getMessage()),
 
                 default => false,
