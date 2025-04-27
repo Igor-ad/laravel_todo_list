@@ -16,8 +16,7 @@ class UpdateService extends CommonService
         protected UpdateDataFactory $updateDataFactory,
         protected TaskRepository    $task,
         protected ResponseService   $response,
-    )
-    {
+    ) {
     }
 
     /**

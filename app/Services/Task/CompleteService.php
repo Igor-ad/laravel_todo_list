@@ -15,8 +15,7 @@ class CompleteService extends CommonService
     public function __construct(
         protected TaskRepository  $task,
         protected ResponseService $response,
-    )
-    {
+    ) {
     }
 
     /**
@@ -44,6 +43,6 @@ class CompleteService extends CommonService
 
     public function setCompleteStatus(int $id): int
     {
-       return $this->task->complete($id);
+        return $this->task->complete($id);
     }
 }

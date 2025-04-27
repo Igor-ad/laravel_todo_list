@@ -16,20 +16,7 @@ class UpdateData implements RequestDataInterface
         private readonly string $title,
         private readonly string $description,
         private readonly ?int   $parent_id,
-    )
-    {
-    }
-
-    public static function fromArray(array|Collection $data): self
-    {
-        return new self(
-            id: (int)data_get($data, 'id'),
-            status: data_get($data, 'status'),
-            priority: (int)data_get($data, 'priority'),
-            title: data_get($data, 'title'),
-            description: data_get($data, 'description'),
-            parent_id: data_get($data, 'parent_id') ? (int)data_get($data, 'parent_id') : null,
-        );
+    ) {
     }
 
     public function getId(): int

@@ -33,6 +33,7 @@ return [
     ],
     'show' => "Task ID :id.",
     'update' => "The task was updated successfully.",
+    'update_fail' => "The task was not updated.",
     'web' => [
         'add' => "New Task",
         'complete' => "Complete",

@@ -25,10 +25,6 @@ class TaskServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('answerSrv', fn() => new AnswerService());
-
-        $this->app->singleton('responseSrv', fn() => new ResponseService());
-
         $this->app->singleton(CompleteService::class, function ($app) {
             return new CompleteService(
                 $app->make(TaskRepository::class),

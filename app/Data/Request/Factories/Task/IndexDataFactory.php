@@ -12,12 +12,20 @@ class IndexDataFactory implements RequestDataFactoryInterface
 {
     public function __construct(
         protected IndexRequest $request,
-    )
-    {
+    ) {
     }
 
     public function getValidData(): IndexData
     {
-        return IndexData::fromArray($this->request->validated());
+        $data = $this->request->validated();
+
+        return new IndexData(
+            status: data_get($data, 'status'),
+            priority: (int)data_get($data, 'priority'),
+            title: data_get($data, 'title'),
+            prioritySort: data_get($data, 'prioritySort'),
+            createdSort: data_get($data, 'createdSort'),
+            completedSort: data_get($data, 'completedSort'),
+        );
     }
 }

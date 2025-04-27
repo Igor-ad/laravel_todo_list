@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Task;
 
 use App\Facades\Task\Create as Creator;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ResponseTrait;
-use App\Http\Controllers\ServiceMapper;
+use App\Http\Controllers\AbstractController;
 use Illuminate\Http\JsonResponse;
 
-class CreateController extends Controller
+class CreateController extends AbstractController
 {
-    use ServiceMapper, ResponseTrait;
-
     public function create(): JsonResponse
     {
-        $this->answer()->setAnswer(Creator::create());
+        $this->answer->setAnswer(Creator::create());
 
         return $this->getJsonResponse();
     }

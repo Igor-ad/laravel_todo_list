@@ -17,11 +17,13 @@ class ResponseService
         string          $message,
         int|object|null $data,
         ?int            $status = 200,
-    ): self
-    {
-        $this->responseData = ResponseDataFactory::getDTO(collect(
-            compact('status', 'message', 'data')
-        ));
+    ): self {
+        $this->responseData = ResponseDataFactory::getDTO(
+            collect(
+                compact('message', 'data', 'status')
+            )
+        );
+
         return $this;
     }
 }

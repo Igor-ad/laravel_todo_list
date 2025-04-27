@@ -13,18 +13,7 @@ final class AnswerData implements ResponseDataInterface
         private readonly string                $message,
         private readonly object|array|int|null $data,
         private readonly int|string|null       $code,
-    )
-    {
-    }
-
-    public static function fromCollect(array|Collection $collection): self
-    {
-        return new self(
-            status: data_get($collection, 'status'),
-            message: data_get($collection, 'message'),
-            data: data_get($collection, 'data'),
-            code: data_get($collection, 'code'),
-        );
+    ) {
     }
 
     public function toCollect(): Collection

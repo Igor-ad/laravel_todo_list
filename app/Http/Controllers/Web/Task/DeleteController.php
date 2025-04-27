@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Task;
 
 use App\Facades\Task\Delete as Eraser;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ServiceMapper;
+use App\Http\Controllers\AbstractController;
 use Illuminate\Http\RedirectResponse;
 
-class DeleteController extends Controller
+class DeleteController extends AbstractController
 {
-    use ServiceMapper;
-
     public function delete(int $id): RedirectResponse
     {
-        $this->answer()->setAnswer(Eraser::delete($id));
+        $this->answer->setAnswer(Eraser::delete($id));
 
         return redirect(route('web.index'));
     }

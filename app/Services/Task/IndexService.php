@@ -9,6 +9,7 @@ use App\Exceptions\Task\ServiceException;
 use App\Repositories\TaskRepository;
 use App\Services\CommonService;
 use App\Services\ResponseService;
+use Illuminate\Support\Facades\Cache;
 
 class  IndexService extends CommonService
 {
@@ -16,8 +17,7 @@ class  IndexService extends CommonService
         protected IndexDataFactory $dataFactory,
         protected TaskRepository   $task,
         protected ResponseService  $response,
-    )
-    {
+    ) {
     }
 
     /**
@@ -27,16 +27,16 @@ class  IndexService extends CommonService
     {
         $data = $this->dataFactory->getValidData();
 
-        $data = match (true) {
+        $taskData = match (true) {
             $data->hasSort() && !$data->hasTxtFilter() => $this->task->getOrder($data),
             !$data->hasSort() && $data->hasTxtFilter() => $this->task->getAllFilter($data),
             $data->hasSort() && $data->hasTxtFilter() => $this->task->getOrderAllFilter($data),
             default => $this->task->get($data),
         };
 
-        if (($data->isEmpty())) {
+        if (($taskData->isEmpty())) {
             throw new ServiceException(__('task.index_filter_fail'),);
         }
-        return $this->response->setIndexData($data);
+        return $this->response->setIndexData($taskData);
     }
 }

@@ -9,8 +9,8 @@
         <th>{{ __('task.prop.status') }}</th>
         <th>{{ __('task.prop.created_at') }}</th>
         <th>{{ __('task.prop.completed_at') }}</th>
-        <th>{{ __('task.web.edit') }}
-            / {{ __('task.web.delete') }}</th>
+        <th>{{ __('task.web.edit') }}</th>
+        <th>{{ __('task.web.delete') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -33,10 +33,9 @@
             <td>{{ $task->created_at }}</td>
             <td>{{ $task->completed_at }}</td>
             <td><a type="button" class="btn btn-primary"
-                   href="{{ route('web.edit', [$task->id]) }}">{{ __('task.web.edit') }}</a>
-                <a type="button" class="btn btn-secondary"
-                   href="{{ route('web.delete', [$task->id]) }}">{{ __('task.web.delete') }}</a>
-            </td>
+                   href="{{ route('web.edit', [$task->id]) }}">{{ __('task.web.edit') }}</a></td>
+            <td><a type="button" class="btn btn-secondary"
+                   href="{{ route('web.delete', [$task->id]) }}">{{ __('task.web.delete') }}</a></td>
         </tr>
 @empty
         <h5>{{ __('task.web.empty') }}</h5>

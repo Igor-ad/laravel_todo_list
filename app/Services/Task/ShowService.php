@@ -13,8 +13,7 @@ class ShowService extends CommonService
     public function __construct(
         protected TaskRepository  $task,
         protected ResponseService $response,
-    )
-    {
+    ) {
     }
 
     public function show(int $id): ResponseService

@@ -18,20 +18,7 @@ class IndexData implements RequestDataInterface
         private readonly ?string $prioritySort,
         private readonly ?string $createdSort,
         private readonly ?string $completedSort,
-    )
-    {
-    }
-
-    public static function fromArray(array $data = []): self
-    {
-        return new self(
-            status: data_get($data, 'status'),
-            priority: (int)data_get($data, 'priority'),
-            title: data_get($data, 'title'),
-            prioritySort: data_get($data, 'prioritySort'),
-            createdSort: data_get($data, 'createdSort'),
-            completedSort: data_get($data, 'completedSort'),
-        );
+    ) {
     }
 
     public function hasSort(): bool
@@ -76,5 +63,10 @@ class IndexData implements RequestDataInterface
     public function getFilter(): Collection
     {
         return $this->getData()->only(FilterEnum::nameToArray());
+    }
+
+    public function toJson(): string
+    {
+        return $this->getData()->toJson();
     }
 }

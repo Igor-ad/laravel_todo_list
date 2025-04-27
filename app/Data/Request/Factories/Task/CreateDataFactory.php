@@ -12,12 +12,19 @@ class CreateDataFactory implements RequestDataFactoryInterface
 {
     public function __construct(
         protected CreateRequest $request,
-    )
-    {
+    ) {
     }
 
     public function getValidData(): CreateData
     {
-        return CreateData::fromArray($this->request->validated());
+        $data = $this->request->validated();
+
+        return new CreateData(
+            status: data_get($data, 'status'),
+            priority: (int)data_get($data, 'priority'),
+            title: data_get($data, 'title'),
+            description: data_get($data, 'description'),
+            parent_id: (int)data_get($data, 'parent_id') ?: null,
+        );
     }
 }

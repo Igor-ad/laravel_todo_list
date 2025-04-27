@@ -16,8 +16,7 @@ class CreateService extends CommonService
         protected CreateDataFactory $createDataFactory,
         protected TaskRepository    $task,
         protected ResponseService   $response,
-    )
-    {
+    ) {
     }
 
     /**

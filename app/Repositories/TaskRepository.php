@@ -20,8 +20,7 @@ class TaskRepository
     public function __construct(
         protected FilterService $filter,
         protected OrderService  $order,
-    )
-    {
+    ) {
     }
 
     public function getById(int $id): Task

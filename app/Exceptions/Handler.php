@@ -4,8 +4,10 @@ namespace App\Exceptions;
 
 use App\Exceptions\Task\NotFoundException;
 use App\Exceptions\Task\AuthException;
+use App\Exceptions\Task\ServiceException;
 use App\Exceptions\Task\ValidationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException as ValidatorException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -42,8 +44,15 @@ class Handler extends ExceptionHandler
                 $e instanceof AuthenticationException && $request->is('api/*')
                 => throw new AuthException($e->getMessage()),
 
+                $e instanceof QueryException
+                => throw new ServiceException($e->getMessage()),
+
                 $e instanceof NotFoundHttpException
-                => throw new NotFoundException($e->getMessage()),
+                => throw new NotFoundException(str_replace(
+                    search: ['[App\\Models\\', ']'],
+                    replace: [': ', ''],
+                    subject: $e->getMessage(),
+                )),
 
                 default => false,
             };

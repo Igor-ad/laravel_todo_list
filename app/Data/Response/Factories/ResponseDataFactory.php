@@ -9,8 +9,12 @@ use Illuminate\Support\Collection;
 
 class ResponseDataFactory implements ResponseDataFactoryInterface
 {
-    public static function getDTO(Collection $collection): ResponseData
+    public static function getDTO(array|Collection $collection): ResponseData
     {
-        return ResponseData::fromCollect($collection);
+        return new ResponseData(
+            status: data_get($collection, 'status'),
+            message: data_get($collection, 'message', ''),
+            data: data_get($collection, 'data'),
+        );
     }
 }

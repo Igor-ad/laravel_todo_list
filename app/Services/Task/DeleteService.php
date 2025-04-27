@@ -14,8 +14,7 @@ class DeleteService extends CommonService
     public function __construct(
         protected TaskRepository  $task,
         protected ResponseService $response,
-    )
-    {
+    ) {
     }
 
     /**

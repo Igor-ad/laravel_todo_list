@@ -55,7 +55,7 @@ trait ResponseSetters
     {
         return $this->setResponseData(
             message: __('task.delete_success', ['id' => $id]),
-            data: 1,
+            data: null,
         );
     }
 }
