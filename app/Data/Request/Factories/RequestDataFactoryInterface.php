@@ -8,5 +8,5 @@ use App\Data\Request\RequestDataInterface;
 
 interface RequestDataFactoryInterface
 {
-    public function getValidData(): RequestDataInterface;
+    public function getData(): RequestDataInterface;
 }

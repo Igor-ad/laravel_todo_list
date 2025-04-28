@@ -17,7 +17,6 @@ class ApiAuthController extends Controller
                 'message' => __('auth.api_login'),
                 'help' => __('exception.help'),
             ],
-            status: 200,
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
         );
     }

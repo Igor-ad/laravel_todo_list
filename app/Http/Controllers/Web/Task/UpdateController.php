@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Task;
 
+use App\Data\Request\Factories\Task\UpdateDataFactory;
 use App\Facades\Task\Update as Updater;
-use App\Http\Controllers\AbstractController;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\UpdateRequest;
 use Illuminate\Http\RedirectResponse;
 
-class UpdateController extends AbstractController
+class UpdateController extends Controller
 {
-    public function update(int $id): RedirectResponse
+    public function update(int $id, UpdateRequest $request): RedirectResponse
     {
-        $this->answer->setAnswer(Updater::update($id));
+        $data = (new UpdateDataFactory($request->validated()))->getData();
+        Updater::update($id, $data);
 
         return redirect(route('web.show', ['task' => $id]));
     }

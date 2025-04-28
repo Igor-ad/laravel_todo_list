@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\Factories\Task\UpdateDataFactory;
+use App\Data\Request\TaskDTO\UpdateData;
 use App\Exceptions\Task\ServiceException;
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\CommonService;
-use App\Services\ResponseService;
 
 class UpdateService extends CommonService
 {
     public function __construct(
-        protected UpdateDataFactory $updateDataFactory,
         protected TaskRepository    $task,
-        protected ResponseService   $response,
     ) {
     }
 
     /**
      * @throws ServiceException
      */
-    public function update(): ResponseService
+    public function update(UpdateData $data): Task
     {
-        $data = $this->updateDataFactory->getValidData();
-
         if ($this->task->updateById($data)) {
-            $result = $this->task->getById($data->getId());
-
-            return $this->response->setUpdateData($result);
+            return $this->task->getById($data->getId());
         }
         throw new ServiceException(__('task.update_fail', ['id' => $data->getId()]),);
     }

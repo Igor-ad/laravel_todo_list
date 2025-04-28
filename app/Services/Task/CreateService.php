@@ -4,32 +4,30 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
-use App\Data\Request\Factories\Task\CreateDataFactory;
+use App\Data\Request\TaskDTO\CreateData;
 use App\Exceptions\Task\ServiceException;
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\CommonService;
-use App\Services\ResponseService;
 
 class CreateService extends CommonService
 {
     public function __construct(
-        protected CreateDataFactory $createDataFactory,
         protected TaskRepository    $task,
-        protected ResponseService   $response,
     ) {
     }
 
     /**
      * @throws ServiceException
      */
-    public function create(): ResponseService
+    public function create(CreateData $data): Task
     {
-        $data = $this->createDataFactory->getValidData();
         $result = $this->task->create($data);
 
-        if ($result) {
-            return $this->response->setCreateData($result);
+        if (!$result) {
+            throw new ServiceException(__('task.create_fail'));
         }
-        throw new ServiceException(__('task.create_fail'));
+
+        return $result;
     }
 }

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Web\Task;
 
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
-class AddController
+class AddController extends Controller
 {
     public function add(): View
     {

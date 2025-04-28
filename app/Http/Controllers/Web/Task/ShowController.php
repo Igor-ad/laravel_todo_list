@@ -5,30 +5,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web\Task;
 
 use App\Facades\Task\Show;
-use App\Http\Controllers\AbstractController;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
-/**
- *  @todo Добавить кнопку на страницу для создания подзадачи - "Sub task".
- *  @todo При переходе на страницу создания новой задачи 'parent_id' будет уcтановлен от 'id' текущей задачи.
- */
-class ShowController extends AbstractController
+class ShowController extends Controller
 {
-    public function show(int $id): View|RedirectResponse
+    public function show(int $id): View
     {
-        $data = $this->answer->setAnswer(Show::showWithParents($id))->getData();
-        $dataParents = $this->answer
-            ->setAnswer(Show::getRelationIdStatus($data, 'parents'))->getData();
-        $dataChildren = $this->answer
-            ->setAnswer(Show::getChildrenIdStatus($data, 'children'))->getData();
+        $data = Show::showWithParents($id);
+        $dataParents = Show::getRelationIdStatus($data, 'parents');
+        $dataChildren = Show::getChildrenIdStatus($data, 'children');
 
-        $viewData = collect();
-        $viewData->put('title', __('task.web.show_'));
-        $viewData->put('help', __('task.show', ['id' => $id]));
-        $viewData->put('task', $data);
-        $viewData->put('relationId', $dataParents);
-        $viewData->put('childrenId', $dataChildren);
+        $viewData = collect()
+            ->put('task', $data)
+            ->put('title', __('task.web.show_'))
+            ->put('help', __('task.show', ['id' => $id]))
+            ->put('relationId', $dataParents)
+            ->put('childrenId', $dataChildren);
 
         return view('tasks.task_show', compact('viewData'));
     }

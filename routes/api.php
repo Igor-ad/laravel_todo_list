@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\Task\CompleteController;
 use App\Http\Controllers\Api\Task\CreateController;
 use App\Http\Controllers\Api\Task\DeleteController;
@@ -20,15 +19,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api'])->group(callback: function () {
+Route::middleware(['auth:sanctum'])->group(callback: function () {
     Route::get('/tasks', [IndexController::class, 'index'])->name('api.index');
-    Route::get('/tasks/show/{task}', [ShowController::class, 'show'])->name('api.show');
-    Route::put('/tasks/complete/{task}', [CompleteController::class, 'complete'])->name('api.complete');
-    Route::post('/tasks/create', [CreateController::class, 'create'])->name('api.create');
-    Route::put('/tasks/update', [UpdateController::class, 'update'])->name('api.update');
-    Route::delete('/tasks/delete/{task}', [DeleteController::class, 'delete'])->name('api.delete');
+    Route::get('/tasks/{task}', [ShowController::class, 'show'])->name('api.show');
+    Route::patch('/tasks/{task}', [CompleteController::class, 'complete'])->name('api.complete');
+    Route::post('/tasks', [CreateController::class, 'create'])->name('api.create');
+    Route::put('/tasks/{task}', [UpdateController::class, 'update'])->name('api.update');
+    Route::delete('/tasks/{task}', [DeleteController::class, 'delete'])->name('api.delete');
 });
-
-Route::get('/login', [ApiAuthController::class, 'login'])->name('api.login');
-
-Route::post('/login', ['as' => 'login']);

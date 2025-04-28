@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 namespace App\Data\Request\Factories\Task;
 
-use App\Data\Request\Factories\RequestDataFactoryInterface;
 use App\Data\Request\TaskDTO\IndexData;
-use App\Http\Requests\Task\IndexRequest;
 
-class IndexDataFactory implements RequestDataFactoryInterface
+class IndexDataFactory extends AbstractDataFactory
 {
-    public function __construct(
-        protected IndexRequest $request,
-    ) {
-    }
-
-    public function getValidData(): IndexData
+    protected function getValidData(array $data): IndexData
     {
-        $data = $this->request->validated();
-
         return new IndexData(
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),

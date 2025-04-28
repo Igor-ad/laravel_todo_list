@@ -11,19 +11,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest implements RequestInterface
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     * @keys 'prioritySort', 'createdSort, 'completedSort' (SortEnum)
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
-     */
     public function rules(): array
     {
         return [

@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 namespace App\Data\Request\Factories\Task;
 
-use App\Data\Request\Factories\RequestDataFactoryInterface;
 use App\Data\Request\TaskDTO\CreateData;
-use App\Http\Requests\Task\CreateRequest;
 
-class CreateDataFactory implements RequestDataFactoryInterface
+class CreateDataFactory extends AbstractDataFactory
 {
-    public function __construct(
-        protected CreateRequest $request,
-    ) {
-    }
-
-    public function getValidData(): CreateData
+    protected function getValidData(array $data): CreateData
     {
-        $data = $this->request->validated();
-
         return new CreateData(
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),

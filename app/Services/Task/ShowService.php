@@ -4,61 +4,49 @@ declare(strict_types=1);
 
 namespace App\Services\Task;
 
+use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\CommonService;
-use App\Services\ResponseService;
+use Illuminate\Support\Collection as Collect;
 
 class ShowService extends CommonService
 {
     public function __construct(
         protected TaskRepository  $task,
-        protected ResponseService $response,
     ) {
     }
 
-    public function show(int $id): ResponseService
+    public function show(int $id): Task
     {
-        return $this->setResponse(
-            $this->task->getById($id), $id
-        );
+        return $this->task->getById($id);
     }
 
-    public function showWithBranches(int $id): ResponseService
+    public function showWithBranches(int $id): Task
     {
-        return $this->setResponse(
-            $this->task->getByIdWithBranches($id), $id
-        );
+        return $this->task->getByIdWithBranches($id);
     }
 
-    public function showWithChildren(int $id): ResponseService
+    public function showWithChildren(int $id): Task
     {
-        return $this->setResponse(
-            $this->task->getByIdWithChildren($id), $id
-        );
+        return $this->task->getByIdWithChildren($id);
     }
 
-    public function showWithParent(int $id): ResponseService
+    public function showWithParent(int $id): Task
     {
-        return $this->setResponse(
-            $this->task->getByIdWithParent($id), $id
-        );
+        return $this->task->getByIdWithParent($id);
     }
 
-    public function showWithParents(int $id): ResponseService
+    public function showWithParents(int $id): Task
     {
-        return $this->setResponse(
-            $this->task->getByIdWithParents($id), $id
-        );
+        return $this->task->getByIdWithParents($id);
     }
 
-    public function getChildrenIdStatus(object $collect, string $relation): ResponseService
+    public function getChildrenIdStatus(object $collect, string $relation): Collect
     {
-        return $this->setResponse(
-            $collect->$relation->pluck('status', 'id'), $collect->id
-        );
+        return $collect->$relation->pluck('status', 'id');
     }
 
-    public function getRelationIdStatus(object $model, string $relation): ResponseService
+    public function getRelationIdStatus(object $model, string $relation): Collect
     {
         $relateId = collect();
 
@@ -66,14 +54,6 @@ class ShowService extends CommonService
             $relateId->put($model->$relation->id, $model->$relation->status);
             $model = $model->$relation;
         }
-
-        return $this->setResponse(
-            $relateId, $model->id
-        );
-    }
-
-    private function setResponse(mixed $data, int $id): ResponseService
-    {
-        return $this->response->setShowData($id, $data);
+        return $relateId;
     }
 }

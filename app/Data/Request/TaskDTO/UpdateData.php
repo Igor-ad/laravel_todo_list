@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 class UpdateData implements RequestDataInterface
 {
     public function __construct(
-        private readonly int    $id,
         private readonly string $status,
         private readonly int    $priority,
         private readonly string $title,
@@ -19,15 +18,9 @@ class UpdateData implements RequestDataInterface
     ) {
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getData(): Collection
     {
         return collect([
-            'id' => $this->id,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
             'priority' => $this->priority,

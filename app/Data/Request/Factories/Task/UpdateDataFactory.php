@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace App\Data\Request\Factories\Task;
 
-use App\Data\Request\Factories\RequestDataFactoryInterface;
 use App\Data\Request\TaskDTO\UpdateData;
-use App\Http\Requests\Task\UpdateRequest;
 
-class UpdateDataFactory implements RequestDataFactoryInterface
+class UpdateDataFactory extends AbstractDataFactory
 {
-    public function __construct(
-        protected UpdateRequest $request,
-    ) {
-    }
-
-    public function getValidData(): UpdateData
+    protected function getValidData(array $data): UpdateData
     {
-        $data = $this->request->validated();
-
         return new UpdateData(
-            id: (int)data_get($data, 'id'),
             status: data_get($data, 'status'),
             priority: (int)data_get($data, 'priority'),
             title: data_get($data, 'title'),
