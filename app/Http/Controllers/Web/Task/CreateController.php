@@ -14,7 +14,7 @@ class CreateController extends Controller
 {
     public function create(CreateRequest $request): RedirectResponse
     {
-        $data = (new CreateDataFactory($request->validated()))->getData();
+        $data = CreateDataFactory::make($request->validated())->getData();
         Creator::create($data);
 
         return redirect(route('web.index'));

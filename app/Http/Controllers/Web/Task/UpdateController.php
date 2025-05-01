@@ -14,7 +14,7 @@ class UpdateController extends Controller
 {
     public function update(int $id, UpdateRequest $request): RedirectResponse
     {
-        $data = (new UpdateDataFactory($request->validated()))->getData();
+        $data = UpdateDataFactory::make($request->validated())->getData();
         Updater::update($id, $data);
 
         return redirect(route('web.show', ['task' => $id]));

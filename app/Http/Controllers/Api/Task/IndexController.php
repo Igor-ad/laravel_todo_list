@@ -15,7 +15,7 @@ class IndexController extends BaseApiController
 {
     public function index(IndexRequest $request): JsonResponse
     {
-        $data = (new IndexDataFactory($request->validated()))->getData();
+        $data = IndexDataFactory::make($request->validated())->getData();
 
         return $this->jsonResponse(
             message:  __('task.index'),

@@ -20,11 +20,11 @@ class UpdateService extends CommonService
     /**
      * @throws ServiceException
      */
-    public function update(UpdateData $data): Task
+    public function update(int $id, UpdateData $data): Task
     {
-        if ($this->task->updateById($data)) {
-            return $this->task->getById($data->getId());
+        if ($this->task->updateById($id, $data)) {
+            return $this->task->getById($id);
         }
-        throw new ServiceException(__('task.update_fail', ['id' => $data->getId()]),);
+        throw new ServiceException(__('task.update_fail', ['id' => $id]));
     }
 }

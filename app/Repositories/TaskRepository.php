@@ -12,6 +12,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Services\Task\FilterService;
 use App\Services\Task\OrderService;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,21 +26,22 @@ class TaskRepository
 
     public function getById(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where('id', $id)
             ->firstOrFail();
     }
 
     public function getByIdWithBranches(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()->with(['branches'])
+        return $this->getUserTasks()
+            ->with(['branches'])
             ->where('id', $id)
             ->firstOrFail();
     }
 
     public function hasChildrenStatusTodo(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->withCount(['children' => function ($query) {
                 $query->where('status', '=', 'todo');
             }])
@@ -49,33 +51,36 @@ class TaskRepository
 
     public function getByIdWithChildren(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()->with(['children'])
+        return $this->getUserTasks()
+            ->with(['children'])
             ->where('id', $id)
             ->firstOrFail();
     }
 
     public function getByIdWithParent(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()->with(['parent'])
+        return $this->getUserTasks()
+            ->with(['parent'])
             ->where('id', $id)
             ->firstOrFail();
     }
 
     public function getByIdWithParents(int $id): Task
     {
-        return User::findOrFail(Auth::id())->tasks()->with(['parents'])
+        return $this->getUserTasks()
+            ->with(['parents'])
             ->where('id', $id)
             ->firstOrFail();
     }
 
     public function getTask(): Collection
     {
-        return User::findOrFail(Auth::id())->tasks()->get();
+        return $this->getUserTasks()->get();
     }
 
     public function getByFilter(IndexData $data): Collection
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where($this->filter->filter($data))
             ->get();
     }
@@ -89,7 +94,7 @@ class TaskRepository
 
     public function getOrder(IndexData $data): Collection
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where($this->filter->filter($data))
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
@@ -97,7 +102,7 @@ class TaskRepository
 
     public function getAllFilter(IndexData $data): Collection
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where($this->filter->filter($data))
             ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->get();
@@ -105,17 +110,17 @@ class TaskRepository
 
     public function getOrderAllFilter(IndexData $data): Collection
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where($this->filter->filter($data))
             ->whereRaw($this->filter->fullTextFilter(), [$data->getTitle()])
             ->orderByRaw($this->order->orderExpression($data))
             ->get();
     }
 
-    public function updateById(UpdateData $data): int
+    public function updateById(int $id, UpdateData $data): int
     {
-        return User::findOrFail(Auth::id())->tasks()
-            ->where('id', $data->getId())
+        return $this->getUserTasks()
+            ->where('id', $id)
             ->update($data->getData()->toArray());
     }
 
@@ -129,7 +134,7 @@ class TaskRepository
 
     public function hasStatusDone(int $id): ?Task
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where('id', $id)
             ->where('status', TaskStatusEnum::DONE->value)
             ->first();
@@ -137,7 +142,7 @@ class TaskRepository
 
     public function delete(int $id): int
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where('id', $id)
             ->where('status', TaskStatusEnum::TODO->value)
             ->delete();
@@ -145,11 +150,16 @@ class TaskRepository
 
     public function complete(int $id): int
     {
-        return User::findOrFail(Auth::id())->tasks()
+        return $this->getUserTasks()
             ->where('id', $id)
             ->update([
                 'status' => TaskStatusEnum::DONE->value,
                 'completed_at' => now(),
             ]);
+    }
+
+    private function getUserTasks(): HasMany
+    {
+        return User::find(auth()->id())->tasks();
     }
 }

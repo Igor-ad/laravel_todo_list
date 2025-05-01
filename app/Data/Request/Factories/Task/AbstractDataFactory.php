@@ -18,6 +18,11 @@ abstract class AbstractDataFactory implements RequestDataFactoryInterface
         $this->requestData = $this->getValidData($data);
     }
 
+    public static function make(array $data): static
+    {
+        return new static($data);
+    }
+
     public function getData(): RequestDataInterface
     {
         return $this->requestData;

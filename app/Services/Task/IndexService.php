@@ -11,10 +11,10 @@ use App\Repositories\TaskRepository;
 use App\Services\CommonService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class  IndexService extends CommonService
+class IndexService extends CommonService
 {
     public function __construct(
-        protected TaskRepository   $task,
+        protected TaskRepository $task,
     ) {
     }
 
