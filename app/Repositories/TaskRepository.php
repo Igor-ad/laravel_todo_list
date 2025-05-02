@@ -9,10 +9,9 @@ use App\Data\Request\TaskDTO\IndexData;
 use App\Data\Request\TaskDTO\UpdateData;
 use App\Enums\TaskStatusEnum;
 use App\Models\Task;
-use App\Models\User;
 use App\Services\Task\FilterService;
 use App\Services\Task\OrderService;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,17 +25,14 @@ class TaskRepository
 
     public function getById(int $id): Task
     {
-        return $this->getUserTasks()
-            ->where('id', $id)
-            ->firstOrFail();
+        return $this->getUserTasks()->getById($id);
     }
 
     public function getByIdWithBranches(int $id): Task
     {
         return $this->getUserTasks()
             ->with(['branches'])
-            ->where('id', $id)
-            ->firstOrFail();
+            ->getById($id);
     }
 
     public function hasChildrenStatusTodo(int $id): Task
@@ -45,32 +41,28 @@ class TaskRepository
             ->withCount(['children' => function ($query) {
                 $query->where('status', '=', 'todo');
             }])
-            ->where('id', $id)
-            ->firstOrFail();
+            ->getById($id);
     }
 
     public function getByIdWithChildren(int $id): Task
     {
         return $this->getUserTasks()
             ->with(['children'])
-            ->where('id', $id)
-            ->firstOrFail();
+            ->getById($id);
     }
 
     public function getByIdWithParent(int $id): Task
     {
         return $this->getUserTasks()
             ->with(['parent'])
-            ->where('id', $id)
-            ->firstOrFail();
+            ->getById($id);
     }
 
     public function getByIdWithParents(int $id): Task
     {
         return $this->getUserTasks()
             ->with(['parents'])
-            ->where('id', $id)
-            ->firstOrFail();
+            ->getById($id);
     }
 
     public function getTask(): Collection
@@ -135,9 +127,8 @@ class TaskRepository
     public function hasStatusDone(int $id): ?Task
     {
         return $this->getUserTasks()
-            ->where('id', $id)
             ->where('status', TaskStatusEnum::DONE->value)
-            ->first();
+            ->getById($id);
     }
 
     public function delete(int $id): int
@@ -158,8 +149,8 @@ class TaskRepository
             ]);
     }
 
-    private function getUserTasks(): HasMany
+    private function getUserTasks(): Builder
     {
-        return User::find(auth()->id())->tasks();
+        return Task::query()->where('user_id', auth()->id());
     }
 }
